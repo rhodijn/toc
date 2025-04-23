@@ -7,8 +7,6 @@ import project_data, paramiko
 with FTP(host='ftp.example.com', user='me', passwd='secret') as ftp:
     print(ftp.getwelcome())
 
-import paramiko
-
 # Define SFTP connection parameters
 hostname = project_data.FTP_HOST
 port = 22

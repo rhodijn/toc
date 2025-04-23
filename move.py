@@ -2,7 +2,7 @@
 
 import ftplib, os, project_data, re
 
-file_list = sorted(os.listdir(project_data.TOC_PATH))
+file_list = sorted(os.listdir(project_data.P_TOC))
 
 for f in file_list:
     if not re.search('^\\d+.pdf', f):

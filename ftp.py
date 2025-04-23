@@ -5,8 +5,8 @@ import paramiko, project_data
 # Define SFTP connection parameters
 hostname = project_data.FTP_HOST
 port = 22
-username = 'your_username'
-password = 'your_password'
+username = project_data.USER
+password = project_data.PWD
 
 # Create an SSH client
 ssh_client = paramiko.SSHClient()

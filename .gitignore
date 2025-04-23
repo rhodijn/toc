@@ -1,1 +1,4 @@
 project_*
+data/*
+log/*
+toc/*

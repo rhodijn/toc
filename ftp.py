@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 
-from ftplib import FTP
-
-import project_data, paramiko
-
-with FTP(host='ftp.example.com', user='me', passwd='secret') as ftp:
-    print(ftp.getwelcome())
+import paramiko, project_data
 
 # Define SFTP connection parameters
 hostname = project_data.FTP_HOST
@@ -24,7 +19,6 @@ ssh_client.connect(hostname, port, username, password)
 sftp = ssh_client.open_sftp()
 
 # Now you can perform SFTP operations
-
 local_file = '/path/to/local/file.txt'
 remote_file = '/path/to/remote/file.txt'
 sftp.put(local_file, remote_file)

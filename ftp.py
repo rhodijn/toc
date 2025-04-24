@@ -33,4 +33,5 @@ def move_toc(file_list):
 
 if __name__ == '__main__':
     file_list = find_toc(file_list)
-    move_toc(file_list)
+    print(file_list)
+    # move_toc(file_list)

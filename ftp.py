@@ -13,13 +13,13 @@ def find_toc(file_list):
 
     return file_list
 
-def move_toc(file_list):
+def upload_toc(file_list):
     host_name = project_data.FTP_HOST
     port = project_data.FTP_PORT
     user_name = project_data.USER
     p_word = project_data.PWD
 
-    local_file = 'toc/' + file_list[0]
+    local_file = project_data.P_TOC + file_list[0]
     remote_path = 'public/swisscovery/inthaltsverzeichnis/winterthur/'
 
     cnopts = pysftp.CnOpts()
@@ -31,7 +31,14 @@ def move_toc(file_list):
 
     print('Upload done.')
 
+def move_toc(file_list):
+    for f in file_list:
+        os.rename(project_data.P_TOC + f, project_data.P_LOG + f)
+        file_list.remove(f)
+
 if __name__ == '__main__':
     file_list = find_toc(file_list)
     print(file_list)
-    # move_toc(file_list)
+    # upload_toc(file_list)
+    move_toc(file_list)
+    print(file_list)

@@ -19,17 +19,16 @@ def upload_toc(file_list):
     user_name = project_data.USER
     p_word = project_data.PWD
 
-    local_file = project_data.P_TOC + file_list[0]
-    remote_path = 'public/swisscovery/inthaltsverzeichnis/winterthur/'
+    ssh_client = paramiko.SSHClient()
+    ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh_client.connect(hostname=host_name, port=port, username=user_name, password=p_word, look_for_keys=False)
 
-    cnopts = pysftp.CnOpts()
-    cnopts.hostkeys = None
+    sftp_client = ssh_client.open_sftp()
+    print("Connection successfully established ... ")
 
-    with pysftp.Connection(host_name, port=port, username=user_name, password=p_word, cnopts=cnopts) as sftp:
-        with sftp.cd(remote_path):
-            sftp.put(local_file)
+    print(f'lists of files {sftp_client.listdir(project_data.P_REMOTE)}')
 
-    print('Upload done.')
+    client.close()
 
 def move_toc(file_list):
     for f in file_list:
@@ -39,6 +38,6 @@ def move_toc(file_list):
 if __name__ == '__main__':
     file_list = find_toc(file_list)
     print(file_list)
-    # upload_toc(file_list)
+    upload_toc(file_list)
     move_toc(file_list)
     print(file_list)

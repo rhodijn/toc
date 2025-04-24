@@ -22,7 +22,10 @@ def move_toc(file_list):
     local_file = 'toc/' + file_list[0]
     remote_path = 'public/swisscovery/inthaltsverzeichnis/winterthur/'
 
-    with pysftp.Connection(host_name, username=user_name, password=p_word) as sftp:
+    cnopts = pysftp.CnOpts()
+    cnopts.hostkeys = None
+
+    with pysftp.Connection(host_name, port=port, username=user_name, password=p_word, cnopts=cnopts) as sftp:
         with sftp.cd(remote_path):
             sftp.put(local_file)
 

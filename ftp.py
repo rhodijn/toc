@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os, paramiko, project_data, pysftp, re
+import os, paramiko, project_data, re
 
 file_list = []
 

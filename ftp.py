@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os, paramiko, project_data, re
+import os, paramiko, project_data, pysftp, re
 
 file_list = []
 
@@ -14,29 +14,19 @@ def find_toc(file_list):
     return file_list
 
 def move_toc(file_list):
-    hostname = project_data.FTP_HOST
+    host_name = project_data.FTP_HOST
     port = project_data.FTP_PORT
-    username = project_data.USER
-    password = project_data.PWD
+    user_name = project_data.USER
+    p_word = project_data.PWD
 
-    ssh_client = paramiko.SSHClient()
-    ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    local_file = 'toc/' + file_list[0]
+    remote_path = 'public/swisscovery/inthaltsverzeichnis/winterthur/'
 
-    ssh_client.connect(hostname, port, username, password)
+    with pysftp.Connection(host_name, username=user_name, password=p_word) as sftp:
+        with sftp.cd(remote_path):
+            sftp.put(local_file)
 
-    sftp = ssh_client.open_sftp()
-
-    for f in file_list:
-        local_file = '/toc/' + f
-        remote_file = '/public/swisscovery/inthaltsverzeichnis/winterthur/' + f
-        try:
-            sftp.put(local_file, remote_file)
-        except:
-            print('some error')
-            break
-    else:
-        print('all went well')
-        
+    print('Upload done.')
 
 if __name__ == '__main__':
     file_list = find_toc(file_list)

@@ -28,7 +28,7 @@ def upload_toc(file_list):
 
     print(f'lists of files {sftp_client.listdir(project_data.P_REMOTE)}')
 
-    client.close()
+    ssh_client.close()
 
 def move_toc(file_list):
     for f in file_list:

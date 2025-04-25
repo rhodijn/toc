@@ -12,6 +12,8 @@ def find_toc(f_processed, path):
     for f in f_local:
         if re.search ('^\\d+.pdf', f):
             f_processed.update({f: False})
+        else:
+            os.rename(project_data.P_TOC + f, project_data.P_TRASH + f)
     
     print(f'local files to process: {f_processed}')
 
@@ -37,7 +39,7 @@ def upload_toc(f_processed, f_remote):
             print('file ' + f + ' already online (will not be replaced)')
             continue
         try:
-            sftp_client.put(project_data.P_LOCAL + f, project_data.P_REMOTE + project_data.P_WIN + f)
+            sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + project_data.P_WIN + f)
             f_processed[f] = True
         except OSError as e:
             print(e)
@@ -55,14 +57,14 @@ def upload_toc(f_processed, f_remote):
 def move_toc(f_processed):
     for f in f_processed.keys():
         if f_processed[f]:
-            os.rename(project_data.P_LOCAL + f, project_data.P_DONE + f)
+            os.rename(project_data.P_TOC + f, project_data.P_DONE + f)
         else:
-            os.rename(project_data.P_LOCAL + f, project_data.P_NOT + f)
+            os.rename(project_data.P_TOC + f, project_data.P_NOT + f)
 
     return f_processed
 
 if __name__ == '__main__':
-    f_processed = find_toc(f_processed, project_data.P_LOCAL)
+    f_processed = find_toc(f_processed, project_data.P_TOC)
     f_processed, f_remote = upload_toc(f_processed, f_remote)
     f_processed = move_toc(f_processed)
     print(f'f_processed: {f_processed}')

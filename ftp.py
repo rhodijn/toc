@@ -5,6 +5,12 @@ import os, paramiko, project_data, re
 f_processed = {}
 
 def find_toc(f_processed, path):
+    """
+    collect files to load to remote server
+
+    f_processed : dict = file names : str, processed : bool
+    path : str = relative path to files
+    """
     f_local = []
     f_local = sorted(os.listdir(path))
 
@@ -19,6 +25,11 @@ def find_toc(f_processed, path):
     return f_processed
 
 def upload_toc(f_processed):
+    """
+    upload collected files to remote server (only pdfs not already online)
+
+    f_processed : dict = file names : str, processed : bool
+    """
     f_remote = []
     host_name = project_data.FTP_HOST
     port = project_data.FTP_PORT
@@ -55,6 +66,11 @@ def upload_toc(f_processed):
     return f_processed
 
 def move_toc(f_processed):
+    """
+    move local files to done-, not- or trash-folder
+
+    f_processed : dict = file names : str, processed : bool
+    """
     for f in f_processed.keys():
         if f_processed[f]:
             os.rename(project_data.P_TOC + f, project_data.P_DONE + f)

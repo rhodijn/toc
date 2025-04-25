@@ -4,8 +4,8 @@ import os, paramiko, project_data, re
 
 file_list = []
 
-def find_toc(file_list):
-    file_list = sorted(os.listdir(project_data.P_TOC))
+def find_toc(file_list, path):
+    file_list = sorted(os.listdir(path))
 
     for f in file_list:
         if not re.search('^\\d+.pdf', f):
@@ -26,18 +26,29 @@ def upload_toc(file_list):
     sftp_client = ssh_client.open_sftp()
     print("connection established ... ")
 
-    print(f'files {sftp_client.listdir(project_data.P_REMOTE)}')
+    print(f'remote files: {sftp_client.listdir(project_data.P_REMOTE)}')
+
+    for f in file_list:
+        try:
+            sftp_client.put(str(project_data.P_LOCAL + f), str(project_data.P_REMOTE + f))
+        except OSError as e:
+            print(e)
+
+    print(f'remote files: {sftp_client.listdir(project_data.P_REMOTE)}')
 
     ssh_client.close()
 
 def move_toc(file_list):
     for f in file_list:
-        os.rename(project_data.P_TOC + f, project_data.P_LOG + f)
-        file_list.remove(f)
+        os.rename(project_data.P_LOCAL + f, project_data.P_LOG + f)
+    
+    file_list = find_toc(file_list, project_data.P_LOCAL)
+
+    return file_list
 
 if __name__ == '__main__':
-    file_list = find_toc(file_list)
+    file_list = find_toc(file_list, project_data.P_LOCAL)
     print(file_list)
     upload_toc(file_list)
-    move_toc(file_list)
+    file_list = move_toc(file_list)
     print(file_list)

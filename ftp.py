@@ -41,7 +41,7 @@ def upload_toc(f_processed, f_remote):
         try:
             sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + project_data.P_WIN + f)
             f_processed[f] = True
-        except OSError as e:
+        except Exception as e:
             print(e)
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + project_data.P_WIN)

@@ -2,22 +2,23 @@
 
 import os, paramiko, project_data, re
 
-files_local = []
-files_remote = []
+f_local = []
+f_processed = []
+f_remote = []
 
-def find_toc(files_local, path):
-    files_local = sorted(os.listdir(path))
+def find_toc(f_local, path):
+    f_local = sorted(os.listdir(path))
 
-    for f in files_local:
+    for f in f_local:
         if not re.search('^\\d+.pdf', f):
-            files_local.remove(f)
+            f_local.remove(f)
     
-    print('files to process: ', end='')
-    print(files_local)
+    print('local files to process: ', end='')
+    print(f_local)
 
-    return files_local
+    return f_local
 
-def upload_toc(files_local):
+def upload_toc(f_local, f_remote):
     host_name = project_data.FTP_HOST
     port = project_data.FTP_PORT
     user_name = project_data.USER
@@ -30,32 +31,37 @@ def upload_toc(files_local):
     sftp_client = ssh_client.open_sftp()
     print("connection established ... ")
 
-    files_remote = sftp_client.listdir(project_data.P_REMOTE)
+    f_remote = sftp_client.listdir(project_data.P_REMOTE)
 
-    for f in files_local:
-        if f in files_remote:
-            print('file ' + f  + ' is already online')
+    for f in f_local:
+        if f in f_remote:
+            print('file ' + f  + ' is already online (will not be replaced)')
             continue
         try:
             sftp_client.put(project_data.P_LOCAL + f, project_data.P_REMOTE + f)
-            print('file uploaded: ' + f)
+            f_processed.append(f)
         except OSError as e:
             print(e)
+
+        print('files uploaded: ', end='')
+        print(f_processed)
 
     print(f'remote files: {sftp_client.listdir(project_data.P_REMOTE)}')
 
     sftp_client.close()
     ssh_client.close()
 
-def move_toc(files_local):
-    for f in files_local:
+    return f_local, f_remote
+
+def move_toc(f_local, f_processed):
+    for f in f_processed:
         os.rename(project_data.P_LOCAL + f, project_data.P_ARCHIVE + f)
     
-    files_local = find_toc(files_local, project_data.P_LOCAL)
+    f_local = find_toc(f_local, project_data.P_LOCAL)
 
-    return files_local
+    return f_local, f_processed
 
 if __name__ == '__main__':
-    files_local = find_toc(files_local, project_data.P_LOCAL)
-    upload_toc(files_local)
-    files_local = move_toc(files_local)
+    f_local = find_toc(f_local, project_data.P_LOCAL)
+    f_local, f_remote = upload_toc(f_local, f_remote)
+    f_local, f_processed = move_toc(f_local, f_processed)

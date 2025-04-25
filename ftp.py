@@ -24,9 +24,9 @@ def upload_toc(file_list):
     ssh_client.connect(hostname=host_name, port=port, username=user_name, password=p_word, look_for_keys=False)
 
     sftp_client = ssh_client.open_sftp()
-    print("Connection successfully established ... ")
+    print("connection established ... ")
 
-    print(f'lists of files {sftp_client.listdir(project_data.P_REMOTE)}')
+    print(f'files {sftp_client.listdir(project_data.P_REMOTE)}')
 
     ssh_client.close()
 

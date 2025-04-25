@@ -42,7 +42,7 @@ def upload_toc(f_processed, p_remote):
     ssh_client.connect(hostname=host_name, port=port, username=user_name, password=p_word, look_for_keys=False)
 
     sftp_client = ssh_client.open_sftp()
-    print("connection established ... ")
+    print('connection established')
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_remote)
 

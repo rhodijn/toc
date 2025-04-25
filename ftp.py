@@ -2,18 +2,22 @@
 
 import os, paramiko, project_data, re
 
-file_list = []
+files_local = []
+files_remote = []
 
-def find_toc(file_list, path):
-    file_list = sorted(os.listdir(path))
+def find_toc(files_local, path):
+    files_local = sorted(os.listdir(path))
 
-    for f in file_list:
+    for f in files_local:
         if not re.search('^\\d+.pdf', f):
-            file_list.remove(f)
+            files_local.remove(f)
+    
+    print('files to process: ', end='')
+    print(files_local)
 
-    return file_list
+    return files_local
 
-def upload_toc(file_list):
+def upload_toc(files_local):
     host_name = project_data.FTP_HOST
     port = project_data.FTP_PORT
     user_name = project_data.USER
@@ -26,11 +30,15 @@ def upload_toc(file_list):
     sftp_client = ssh_client.open_sftp()
     print("connection established ... ")
 
-    print(f'remote files: {sftp_client.listdir(project_data.P_REMOTE)}')
+    files_remote = sftp_client.listdir(project_data.P_REMOTE)
 
-    for f in file_list:
+    for f in files_local:
+        if f in files_remote:
+            print('file ' + f  + ' is already online')
+            continue
         try:
             sftp_client.put(project_data.P_LOCAL + f, project_data.P_REMOTE + f)
+            print('file uploaded: ' + f)
         except OSError as e:
             print(e)
 
@@ -39,17 +47,15 @@ def upload_toc(file_list):
     sftp_client.close()
     ssh_client.close()
 
-def move_toc(file_list):
-    for f in file_list:
+def move_toc(files_local):
+    for f in files_local:
         os.rename(project_data.P_LOCAL + f, project_data.P_ARCHIVE + f)
     
-    file_list = find_toc(file_list, project_data.P_LOCAL)
+    files_local = find_toc(files_local, project_data.P_LOCAL)
 
-    return file_list
+    return files_local
 
 if __name__ == '__main__':
-    file_list = find_toc(file_list, project_data.P_LOCAL)
-    print(file_list)
-    upload_toc(file_list)
-    file_list = move_toc(file_list)
-    print(file_list)
+    files_local = find_toc(files_local, project_data.P_LOCAL)
+    upload_toc(files_local)
+    files_local = move_toc(files_local)

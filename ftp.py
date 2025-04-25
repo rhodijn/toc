@@ -30,7 +30,7 @@ def upload_toc(file_list):
 
     for f in file_list:
         try:
-            sftp_client.put(str(project_data.P_LOCAL + f), str(project_data.P_REMOTE + f))
+            sftp_client.put(project_data.P_LOCAL + f, project_data.P_REMOTE + f)
         except OSError as e:
             print(e)
 
@@ -41,7 +41,7 @@ def upload_toc(file_list):
 
 def move_toc(file_list):
     for f in file_list:
-        os.rename(project_data.P_LOCAL + f, project_data.P_LOG + f)
+        os.rename(project_data.P_LOCAL + f, project_data.P_ARCHIVE + f)
     
     file_list = find_toc(file_list, project_data.P_LOCAL)
 

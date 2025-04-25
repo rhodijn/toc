@@ -36,6 +36,7 @@ def upload_toc(file_list):
 
     print(f'remote files: {sftp_client.listdir(project_data.P_REMOTE)}')
 
+    sftp_client.close()
     ssh_client.close()
 
 def move_toc(file_list):

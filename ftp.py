@@ -59,7 +59,7 @@ def upload_toc(f_processed, p_remote):
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_remote)
 
-    print(f'files uploaded: {[f for f in f_processed.keys() if f_processed[f] == True]}')
+    print(f'files uploaded: {[f for f in f_processed.keys() if f_processed[f]]}') # unnecessary: == True
     print(f'remote files: {f_remote}')
 
     sftp_client.close()

@@ -4,31 +4,32 @@ import os, paramiko, project_data, re
 
 f_processed = {}
 
-def find_toc(f_processed, path):
+def find_toc(f_processed, p_local):
     """
-    collect files to load to remote server
+    collect files for upload to remote server
 
     f_processed : dict = file names : str, processed : bool
-    path : str = relative path to files
+    path : str = relative local path to toc-files
     """
     f_local = []
-    f_local = sorted(os.listdir(path))
+    f_local = sorted(os.listdir(p_local))
 
     for f in f_local:
         if re.search ('^\\d+.pdf', f):
             f_processed.update({f: False})
         else:
-            os.rename(project_data.P_TOC + f, project_data.P_TRASH + f)
+            os.rename(p_local + f, project_data.P_TRASH + f)
     
     print(f'local files: {[f for f in f_processed.keys()]}')
 
     return f_processed
 
-def upload_toc(f_processed):
+def upload_toc(f_processed, p_remote):
     """
     upload collected files to remote server (only pdfs not already online)
 
-    f_processed : dict = file names : str, processed : bool
+    f_processed : dict = file name : str, processed : bool
+    path : str = remote path to files (winterthur or waedenswil)
     """
     f_remote = []
     host_name = project_data.FTP_HOST
@@ -43,19 +44,19 @@ def upload_toc(f_processed):
     sftp_client = ssh_client.open_sftp()
     print("connection established ... ")
 
-    f_remote = sftp_client.listdir(project_data.P_REMOTE + project_data.P_WIN)
+    f_remote = sftp_client.listdir(project_data.P_REMOTE + p_remote)
 
     for f in f_processed.keys():
         if f in f_remote:
             print('file ' + f + ' already online (not replaced)')
             continue
         try:
-            sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + project_data.P_WIN + f)
+            sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + p_remote + f)
             f_processed[f] = True
         except Exception as e:
             print(e)
 
-    f_remote = sftp_client.listdir(project_data.P_REMOTE + project_data.P_WIN)
+    f_remote = sftp_client.listdir(project_data.P_REMOTE + p_remote)
 
     print(f'files uploaded: {[f for f in f_processed.keys() if f_processed[f] == True]}')
     print(f'remote files: {f_remote}')
@@ -81,5 +82,5 @@ def move_toc(f_processed):
 
 if __name__ == '__main__':
     f_processed = find_toc(f_processed, project_data.P_TOC)
-    f_processed = upload_toc(f_processed)
+    f_processed = upload_toc(f_processed, project_data.P_WIN)
     f_processed = move_toc(f_processed)

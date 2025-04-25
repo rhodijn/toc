@@ -48,6 +48,7 @@ def upload_toc(f_processed, p_remote):
 
     for f in f_processed.keys():
         if f in f_remote:
+            # if pdf is already online, skip the rest
             print('file ' + f + ' already online (not replaced)')
             continue
         try:

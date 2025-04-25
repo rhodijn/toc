@@ -3,7 +3,6 @@
 import os, paramiko, project_data, re
 
 f_processed = {}
-f_remote = []
 
 def find_toc(f_processed, path):
     f_local = []
@@ -15,11 +14,12 @@ def find_toc(f_processed, path):
         else:
             os.rename(project_data.P_TOC + f, project_data.P_TRASH + f)
     
-    print(f'local files to process: {f_processed}')
+    print(f'local files: {[f for f in f_processed.keys()]}')
 
     return f_processed
 
-def upload_toc(f_processed, f_remote):
+def upload_toc(f_processed):
+    f_remote = []
     host_name = project_data.FTP_HOST
     port = project_data.FTP_PORT
     user_name = project_data.USER
@@ -52,7 +52,7 @@ def upload_toc(f_processed, f_remote):
     sftp_client.close()
     ssh_client.close()
 
-    return f_processed, f_remote
+    return f_processed
 
 def move_toc(f_processed):
     for f in f_processed.keys():
@@ -65,6 +65,5 @@ def move_toc(f_processed):
 
 if __name__ == '__main__':
     f_processed = find_toc(f_processed, project_data.P_TOC)
-    f_processed, f_remote = upload_toc(f_processed, f_remote)
+    f_processed = upload_toc(f_processed)
     f_processed = move_toc(f_processed)
-    print(f'f_processed: {f_processed}')

@@ -36,7 +36,7 @@ def upload_toc(f_processed):
 
     for f in f_processed.keys():
         if f in f_remote:
-            print('file ' + f + ' already online (will not be replaced)')
+            print('file ' + f + ' already online (not replaced)')
             continue
         try:
             sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + project_data.P_WIN + f)

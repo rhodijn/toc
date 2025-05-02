@@ -2,7 +2,7 @@
 
 import os, paramiko, project_data, re
 
-f_processed = {}
+f_processed : dict = {}
 
 def find_toc(f_processed, p_local):
     """
@@ -15,7 +15,7 @@ def find_toc(f_processed, p_local):
     Returns:
     f_processed : dict = {file names : str, processed : bool}
     """
-    f_local = []
+    f_local : list = []
     f_local = sorted(os.listdir(p_local))
 
     for f in f_local:
@@ -39,11 +39,11 @@ def upload_toc(f_processed, p_remote):
     Returns:
     f_processed : dict = {file names : str, processed : bool}
     """
-    f_remote = []
-    host_name = project_data.FTP_HOST
-    port = project_data.FTP_PORT
-    user_name = project_data.FTP_USR
-    p_word = project_data.FTP_PWD
+    f_remote : list = []
+    host_name : str = project_data.FTP_HOST
+    port : int = project_data.FTP_PORT
+    user_name : str = project_data.FTP_USR
+    p_word str = project_data.FTP_PWD
 
     ssh_client = paramiko.SSHClient()
     ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())

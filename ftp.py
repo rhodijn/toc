@@ -9,7 +9,7 @@ def find_toc(f_processed, p_local):
     collect files for upload to remote server
 
     f_processed : dict = file names : str, processed : bool
-    path : str = relative local path to toc-files
+    p_local : str = relative local path to toc-files
     """
     f_local = []
     f_local = sorted(os.listdir(p_local))
@@ -29,7 +29,7 @@ def upload_toc(f_processed, p_remote):
     upload collected files to remote server (only pdfs not already online)
 
     f_processed : dict = file name : str, processed : bool
-    path : str = remote path to files (winterthur or waedenswil)
+    p_remote : str = remote path to files (winterthur or waedenswil)
     """
     f_remote = []
     host_name = project_data.FTP_HOST
@@ -48,7 +48,6 @@ def upload_toc(f_processed, p_remote):
 
     for f in f_processed.keys():
         if f in f_remote:
-            # if pdf is already online, skip the rest
             print('file ' + f + ' already online (not replaced)')
             continue
         try:

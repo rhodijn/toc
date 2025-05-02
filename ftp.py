@@ -9,11 +9,11 @@ def find_toc(f_processed, p_local):
     Collect files for upload to remote server
 
     Parameters:
-    f_processed : dict = {file names : str, processed : bool}
+    f_processed : dict = {file names : str: processed : bool}
     p_local : str = relative local path to toc-files
 
     Returns:
-    f_processed : dict = {file names : str, processed : bool}
+    f_processed : dict = {file names : str: processed : bool}
     """
     f_local : list = []
     f_local = sorted(os.listdir(p_local))
@@ -33,11 +33,11 @@ def upload_toc(f_processed, p_remote):
     Upload collected files to remote server (only pdfs not already online)
 
     Parameters:
-    f_processed : dict = {file names : str, processed : bool}
+    f_processed : dict = {file names : str: processed : bool}
     p_remote : str = remote path to files (winterthur or waedenswil)
 
     Returns:
-    f_processed : dict = {file names : str, processed : bool}
+    f_processed : dict = {file names : str: processed : bool}
     """
     f_remote : list = []
     host_name : str = project_data.FTP_HOST
@@ -79,10 +79,10 @@ def move_toc(f_processed):
     Move local files to done-, not- or trash-folder
 
     Parameters:
-    f_processed : dict = {file names : str, processed : bool}
+    f_processed : dict = {file names : str: processed : bool}
 
     Returns:
-    f_processed : dict = {file names : str, processed : bool}
+    f_processed : dict = {file names : str: processed : bool}
     """
     for f in f_processed.keys():
         if f_processed[f]:

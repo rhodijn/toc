@@ -43,7 +43,7 @@ def upload_toc(f_processed, p_remote):
     host_name : str = project_data.FTP_HOST
     port : int = project_data.FTP_PORT
     user_name : str = project_data.FTP_USR
-    p_word str = project_data.FTP_PWD
+    p_word : str = project_data.FTP_PWD
 
     ssh_client = paramiko.SSHClient()
     ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())

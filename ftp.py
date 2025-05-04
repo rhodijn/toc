@@ -28,13 +28,13 @@ def find_toc(f_processed, p_local):
 
     return f_processed
 
-def upload_toc(f_processed, p_remote):
+def upload_toc(f_processed, p_bib):
     """
     Upload collected files to remote server (only pdfs not already online)
 
     Parameters:
     f_processed : dict = {file names : str: processed : bool}
-    p_remote : str = remote path to files (winterthur or waedenswil)
+    p_bib : str = remote path to files of library (winterthur or waedenswil)
 
     Returns:
     f_processed : dict = {file names : str: processed : bool}
@@ -52,19 +52,19 @@ def upload_toc(f_processed, p_remote):
     sftp_client = ssh_client.open_sftp()
     print('connection established')
 
-    f_remote = sftp_client.listdir(project_data.P_REMOTE + p_remote)
+    f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
 
     for f in f_processed.keys():
         if f in f_remote:
             print('file ' + f + ' already online (not replaced)')
             continue
         try:
-            sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + p_remote + f)
+            sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + p_bib + f)
             f_processed[f] = True
         except Exception as e:
             print(e)
 
-    f_remote = sftp_client.listdir(project_data.P_REMOTE + p_remote)
+    f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
 
     print(f'files uploaded: {[f for f in f_processed.keys() if f_processed[f]]}')
     print(f'remote files: {f_remote}')

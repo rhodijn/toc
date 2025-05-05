@@ -23,7 +23,7 @@ def find_toc(f_processed, p_local):
             f_processed.update({f: False})
         else:
             os.rename(p_local + f, project_data.P_TRASH + f)
-            print('file ' + f + ' cannot be processed')
+            print('file ' + f + ' will not be processed')
     
     print(f'local files: {[f for f in f_processed.keys()]}')
 

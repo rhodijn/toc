@@ -61,6 +61,7 @@ def upload_toc(f_processed, p_bib):
         try:
             sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + p_bib + f)
             f_processed[f] = True
+            print('file ' + f + ' uploaded')
         except Exception as e:
             print(e)
 

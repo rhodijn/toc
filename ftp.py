@@ -19,7 +19,7 @@ def find_toc(f_processed, p_local):
     f_local = sorted(os.listdir(p_local))
 
     for f in f_local:
-        if re.search('\\b\\d{13,20}\\.pdf\\b', f):
+        if re.search('\\b\\d{13,20}\\.(pdf|PDF)\\b', f):
             f_processed.update({f: False})
         else:
             os.rename(p_local + f, project_data.P_TRASH + f)

@@ -22,8 +22,13 @@ def find_toc(f_processed, p_local):
         if re.search('\\b\\d{13,20}\\.(pdf|PDF)\\b', f):
             f_processed.update({f: False})
         else:
+            if re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f):
+                print('file ' + f + ' is not a pdf')
+            elif re.search('\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f):
+                print('file ' + f + ' uses non-digit characters in its name')
+            else:
+                print('file ' + f + ' not allowed for some other reason')
             os.rename(p_local + f, project_data.P_TRASH + f)
-            print('file ' + f + ' will not be processed')
     
     print(f'local files: {[f for f in f_processed.keys()]}')
 

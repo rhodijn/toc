@@ -57,14 +57,13 @@ def upload_toc(f_processed, p_bib):
 
     for f in f_processed.keys():
         if f in f_remote:
-            print('file ' + f + ' not replaced (already online)')
+            print('file ' + f + ' already on remote server')
             continue
         try:
             sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + p_bib + f)
             f_processed[f] = True
-            print('file ' + f + ' uploaded')
         except Exception as e:
-            print('an error occurred: ' + e)
+            print('an error (' + e + ') occurred while processing ' + f)
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
 

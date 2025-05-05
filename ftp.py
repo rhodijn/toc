@@ -64,7 +64,7 @@ def upload_toc(f_processed, p_bib):
             f_processed[f] = True
             print('file ' + f + ' uploaded')
         except Exception as e:
-            print(e)
+            print('an error occurred: ' + e)
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
 

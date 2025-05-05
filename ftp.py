@@ -19,7 +19,7 @@ def find_toc(f_processed, p_local):
     f_local = sorted(os.listdir(p_local))
 
     for f in f_local:
-        if re.search ('^\\d+.pdf', f):
+        if re.search('\\b\\d+.pdf\\b', f):
             f_processed.update({f: False})
         else:
             os.rename(p_local + f, project_data.P_TRASH + f)
@@ -57,7 +57,7 @@ def upload_toc(f_processed, p_bib):
 
     for f in f_processed.keys():
         if f in f_remote:
-            print('file ' + f + ' already on remote server')
+            print('file ' + f + ' already on server')
             continue
         try:
             sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + p_bib + f)

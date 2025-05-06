@@ -18,7 +18,9 @@ def find_toc(f_processed, p_local):
     f_local : list = []
     f_local = sorted(os.listdir(p_local))
 
-    for f in f_local:
+    for i, f in enumerate(f_local):
+        os.rename(p_local + f, p_local + f.lower())
+        f_local[i] = f.lower()
         if re.search('\\b\\d{13,20}\\.(pdf|PDF)\\b', f):
             f_processed.update({f: False})
         else:

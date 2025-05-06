@@ -18,9 +18,7 @@ def find_toc(f_processed, p_local):
     f_local : list = []
     f_local = sorted(os.listdir(p_local))
 
-    for i, f in enumerate(f_local):
-        os.rename(p_local + f, p_local + f.lower())
-        f_local[i] = f.lower()
+    for f in f_local:
         if re.search('\\b\\d{13,20}\\.(pdf|PDF)\\b', f):
             f_processed.update({f: False})
         else:
@@ -67,14 +65,14 @@ def upload_toc(f_processed, p_bib):
             print('file ' + f + ' already on server')
             continue
         try:
-            sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + p_bib + f)
+            sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + p_bib + f.lower())
             f_processed[f] = True
         except Exception as e:
             print('an error (' + e + ') occurred while processing ' + f)
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
 
-    print(f'files uploaded: {[f for f in f_processed.keys() if f_processed[f]]}')
+    print(f'files uploaded: {[f.lower() for f in f_processed.keys() if f_processed[f]]}')
     print(f'remote files: {f_remote}')
 
     sftp_client.close()
@@ -94,7 +92,7 @@ def move_toc(f_processed):
     """
     for f in f_processed.keys():
         if f_processed[f]:
-            os.rename(project_data.P_TOC + f, project_data.P_DONE + f)
+            os.rename(project_data.P_TOC + f, project_data.P_DONE + f.lower())
         else:
             os.rename(project_data.P_TOC + f, project_data.P_NOT + f)
 

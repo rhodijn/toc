@@ -19,7 +19,7 @@ def find_toc(f_processed, p_local):
     f_local = sorted(os.listdir(p_local))
 
     for f in f_local:
-        if re.search('\\b\\d{13,20}\\.(pdf|PDF)\\b', f):
+        if re.search('\\b\\d{13,23}\\.(pdf|PDF)\\b', f):
             f_processed.update({f: {'dt': None, 'filename': f, 'status': False, 'message': None, 'url': None, 'mms-id': None}})
         else:
             if re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f):
@@ -64,18 +64,19 @@ def upload_toc(f_processed, p_bib):
         if f in f_remote:
             print('file ' + f + ' already on server')
             continue
+        mms_id = str(re.search('\\b\\d{13,23}', f).group())
+        print(mms_id)
         try:
             sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + p_bib + f.lower())
             f_processed[f]['dt'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             f_processed[f]['status'] = True
             f_processed[f]['message'] = 'upload completed'
             f_processed[f]['url'] = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{project_data.P_WIN}{f}'
+            f_processed[f]['mms-id'] = mms_id
         except Exception as e:
-            print('an error (' + e + ') occurred while processing ' + f)
+            print('an error (' + str(e) + ') occurred while processing ' + f)
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
-
-    print(f'files uploaded: {[f.lower() for f in f_processed.keys() if f_processed[f]]}')
     print(f'remote files: {f_remote}')
 
     sftp_client.close()
@@ -115,11 +116,14 @@ def write_json(f_processed, f_path, f_name):
     """
     log = {}
 
-    with open(f_path + f_name, mode='w+', encoding='utf-8') as f:
-        """log = json.load(f)
-        print(type(log))"""
+    with open(f_path + f_name, mode='r', encoding='utf-8') as f:
+        log = json.load(f)
+
+    log.update(f_processed)
+
+    with open(f_path + f_name, mode='w', encoding='utf-8') as f:
         f.seek(0)
-        json.dump(f_processed, f, indent=4)
+        json.dump(log, f, indent=4)
 
     return f_processed
 

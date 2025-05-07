@@ -4,7 +4,7 @@ import argparse, datetime, json, os, paramiko, project_data, re
 
 f_processed : dict = {}
 
-def check_toc(f_processed, f_name):
+def check_toc(f_processed, f_path):
     """
     Collect files for upload to remote server
 
@@ -15,16 +15,18 @@ def check_toc(f_processed, f_name):
     Returns:
     f_processed : dict = {file names : str: processed : bool}
     """
-    f_processed.update({f_name: {'dt': None, 'filename': f_name, 'status': False, 'message': None, 'url': None, 'mms-id': None}})
+    f_name = re.search('[^\/]\w+\.\w{2,5}', f_path).group()
+    dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    f_processed.update({f_name: {'dt': dt, 'filename': f_name, 'status': False, 'message': None, 'url': None, 'mms-id': None}})
 
     if re.search('\\b\\d{13,23}\\.(pdf|PDF)\\b', f_name):
-        f_processed.update({f_name: {'status': True, 'mms-id': int(re.search('\\b\\d{13,23}', f_name).group())}})
+        f_processed[f_name].update({'status': True, 'mms-id': int(re.search('\\b\\d{13,23}', f_name).group())})
     elif re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f_name):
-        f_processed.update({f_name: {'message': 'file format not pdf'}})
+        f_processed[f_name].update({'message': 'file format not pdf'})
     elif re.search('\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f_name):
-        f_processed.update({f_name: {'message': 'invalid file name'}})
+        f_processed[f_name].update({'message': 'invalid file name'})
     else:
-        f_processed.update({f_name: {'message': 'error of another kind'}})
+        f_processed[f_name].update({'message': 'error of another kind'})
 
     return f_processed
 
@@ -130,9 +132,9 @@ if __name__ == '__main__':
     parser.add_argument("--file", required=True, type=str)
     args = parser.parse_args()
 
-    f_name = args.file
+    f_path = args.file
     
-    f_processed = check_toc(f_processed, f_name)
+    f_processed = check_toc(f_processed, f_path)
 
     print(f_processed)
 

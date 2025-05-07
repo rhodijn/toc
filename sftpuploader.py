@@ -113,8 +113,12 @@ def write_json(f_processed, f_path, f_name):
     Returns:
     f_processed : dict = {file names : str: processed : bool}
     """
-    with open(f_path + f_name, mode='a+', encoding='utf-8') as f:
-        f.seek(1)
+    log = {}
+
+    with open(f_path + f_name, mode='w+', encoding='utf-8') as f:
+        """log = json.load(f)
+        print(type(log))"""
+        f.seek(0)
         json.dump(f_processed, f, indent=4)
 
     return f_processed

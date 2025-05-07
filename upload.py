@@ -4,7 +4,7 @@ import argparse, datetime, json, os, paramiko, project_data, re
 
 f_processed : dict = {}
 
-def find_toc(f_processed, p_local):
+def check_toc(f_processed, f_name):
     """
     Collect files for upload to remote server
 
@@ -15,22 +15,16 @@ def find_toc(f_processed, p_local):
     Returns:
     f_processed : dict = {file names : str: processed : bool}
     """
-    f_local : list = []
-    f_local = sorted(os.listdir(p_local))
+    f_processed.update({f_name: {'dt': None, 'filename': f_name, 'status': False, 'message': None, 'url': None, 'mms-id': None}})
 
-    for f in f_local:
-        if re.search('\\b\\d{13,23}\\.(pdf|PDF)\\b', f):
-            f_processed.update({f: {'dt': None, 'filename': f, 'status': False, 'message': None, 'url': None, 'mms-id': None}})
-        else:
-            if re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f):
-                print(f'file {f} is not a pdf')
-            elif re.search('\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f):
-                print(f'file {f} uses non-digit characters in its name')
-            else:
-                print(f'file {f} not allowed for some other reason')
-            os.rename(p_local + f, project_data.P_TRASH + f)
-    
-    print(f'local files: {[f for f in f_processed.keys()]}')
+    if re.search('\\b\\d{13,23}\\.(pdf|PDF)\\b', f_name):
+        f_processed.update({f_name: {'status': True, 'mms-id': int(re.search('\\b\\d{13,23}', f).group())}})
+    elif re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f_name):
+        f_processed.update({f_name: {'message': 'file format not pdf'}})
+    elif re.search('\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f_name):
+        f_processed.update({f_name: {'message': 'invalid file name'}})
+    else:
+        f_processed.update({f_name: {'message': 'error of another kind'}})
 
     return f_processed
 
@@ -131,14 +125,17 @@ def write_json(f_processed, f_path, f_name):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description="Script to upload toc to ftp-server from CMD"
+        description="upload toc to ftp-server from terminal"
     )
     parser.add_argument("--file", required=True, type=str)
     args = parser.parse_args()
 
-    file = args.file
+    f_name = args.file
     
-    f_processed = find_toc(f_processed, project_data.P_TOC)
-    f_processed = upload_toc(f_processed, project_data.P_WIN)
-    f_processed = move_toc(f_processed)
-    f_processed = write_json(f_processed, project_data.P_LOG, 'toc_log.json')
+    f_processed = check_toc(f_processed, f_name)
+
+    print(f_processed)
+
+    # f_processed = upload_toc(f_processed, project_data.P_WIN)
+    # f_processed = move_toc(f_processed)
+    # f_processed = write_json(f_processed, project_data.P_LOG, 'toc_log.json')

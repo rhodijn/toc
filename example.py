@@ -7,10 +7,9 @@ if __name__ == '__main__':
     parser.add_argument("--file", required=True, type=str)
     args = parser.parse_args()
 
-    file = args.file
+    f_name = args.file
 
-    print(f'upload file {file}')
+    print(f'uploading file {f_name}')
 
-# Running the script from the command line.
-
-# python tests.py --num1=1 --num2=2 --num3=3
+# Running the script from the command line:
+# python3 example.py --file=123.pdf

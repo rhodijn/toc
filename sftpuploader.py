@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import json, os, paramiko, project_data, re
+import datetime, json, os, paramiko, project_data, re
 
 f_processed : dict = {}
 
@@ -66,7 +66,7 @@ def upload_toc(f_processed, p_bib):
             continue
         try:
             sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + p_bib + f.lower())
-            f_processed[f]['dt'] = True
+            f_processed[f]['dt'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             f_processed[f]['upload'] = True
         except Exception as e:
             print('an error (' + e + ') occurred while processing ' + f)

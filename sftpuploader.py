@@ -20,7 +20,7 @@ def find_toc(f_processed, p_local):
 
     for f in f_local:
         if re.search('\\b\\d{13,20}\\.(pdf|PDF)\\b', f):
-            f_processed.update({f: {'dt': None, 'upload': False, 'message': None, 'url': None}})
+            f_processed.update({f: {'dt': None, 'upload': False, 'message': None, 'url': None, 'mms-id': None}})
         else:
             if re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f):
                 print('file ' + f + ' is not a pdf')

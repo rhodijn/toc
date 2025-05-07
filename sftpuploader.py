@@ -20,7 +20,7 @@ def find_toc(f_processed, p_local):
 
     for f in f_local:
         if re.search('\\b\\d{13,20}\\.(pdf|PDF)\\b', f):
-            f_processed.update({f: {'dt': None, 'upload': False, 'message': None}})
+            f_processed.update({f: {'dt': None, 'upload': False, 'message': None, 'url': None}})
         else:
             if re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f):
                 print('file ' + f + ' is not a pdf')
@@ -68,6 +68,8 @@ def upload_toc(f_processed, p_bib):
             sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + p_bib + f.lower())
             f_processed[f]['dt'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             f_processed[f]['upload'] = True
+            f_processed[f]['message'] = 'upload successful'
+            f_processed[f]['url'] = f'{project_data.FTP_HOST}{project_data.P_REMOTE}{project_data.P_WIN}{f}'
         except Exception as e:
             print('an error (' + e + ') occurred while processing ' + f)
 

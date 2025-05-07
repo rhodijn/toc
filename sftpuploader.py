@@ -101,7 +101,7 @@ def move_toc(f_processed):
 
     return f_processed
 
-def write_json(f_processed, f_path, f_name):
+def write_json(f_data, f_path, f_name):
     """
     Save result to a json log file
 

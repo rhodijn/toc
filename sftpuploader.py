@@ -23,11 +23,11 @@ def find_toc(f_processed, p_local):
             f_processed.update({f: {'dt': None, 'filename': f, 'status': False, 'message': None, 'url': None, 'mms-id': None}})
         else:
             if re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f):
-                print('file ' + f + ' is not a pdf')
+                print('file ' + str(f) + ' is not a pdf')
             elif re.search('\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f):
-                print('file ' + f + ' uses non-digit characters in its name')
+                print('file ' + str(f) + ' uses non-digit characters in its name')
             else:
-                print('file ' + f + ' not allowed for some other reason')
+                print('file ' + str(f) + ' not allowed for some other reason')
             os.rename(p_local + f, project_data.P_TRASH + f)
     
     print(f'local files: {[f for f in f_processed.keys()]}')
@@ -45,6 +45,7 @@ def upload_toc(f_processed, p_bib):
     Returns:
     f_processed : dict = {file names : str: processed : bool}
     """
+    dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     f_remote : list = []
     host_name : str = project_data.FTP_HOST
     port : int = project_data.FTP_PORT
@@ -62,19 +63,17 @@ def upload_toc(f_processed, p_bib):
 
     for f in f_processed.keys():
         if f in f_remote:
-            print('file ' + f + ' already on server')
+            f_processed[f].update({'dt': dt, 'status': False, 'message': 'already online'})
+            print('file ' + str(f) + ' already on server')
             continue
-        mms_id = str(re.search('\\b\\d{13,23}', f).group())
-        print(mms_id)
+        url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{project_data.P_WIN}{f}'
+        mms_id = int(re.search('\\b\\d{13,23}', f).group())
         try:
             sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + p_bib + f.lower())
-            f_processed[f]['dt'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            f_processed[f]['status'] = True
-            f_processed[f]['message'] = 'upload completed'
-            f_processed[f]['url'] = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{project_data.P_WIN}{f}'
-            f_processed[f]['mms-id'] = mms_id
+            f_processed[f].update({'dt': dt, 'status': True, 'message': 'upload successful', 'url': url, 'mms-id': mms_id})
         except Exception as e:
-            print('an error (' + str(e) + ') occurred while processing ' + f)
+            f_processed[f].update({'dt': dt, 'status': False, 'message': f'error {e}'})
+            print(f'an error ({e}) occurred while processing {f}')
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
     print(f'remote files: {f_remote}')

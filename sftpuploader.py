@@ -69,13 +69,13 @@ def upload_toc(f_processed, p_bib):
             f_processed[f]['dt'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             f_processed[f]['status'] = True
             f_processed[f]['message'] = 'upload completed'
-            f_processed[f]['url'] = f'{project_data.FTP_HOST}{project_data.P_REMOTE}{project_data.P_WIN}{f}'
+            f_processed[f]['url'] = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{project_data.P_WIN}{f}'
         except Exception as e:
             print('an error (' + e + ') occurred while processing ' + f)
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
 
-    print(f'files uploaded: {[f.lower() for f in f_processed.keys() if f_processed[f]['status']]}')
+    print(f'files uploaded: {[f.lower() for f in f_processed.keys() if f_processed[f]]}')
     print(f'remote files: {f_remote}')
 
     sftp_client.close()
@@ -101,19 +101,23 @@ def move_toc(f_processed):
 
     return f_processed
 
-def write_json(f_data, f_path, f_name):
+def write_json(f_processed, f_path, f_name):
     """
     Save result to a json log file
 
     Parameters:
-    f_processed : dict = {file names : str: processed : bool}
+    f_data : dict = {file names : str: processed : bool}
+    f_path : str =
+    f_name : str =
 
     Returns:
     f_processed : dict = {file names : str: processed : bool}
     """
     with open(f_path + f_name, mode='a+', encoding='utf-8') as f:
-        f.seek(0)
-        json.dump(f_data, f, indent=4)
+        f.seek(1)
+        json.dump(f_processed, f, indent=4)
+
+    return f_processed
 
 if __name__ == '__main__':
     f_processed = find_toc(f_processed, project_data.P_TOC)

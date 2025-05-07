@@ -1,0 +1,83 @@
+{
+    "9783453607002": {
+        "dt": null,
+        "filename": "9783453607002.pdf",
+        "status": false,
+        "message": null,
+        "url": null,
+        "mms-id": null
+    },
+    "991172328240405501": {
+        "dt": "2025-05-07 13:53:49",
+        "filename": "991172328240405501.pdf",
+        "status": true,
+        "message": "upload completed",
+        "url": "slspmedia.hsb.zhaw.chpublic/swisscovery/inhaltsverzeichnis/winterthur/991172328240405501.pdf",
+        "mms-id": null
+    },
+    "995860000000445479": {
+        "dt": "2025-05-07 13:53:49",
+        "filename": "995860000000445479.pdf",
+        "status": true,
+        "message": "upload completed",
+        "url": "slspmedia.hsb.zhaw.chpublic/swisscovery/inhaltsverzeichnis/winterthur/995860000000445479.pdf",
+        "mms-id": null
+    },
+    "995860000000545470": {
+        "dt": "2025-05-07 13:53:49",
+        "filename": "995860000000545470.pdf",
+        "status": true,
+        "message": "upload completed",
+        "url": "slspmedia.hsb.zhaw.chpublic/swisscovery/inhaltsverzeichnis/winterthur/995860000000545470.pdf",
+        "mms-id": null
+    },
+    "995860000000545478": {
+        "dt": "2025-05-07 13:53:49",
+        "filename": "995860000000545478.pdf",
+        "status": true,
+        "message": "upload completed",
+        "url": "slspmedia.hsb.zhaw.chpublic/swisscovery/inhaltsverzeichnis/winterthur/995860000000545478.pdf",
+        "mms-id": null
+    }
+}{
+    "9783453607002.pdf": {
+        "dt": null,
+        "filename": "9783453607002.pdf",
+        "status": false,
+        "message": null,
+        "url": null,
+        "mms-id": null
+    },
+    "991172328240405501.pdf": {
+        "dt": "2025-05-07 14:07:37",
+        "filename": "991172328240405501.pdf",
+        "status": true,
+        "message": "upload completed",
+        "url": "https://slspmedia.hsb.zhaw.ch/public/swisscovery/inhaltsverzeichnis/winterthur/991172328240405501.pdf",
+        "mms-id": null
+    },
+    "995860000000445479.pdf": {
+        "dt": "2025-05-07 14:07:38",
+        "filename": "995860000000445479.pdf",
+        "status": true,
+        "message": "upload completed",
+        "url": "https://slspmedia.hsb.zhaw.ch/public/swisscovery/inhaltsverzeichnis/winterthur/995860000000445479.pdf",
+        "mms-id": null
+    },
+    "995860000000545470.pdf": {
+        "dt": "2025-05-07 14:07:38",
+        "filename": "995860000000545470.pdf",
+        "status": true,
+        "message": "upload completed",
+        "url": "https://slspmedia.hsb.zhaw.ch/public/swisscovery/inhaltsverzeichnis/winterthur/995860000000545470.pdf",
+        "mms-id": null
+    },
+    "995860000000545478.pdf": {
+        "dt": "2025-05-07 14:07:38",
+        "filename": "995860000000545478.pdf",
+        "status": true,
+        "message": "upload completed",
+        "url": "https://slspmedia.hsb.zhaw.ch/public/swisscovery/inhaltsverzeichnis/winterthur/995860000000545478.pdf",
+        "mms-id": null
+    }
+}

@@ -115,8 +115,11 @@ def write_json(f_processed, f_path, f_name):
     """
     log = {}
 
-    with open(f_path + f_name, mode='r', encoding='utf-8') as f:
-        log = json.load(f)
+    try:
+        with open(f_path + f_name, mode='r', encoding='utf-8') as f:
+            log = json.load(f)
+    except:
+        print(f'file {f_name} does not exist')
 
     log.update(f_processed)
 

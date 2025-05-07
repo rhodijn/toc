@@ -23,11 +23,11 @@ def find_toc(f_processed, p_local):
             f_processed.update({f: {'dt': None, 'filename': f, 'status': False, 'message': None, 'url': None, 'mms-id': None}})
         else:
             if re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f):
-                print('file ' + str(f) + ' is not a pdf')
+                print(f'file {f} is not a pdf')
             elif re.search('\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f):
-                print('file ' + str(f) + ' uses non-digit characters in its name')
+                print(f'file {f} uses non-digit characters in its name')
             else:
-                print('file ' + str(f) + ' not allowed for some other reason')
+                print(f'file {f} not allowed for some other reason')
             os.rename(p_local + f, project_data.P_TRASH + f)
     
     print(f'local files: {[f for f in f_processed.keys()]}')
@@ -64,7 +64,7 @@ def upload_toc(f_processed, p_bib):
     for f in f_processed.keys():
         if f in f_remote:
             f_processed[f].update({'dt': dt, 'status': False, 'message': 'already online'})
-            print('file ' + str(f) + ' already on server')
+            print(f'file {f} already on server')
             continue
         url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{project_data.P_WIN}{f}'
         mms_id = int(re.search('\\b\\d{13,23}', f).group())

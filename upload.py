@@ -18,7 +18,7 @@ def check_toc(f_processed, f_name):
     f_processed.update({f_name: {'dt': None, 'filename': f_name, 'status': False, 'message': None, 'url': None, 'mms-id': None}})
 
     if re.search('\\b\\d{13,23}\\.(pdf|PDF)\\b', f_name):
-        f_processed.update({f_name: {'status': True, 'mms-id': int(re.search('\\b\\d{13,23}', f).group())}})
+        f_processed.update({f_name: {'status': True, 'mms-id': int(re.search('\\b\\d{13,23}', f_name).group())}})
     elif re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f_name):
         f_processed.update({f_name: {'message': 'file format not pdf'}})
     elif re.search('\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f_name):

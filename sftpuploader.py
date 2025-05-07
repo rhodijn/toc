@@ -39,11 +39,11 @@ def upload_toc(f_processed, p_bib):
     Upload collected files to remote server (only pdfs not already online)
 
     Parameters:
-    f_processed : dict = {file names : str: processed : bool}
+    f_processed : dict = {file name : dict = {}}
     p_bib : str = remote path to files of library (winterthur or waedenswil)
 
     Returns:
-    f_processed : dict = {file names : str: processed : bool}
+    f_processed : dict = {file name : dict = {}}
     """
     dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     f_remote : list = []
@@ -88,10 +88,10 @@ def move_toc(f_processed):
     Move local files to done-, not- or trash-folder
 
     Parameters:
-    f_processed : dict = {file names : str: processed : bool}
+    f_processed : dict = {file name : dict = {}}
 
     Returns:
-    f_processed : dict = {file names : str: processed : bool}
+    f_processed : dict = {file name : dict = {}}
     """
     for f in f_processed.keys():
         if f_processed[f]:
@@ -106,12 +106,12 @@ def write_json(f_processed, f_path, f_name):
     Save result to a json log file
 
     Parameters:
-    f_data : dict = {file names : str: processed : bool}
-    f_path : str =
-    f_name : str =
+    f_processed : dict = {file name : dict = {}}
+    f_path : str = path to log-file
+    f_name : str = name of json log-file
 
     Returns:
-    f_processed : dict = {file names : str: processed : bool}
+    f_processed : dict = {file name : dict = {}}
     """
     log = {}
 

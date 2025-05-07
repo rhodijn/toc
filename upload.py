@@ -22,9 +22,9 @@ def check_toc(f_processed, f_path):
     if re.search('\\b\\d{13,23}\\.(pdf|PDF)\\b', f_name):
         f_processed[f_name].update({'status': True, 'mms-id': int(re.search('\\b\\d{13,23}', f_name).group())})
     elif re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f_name):
-        f_processed[f_name].update({'message': 'file format not pdf'})
+        f_processed[f_name].update({'message': 'file not pdf format'})
     elif re.search('\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f_name):
-        f_processed[f_name].update({'message': 'invalid file name'})
+        f_processed[f_name].update({'message': 'non-digit characters in file name'})
     else:
         f_processed[f_name].update({'message': 'error of another kind'})
 

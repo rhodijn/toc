@@ -101,36 +101,22 @@ def move_toc(f_processed):
 
     return f_processed
 
+def write_json(f_processed, f_path, f_name):
+    """
+    Save result to a json log file
+
+    Parameters:
+    f_processed : dict = {file names : str: processed : bool}
+
+    Returns:
+    f_processed : dict = {file names : str: processed : bool}
+    """
+    with open(f_path + f_name, mode='a+', encoding='utf-8') as f:
+        f.seek(0)
+        json.dump(f_data, f, indent=4)
+
 if __name__ == '__main__':
     f_processed = find_toc(f_processed, project_data.P_TOC)
     f_processed = upload_toc(f_processed, project_data.P_WIN)
     f_processed = move_toc(f_processed)
-
-"""
-def write_json_data(file_path, file_name, file_data):
-
-    save data to a json file
-
-    file_path : str = path to the json file
-    file_name : str = name of the json file
-    file_data : str = data to write to the file
-
-    with open(file_path + file_name, mode='w', encoding='utf-8') as f:
-        f.seek(0)
-        json.dump(file_data, f, indent=4)
-
-def read_json_data(file_path, file_name):
-
-    read data from a json file
-
-    file_path : str = path to the json file
-    file_name : str = name of the json file
-
-    try:
-        with open(file_path + file_name, mode='r', encoding='utf-8') as f:
-            file_data = json.load(f)
-    except:
-        return False
-    return file_data
-
-"""
+    f_processed = write_json(f_processed, project_data.P_LOG, 'toc_log.json')

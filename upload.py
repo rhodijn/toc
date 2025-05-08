@@ -180,4 +180,4 @@ if __name__ == '__main__':
     if f_process[f_name]['valid']:
         f_process = upload_toc(f_process, f_name, p_local, project_data.P_WIN)
     f_process = rm_toc(f_process, f_name, p_local)
-    f_process = write_json(f_process, project_data.P_LOG, 'toc_log.json')
+    f_process = write_json(f_process, project_data.P_LOG, f'toc_log_{datetime.datetime.now().strftime("%Y")}.json')

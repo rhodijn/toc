@@ -2,3 +2,4 @@ log/*
 toc/*
 toc_bu/*
 project_*
+.DS_Store

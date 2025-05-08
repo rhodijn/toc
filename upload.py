@@ -4,6 +4,17 @@ import argparse, datetime, json, os, paramiko, project_data, re
 
 f_process : dict = {}
 
+def get_file():
+    parser = argparse.ArgumentParser(
+        prog = 'toc uploader',
+        description = 'upload toc to ftp-server from terminal',
+        epilog = 'zhaw hsb, cc-by-sa'
+    )
+    parser.add_argument('-f', '--file', required=True, type=str)
+    args = parser.parse_args()
+
+    return args.file
+
 def check_toc(f_process, p_local):
     """
     Collect files for upload to remote server
@@ -52,7 +63,6 @@ def upload_toc(f_process, f_name, p_local, p_bib):
     ssh_client.connect(hostname=host_name, port=port, username=user_name, password=p_word, look_for_keys=False)
 
     sftp_client = ssh_client.open_sftp()
-    print('connection established')
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
     
@@ -126,14 +136,7 @@ def write_json(f_process, p_log, f_name):
     return f_process
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(
-        description="upload toc to ftp-server from terminal"
-    )
-    parser.add_argument("--file", required=True, type=str)
-    args = parser.parse_args()
-
-    p_local = args.file
-    
+    p_local = get_file()
     f_process = check_toc(f_process, p_local)
     f_name = f_process[list(f_process)[0]]['filename']
     if f_process[f_name]['valid']:

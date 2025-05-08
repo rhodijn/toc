@@ -56,7 +56,6 @@ def check_toc(f_process, p_local):
                 'valid': False,
                 'upload': False,
                 'deleted': False,
-                'moved': False,
                 'message': None,
                 'url': None, 
                 'mms-id': None
@@ -120,9 +119,9 @@ def upload_toc(f_process, f_name, p_local, p_bib):
 
     return f_process
 
-def move_toc(f_process, f_name, p_local):
+def rm_toc(f_process, f_name, p_local):
     """
-    Move local files to done-, not- or trash-folder
+    Delete local file
 
     Parameters:
     f_process : dict = {file name : dict = {}}
@@ -133,12 +132,8 @@ def move_toc(f_process, f_name, p_local):
     f_process : dict = {file name : dict = {}}
     """
     if os.path.exists(p_local):
-        if f_process[f_name]['upload']:
-            os.rename(p_local, project_data.P_DONE + f_name)
-        else:
-            os.rename(p_local, project_data.P_NOT + f_name)
-
-        f_process[f_name].update({'moved': True})
+        os.remove(p_local)
+        f_process[f_name].update({'deleted': True})
     else:
         f_process[f_name].update({'message': 'file not found'})
 
@@ -178,5 +173,5 @@ if __name__ == '__main__':
     f_name = f_process[list(f_process)[0]]['filename']
     if f_process[f_name]['valid']:
         f_process = upload_toc(f_process, f_name, p_local, project_data.P_WIN)
-    f_process = move_toc(f_process, f_name, p_local)
+    f_process = rm_toc(f_process, f_name, p_local)
     f_process = write_json(f_process, project_data.P_LOG, 'toc_log.json')

@@ -6,10 +6,10 @@
 #
 # use of command line tool:
 #
-# python upload.py -f toc/995860000000545479.pdf
-# python upload.py --file toc/995860000000545479.pdf
-# python3 upload.py -f toc/995860000000545479.pdf
-# python3 upload.py --file toc/995860000000545479.pdf
+# python upload.py -f toc/995860000000545470.pdf
+# python upload.py --file toc/995860000000545470.pdf
+# python3 upload.py -f toc/995860000000545470.pdf
+# python3 upload.py --file toc/995860000000545470.pdf
 #
 # created by rhodijn for zhaw hsb, cc-by-sa
 #----------------------------------------------------------------------
@@ -55,6 +55,7 @@ def check_toc(f_process, p_local):
                 'filename': f_name,
                 'valid': False,
                 'upload': False,
+                'deleted': False,
                 'moved': False,
                 'message': None,
                 'url': None, 
@@ -113,7 +114,6 @@ def upload_toc(f_process, f_name, p_local, p_bib):
             f_process[f_name].update({'message': f'error {e} occurred'})
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
-    print(f'remote files: {f_remote}')
 
     sftp_client.close()
     ssh_client.close()
@@ -132,14 +132,14 @@ def move_toc(f_process, f_name, p_local):
     Returns:
     f_process : dict = {file name : dict = {}}
     """
-    try:
+    if os.path.exists(p_local):
         if f_process[f_name]['upload']:
             os.rename(p_local, project_data.P_DONE + f_name)
         else:
             os.rename(p_local, project_data.P_NOT + f_name)
 
         f_process[f_name].update({'moved': True})
-    except FileNotFoundError:
+    else:
         f_process[f_name].update({'message': 'file not found'})
 
     return f_process

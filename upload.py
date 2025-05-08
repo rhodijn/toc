@@ -4,7 +4,7 @@
 # command line tool to upload a toc-file to server
 # version 0.1, 2025-05-08
 #
-# use of command line tool:
+# useage of command line tool:
 #
 # python upload.py -f toc/995860000000545470.pdf
 # python upload.py --file toc/995860000000545470.pdf

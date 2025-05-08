@@ -95,7 +95,13 @@ def upload_toc(f_process, f_name, p_local, p_bib):
 
     ssh_client = paramiko.SSHClient()
     ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh_client.connect(hostname=host_name, port=port, username=user_name, password=p_word, look_for_keys=False)
+    ssh_client.connect(
+        hostname=host_name,
+        port=port,
+        username=user_name,
+        password=p_word,
+        look_for_keys=False
+    )
 
     sftp_client = ssh_client.open_sftp()
 

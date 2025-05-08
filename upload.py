@@ -4,7 +4,7 @@ import argparse, datetime, json, os, paramiko, project_data, re
 
 f_processed : dict = {}
 
-def check_toc(f_processed, f_path):
+def check_toc(f_processed, p_local):
     """
     Collect files for upload to remote server
 
@@ -15,7 +15,7 @@ def check_toc(f_processed, f_path):
     Returns:
     f_processed : dict = {file names : str: processed : bool}
     """
-    f_name = re.search('[^\/]\w+\.\w{2,5}', f_path).group()
+    f_name = re.search('[^\/]\w+\.\w{2,5}', p_local).group()
     dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     f_processed.update({f_name: {'dt': dt, 'filename': f_name, 'status': False, 'message': None, 'url': None, 'mms-id': None}})
 
@@ -30,7 +30,7 @@ def check_toc(f_processed, f_path):
 
     return f_processed
 
-def upload_toc(f_processed, p_bib):
+def upload_toc(f_processed, p_local, p_bib):
     """
     Upload collected files to remote server (only pdfs not already online)
 
@@ -41,6 +41,7 @@ def upload_toc(f_processed, p_bib):
     Returns:
     f_processed : dict = {file name : dict = {}}
     """
+    f_name = f_processed[list(f_processed)[0]]['filename']
     f_remote : list = []
     host_name : str = project_data.FTP_HOST
     port : int = project_data.FTP_PORT
@@ -55,19 +56,18 @@ def upload_toc(f_processed, p_bib):
     print('connection established')
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
-
     
-    if f_processed['filename'] in f_remote:
-        f_processed[0].update({'message': 'already online'})
-        print(f'file {f_processed['filename']} already on server')
+    if f_name in f_remote:
+        f_processed[f_name].update({'message': 'already online'})
+        print(f'file {f_name} already on server')
     else:
         try:
-            sftp_client.put(project_data.P_TOC + f_processed['filename'], project_data.P_REMOTE + p_bib + f_processed['filename'])
-            url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{project_data.P_WIN}{f_processed['filename']}'
-            f_processed[0].update({'status': True, 'message': 'upload successful', 'url': url})
+            sftp_client.put(p_local, project_data.P_REMOTE + p_bib + f_processed[f_name]['filename'])
+            url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{project_data.P_WIN}{f_name}'
+            f_processed[f_name].update({'status': True, 'message': 'upload successful', 'url': url})
         except Exception as e:
-            f_processed[0].update({'message': f'error {e}'})
-            print(f'an error ({e}) occurred while processing {f_processed['filename']}')
+            f_processed[f_name].update({'message': f'error {e}'})
+            print(f'an error ({e}) occurred while processing {f_name}')
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
     print(f'remote files: {f_remote}')
@@ -95,13 +95,13 @@ def move_toc(f_processed):
 
     return f_processed
 
-def write_json(f_processed, f_path, f_name):
+def write_json(f_processed, p_log, f_name):
     """
     Save result to a json log file
 
     Parameters:
     f_processed : dict = {file name : dict = {}}
-    f_path : str = path to log-file
+    p_log : str = path to log-file
     f_name : str = name of json log-file
 
     Returns:
@@ -110,14 +110,14 @@ def write_json(f_processed, f_path, f_name):
     log = {}
 
     try:
-        with open(f_path + f_name, mode='r', encoding='utf-8') as f:
+        with open(p_log + f_name, mode='r', encoding='utf-8') as f:
             log = json.load(f)
     except:
         print(f'file {f_name} does not exist')
 
     log.update(f_processed)
 
-    with open(f_path + f_name, mode='w', encoding='utf-8') as f:
+    with open(p_log + f_name, mode='w', encoding='utf-8') as f:
         f.seek(0)
         json.dump(log, f, indent=4)
 
@@ -130,12 +130,10 @@ if __name__ == '__main__':
     parser.add_argument("--file", required=True, type=str)
     args = parser.parse_args()
 
-    f_path = args.file
+    p_local = args.file
     
-    f_processed = check_toc(f_processed, f_path)
-
+    f_processed = check_toc(f_processed, p_local)
+    f_processed = upload_toc(f_processed, p_local, project_data.P_WIN)
     print(f_processed)
-
-    f_processed = upload_toc(f_processed, project_data.P_WIN)
     # f_processed = move_toc(f_processed)
     # f_processed = write_json(f_processed, project_data.P_LOG, 'toc_log.json')

@@ -16,8 +16,6 @@
 
 import argparse, datetime, json, os, paramiko, project_data, re
 
-f_process : dict = {}
-
 def get_file():
     """
     Get path to toc file from input
@@ -35,23 +33,23 @@ def get_file():
 
     return args.file
 
-def check_toc(f_process, p_local):
+def check_toc(p_local):
     """
     Collect files for upload to remote server
 
     Parameters:
-    f_process : dict = {}
     p_local : str = relative path to toc-file
 
     Returns:
     f_process : dict = {file name : dict = {}}
     """
+    f_process = {}
     f_name = re.search('[^\/]\w+\.\w{2,5}', p_local).group()
-    dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
     f_process.update(
         {
             f_name: {
-                'dt': dt,
+                'dt': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 'filename': f_name,
                 'valid': False,
                 'upload': False,
@@ -175,7 +173,7 @@ def write_json(f_process, p_log, f_name):
 
 if __name__ == '__main__':
     p_local = get_file()
-    f_process = check_toc(f_process, p_local)
+    f_process = check_toc(p_local)
     f_name = f_process[list(f_process)[0]]['filename']
     if f_process[f_name]['valid']:
         f_process = upload_toc(f_process, f_name, p_local, project_data.P_WIN)

@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
 #----------------------------------------------------------------------
-# use of this command line tool:
+# command line tool to upload a toc-file to server
+# version 0.1, 2025-05-08
 #
+# use of command line tool:
 #
 # python upload.py -f toc/995860000000545479.pdf
 # python upload.py --file toc/995860000000545479.pdf
@@ -18,7 +20,7 @@ f_process : dict = {}
 
 def get_file():
     """
-    Get path to toc file
+    Get path to toc file from input
 
     Returns:
     args.file : str = path to to file
@@ -38,11 +40,11 @@ def check_toc(f_process, p_local):
     Collect files for upload to remote server
 
     Parameters:
-    f_process : dict = {file names : str: processed : bool}
-    p_local : str = relative local path to toc-files
+    f_process : dict = {}
+    p_local : str = relative path to toc-file
 
     Returns:
-    f_process : dict = {file names : str: processed : bool}
+    f_process : dict = {file name : dict = {}}
     """
     f_name = re.search('[^\/]\w+\.\w{2,5}', p_local).group()
     dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -74,10 +76,12 @@ def check_toc(f_process, p_local):
 
 def upload_toc(f_process, f_name, p_local, p_bib):
     """
-    Upload collected files to remote server (only pdfs not already online)
+    Upload collected file to remote server (only pdf not already online)
 
     Parameters:
     f_process : dict = {file name : dict = {}}
+    f_name : str = name of the file
+    p_local : str = path to local file
     p_bib : str = remote path to files of library (winterthur or waedenswil)
 
     Returns:
@@ -122,6 +126,8 @@ def move_toc(f_process, f_name, p_local):
 
     Parameters:
     f_process : dict = {file name : dict = {}}
+    f_name : str = name of the file
+    p_local : str = path to local file
 
     Returns:
     f_process : dict = {file name : dict = {}}

@@ -41,7 +41,6 @@ def upload_toc(f_processed, p_bib):
     Returns:
     f_processed : dict = {file name : dict = {}}
     """
-    dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     f_remote : list = []
     host_name : str = project_data.FTP_HOST
     port : int = project_data.FTP_PORT
@@ -57,19 +56,18 @@ def upload_toc(f_processed, p_bib):
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
 
-    for f in f_processed.keys():
-        if f in f_remote:
-            f_processed[f].update({'dt': dt, 'status': False, 'message': 'already online'})
-            print(f'file {f} already on server')
-            continue
-        url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{project_data.P_WIN}{f}'
-        mms_id = int(re.search('\\b\\d{13,23}', f).group())
+    
+    if f_processed['filename'] in f_remote:
+        f_processed[0].update({'message': 'already online'})
+        print(f'file {f_processed['filename']} already on server')
+    else:
         try:
-            sftp_client.put(project_data.P_TOC + f, project_data.P_REMOTE + p_bib + f.lower())
-            f_processed[f].update({'dt': dt, 'status': True, 'message': 'upload successful', 'url': url, 'mms-id': mms_id})
+            sftp_client.put(project_data.P_TOC + f_processed['filename'], project_data.P_REMOTE + p_bib + f_processed['filename'])
+            url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{project_data.P_WIN}{f_processed['filename']}'
+            f_processed[0].update({'status': True, 'message': 'upload successful', 'url': url})
         except Exception as e:
-            f_processed[f].update({'dt': dt, 'status': False, 'message': f'error {e}'})
-            print(f'an error ({e}) occurred while processing {f}')
+            f_processed[0].update({'message': f'error {e}'})
+            print(f'an error ({e}) occurred while processing {f_processed['filename']}')
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
     print(f'remote files: {f_remote}')
@@ -138,6 +136,6 @@ if __name__ == '__main__':
 
     print(f_processed)
 
-    # f_processed = upload_toc(f_processed, project_data.P_WIN)
+    f_processed = upload_toc(f_processed, project_data.P_WIN)
     # f_processed = move_toc(f_processed)
     # f_processed = write_json(f_processed, project_data.P_LOG, 'toc_log.json')

@@ -1,10 +1,28 @@
 #!/usr/bin/env python3
 
+#----------------------------------------------------------------------
+# use of this command line tool:
+#
+#
+# python upload.py -f toc/995860000000545479.pdf
+# python upload.py --file toc/995860000000545479.pdf
+# python3 upload.py -f toc/995860000000545479.pdf
+# python3 upload.py --file toc/995860000000545479.pdf
+#
+# created by rhodijn for zhaw hsb, cc-by-sa
+#----------------------------------------------------------------------
+
 import argparse, datetime, json, os, paramiko, project_data, re
 
 f_process : dict = {}
 
 def get_file():
+    """
+    Get path to toc file
+
+    Returns:
+    args.file : str = path to to file
+    """
     parser = argparse.ArgumentParser(
         prog = 'toc uploader',
         description = 'upload toc to ftp-server from terminal',
@@ -28,7 +46,20 @@ def check_toc(f_process, p_local):
     """
     f_name = re.search('[^\/]\w+\.\w{2,5}', p_local).group()
     dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    f_process.update({f_name: {'dt': dt, 'filename': f_name, 'valid': False, 'upload': False, 'moved': False, 'message': None, 'url': None, 'mms-id': None}})
+    f_process.update(
+        {
+            f_name: {
+                'dt': dt,
+                'filename': f_name,
+                'valid': False,
+                'upload': False,
+                'moved': False,
+                'message': None,
+                'url': None, 
+                'mms-id': None
+            }
+        }
+    )
 
     if re.search('\\b\\d{13,23}\\.(pdf|PDF)\\b', f_name):
         f_process[f_name].update({'valid': True, 'mms-id': int(re.search('\\b\\d{13,23}', f_name).group())})

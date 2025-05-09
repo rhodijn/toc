@@ -16,6 +16,7 @@
 
 # NEXT FEATURES:
 # instead of p_local and f_name, reduce do one variable
+# or separate path from file name
 
 import argparse, datetime, json, os, paramiko, project_data, re
 
@@ -31,7 +32,9 @@ def get_file():
         description = 'upload toc to ftp-server from terminal',
         epilog = 'zhaw hsb, cc-by-sa'
     )
-    parser.add_argument('-f', '--file', required=True, type=str)
+    parser.add_argument('-f', '--file', required=True, type=str, help='name of toc file')
+    # parser.add_argument('-p', '--path', required=False, type=str, help='name of toc file')
+    # parser.add_argument('-l', '--lib', required=True, type=str, help='library, used for remote path')
     args = parser.parse_args()
 
     return args.file

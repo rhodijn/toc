@@ -14,6 +14,10 @@
 # created by rhodijn for zhaw hsb, cc-by-sa
 #----------------------------------------------------------------------
 
+# NEXT FEATURES:
+# instead of p_local and f_name, reduce do one variable
+# messages as a list
+
 import argparse, datetime, json, os, paramiko, project_data, re
 
 def get_file():

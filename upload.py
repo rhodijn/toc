@@ -35,6 +35,7 @@ def get_file():
     parser.add_argument('-f', '--file', required=True, type=str, help='name of toc file')
     # parser.add_argument('-p', '--path', required=False, type=str, help='name of toc file')
     # parser.add_argument('-l', '--lib', required=True, type=str, help='library, used for remote path')
+
     args = parser.parse_args()
 
     return args.file

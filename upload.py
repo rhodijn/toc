@@ -41,7 +41,7 @@ def get_file():
 
     return args
 
-def check_toc(p_local):
+def check_toc(p_local: str) -> dict:
     """
     Collect files for upload to remote server
 
@@ -85,7 +85,7 @@ def check_toc(p_local):
 
     return f_process
 
-def upload_toc(f_process, f_name, p_local, p_bib):
+def upload_toc(f_process: dict, f_name: str, p_local: str, p_bib: str) -> dict:
     """
     Upload collected file to remote server (only pdf not already online)
 
@@ -136,7 +136,7 @@ def upload_toc(f_process, f_name, p_local, p_bib):
 
     return f_process
 
-def rm_toc(f_process, f_name, p_local):
+def rm_toc(f_process: dict, f_name: str, p_local: str) -> dict:
     """
     Delete local file
 
@@ -157,7 +157,7 @@ def rm_toc(f_process, f_name, p_local):
 
     return f_process
 
-def write_json(f_process, p_log, f_name):
+def write_json(f_process: dict, p_log: str, f_name: str) -> dict:
     """
     Save result to a json log file
 

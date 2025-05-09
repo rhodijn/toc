@@ -187,7 +187,7 @@ def write_json(f_process: dict, p_log: str, f_name: str) -> dict:
 
 if __name__ == '__main__':
     args = get_file()
-    if not re.search('\\b(w|W)\\w{2}\\b', args.lib):
+    if not re.search('\\b[w|W]\\w{2}\\b', args.lib):
         print('please specify a valid library')
     f_process = check_toc(args.file)
     f_name = f_process[list(f_process)[0]]['filename']

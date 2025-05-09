@@ -25,7 +25,7 @@ def get_file():
     Get path to toc file from input
 
     Returns:
-    args.file : str = path to to file
+    args.file: str = path to to file
     """
     parser = argparse.ArgumentParser(
         prog = 'toc uploader',
@@ -46,10 +46,10 @@ def check_toc(p_local):
     Collect files for upload to remote server
 
     Parameters:
-    p_local : str = relative path to toc-file
+    p_local: str = relative path to toc-file
 
     Returns:
-    f_process : dict = {file name : dict = {}}
+    f_process: dict = {file name: dict = {}}
     """
     f_process = {}
     f_name = re.search('[^\/]\w+\.\w{2,5}', p_local).group()
@@ -90,13 +90,13 @@ def upload_toc(f_process, f_name, p_local, p_bib):
     Upload collected file to remote server (only pdf not already online)
 
     Parameters:
-    f_process : dict = {file name : dict = {}}
-    f_name : str = name of the file
-    p_local : str = path to local file
-    p_bib : str = remote path to files of library (winterthur or waedenswil)
+    f_process: dict = {file name: dict = {}}
+    f_name: str = name of the file
+    p_local: str = path to local file
+    p_bib: str = remote path to files of library (winterthur or waedenswil)
 
     Returns:
-    f_process : dict = {file name : dict = {}}
+    f_process: dict = {file name: dict = {}}
     """
     f_remote : list = []
     host_name : str = project_data.FTP_HOST
@@ -141,12 +141,12 @@ def rm_toc(f_process, f_name, p_local):
     Delete local file
 
     Parameters:
-    f_process : dict = {file name : dict = {}}
-    f_name : str = name of the file
-    p_local : str = path to local file
+    f_process: dict = {file name: dict = {}}
+    f_name: str = name of the file
+    p_local: str = path to local file
 
     Returns:
-    f_process : dict = {file name : dict = {}}
+    f_process: dict = {file name: dict = {}}
     """
     if os.path.exists(p_local):
         os.remove(p_local)
@@ -162,12 +162,12 @@ def write_json(f_process, p_log, f_name):
     Save result to a json log file
 
     Parameters:
-    f_process : dict = {file name : dict = {}}
-    p_log : str = path to log-file
-    f_name : str = name of json log-file
+    f_process: dict = {file name: dict = {}}
+    p_log: str = path to log-file
+    f_name: str = name of json log-file
 
     Returns:
-    f_process : dict = {file name : dict = {}}
+    f_process: dict = {file name: dict = {}}
     """
     log = {}
 

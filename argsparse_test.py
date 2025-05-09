@@ -13,7 +13,7 @@ def get_file():
         epilog = 'zhaw hsb, cc-by-sa'
     )
     parser.add_argument('-f', '--file', required=True, type=str, help='name of toc file')
-    parser.add_argument('-p', '--path', required=False, type=str, help='name of toc file')
+#    parser.add_argument('-p', '--path', required=False, type=str, help='name of toc file')
     parser.add_argument('-l', '--lib', required=True, type=str, help='library, used for remote path')
 
     args = parser.parse_args()
@@ -22,6 +22,6 @@ def get_file():
 
 if __name__ == '__main__':
     args = get_file()
-    print(f'file: {args.file}, path: {args.path.rstrip('/')}, lib: {args.lib}')
+    print(f'file: {args.file.split("/")[-1]}, path: {args.file.split("/")[:-1]}, lib: {args.lib}')
     if not re.search('\\b[wW][aAiI][eEnN]\\b', args.lib):
         print('please specify a valid library')

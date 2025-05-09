@@ -6,10 +6,10 @@
 #
 # useage of command line tool:
 #
-# python upload.py -f toc/995860000000545470.pdf
-# python upload.py --file toc/995860000000545470.pdf
-# python3 upload.py -f toc/995860000000545470.pdf
-# python3 upload.py --file toc/995860000000545470.pdf
+# python upload.py -f 995860000000545470.pdf -p toc/ -l win
+# python upload.py --file 995860000000545470.pdf --path toc/ --lib win
+# python3 upload.py -f 995860000000545470.pdf - p toc/ -l win
+# python3 upload.py --file 995860000000545470.pdf --path toc/ --lib win
 #
 # created by rhodijn for zhaw hsb, cc-by-sa
 #----------------------------------------------------------------------

@@ -6,10 +6,10 @@
 #
 # useage of command line tool:
 #
-# python upload.py -f 123.pdf -p toc -l win
-# python upload.py --file 123.pdf --path toc --lib win
-# python3 upload.py -f 123.pdf - p toc -l win
-# python3 upload.py --file 123.pdf --path toc --lib win
+# python upload.py -f toc/123.pdf -l win
+# python upload.py --file toc/123.pdf --lib win
+# python3 upload.py -f toc/123.pdf -l win
+# python3 upload.py --file toc/123.pdf --lib win
 #
 # created by rhodijn for zhaw hsb, cc-by-sa
 #----------------------------------------------------------------------
@@ -33,8 +33,7 @@ def get_file():
         epilog = 'zhaw hsb, cc-by-sa'
     )
 
-    parser.add_argument('-f', '--file', required=True, type=str, help='name of toc file')
-    parser.add_argument('-p', '--path', required=False, type=str, help='name of toc file')
+    parser.add_argument('-f', '--file', required=True, type=str, help='path to and name of toc file')
     parser.add_argument('-l', '--lib', required=True, type=str, help='library, used for remote path')
 
     args = parser.parse_args()

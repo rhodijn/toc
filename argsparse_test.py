@@ -22,6 +22,10 @@ def get_file():
 
 if __name__ == '__main__':
     args = get_file()
+    p_local = args.file.split('/')
+    f_name = p_local[-1]
+    print('/'.join([x for x in p_local[:-1]]) + '/')
+    print(f_name)
     print(f'file: {args.file.split("/")[-1]}, path: {args.file.split("/")[:-1]}, lib: {args.lib}')
     if not re.search('\\b[wW][aAiI][eEnN]\\b', args.lib):
         print('please specify a valid library')

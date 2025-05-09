@@ -25,8 +25,8 @@ pprint.pp(f_process)
 
 f_process[f_name]['messages'].append('file not pdf format')
 
-pprint.pp(f_process)
+pprint.pp(f_process[f_name]['messages'])
 
 f_process[f_name]['messages'].append('file not found')
 
-pprint.pp(f_process)
+pprint.pp(f_process[f_name]['messages'])

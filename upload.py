@@ -6,10 +6,10 @@
 #
 # useage of command line tool:
 #
-# python upload.py -f 995860000000545470.pdf -p toc/ -l win
-# python upload.py --file 995860000000545470.pdf --path toc/ --lib win
-# python3 upload.py -f 995860000000545470.pdf - p toc/ -l win
-# python3 upload.py --file 995860000000545470.pdf --path toc/ --lib win
+# python upload.py -f 123.pdf -p toc -l win
+# python upload.py --file 123.pdf --path toc --lib win
+# python3 upload.py -f 123.pdf - p toc -l win
+# python3 upload.py --file 123.pdf --path toc --lib win
 #
 # created by rhodijn for zhaw hsb, cc-by-sa
 #----------------------------------------------------------------------
@@ -189,7 +189,7 @@ if __name__ == '__main__':
     args = get_file()
     if not re.search('\\b[wW][aAiI][eEnN]\\b', args.lib):
         print('please specify a valid library')
-    f_process = check_toc(args.file)
+    f_process = check_toc(f'{args.path.rstrip("/")}/{args.file}')
     f_name = f_process[list(f_process)[0]]['filename']
     if f_process[f_name]['valid']:
         f_process = upload_toc(f_process, f_name, args.file, project_data.P_WIN)

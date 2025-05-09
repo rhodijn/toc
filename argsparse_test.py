@@ -22,4 +22,6 @@ def get_file():
 
 if __name__ == '__main__':
     args = get_file()
-    print(f'file: {args.file}, path: {args.path}, lib: {args.lib}')
+    print(f'file: {args.file}, path: {args.path.rstrip('/')}, lib: {args.lib}')
+    if not re.search('\\b[wW][aAiI][eEnN]\\b', args.lib):
+        print('please specify a valid library')

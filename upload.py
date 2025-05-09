@@ -34,8 +34,8 @@ def get_file():
     )
 
     parser.add_argument('-f', '--file', required=True, type=str, help='name of toc file')
-    # parser.add_argument('-p', '--path', required=False, type=str, help='name of toc file')
-    # parser.add_argument('-l', '--lib', required=True, type=str, help='library, used for remote path')
+    parser.add_argument('-p', '--path', required=False, type=str, help='name of toc file')
+    parser.add_argument('-l', '--lib', required=True, type=str, help='library, used for remote path')
 
     args = parser.parse_args()
 
@@ -78,7 +78,7 @@ def check_toc(p_local: str) -> dict:
         )
     elif re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f_name):
         f_process[f_name]['messages'].append('file not pdf format')
-    elif re.search('\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f_name):
+    elif re.search('\\b\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f_name):
         f_process[f_name]['messages'].append('non-digit characters in file name')
     else:
         f_process[f_name]['messages'].append('error of another kind')
@@ -187,6 +187,8 @@ def write_json(f_process: dict, p_log: str, f_name: str) -> dict:
 
 if __name__ == '__main__':
     args = get_file()
+    if not re.search('\\b(w|W)\\w{2}\\b', args.lib):
+        print('please specify a valid library')
     f_process = check_toc(args.file)
     f_name = f_process[list(f_process)[0]]['filename']
     if f_process[f_name]['valid']:

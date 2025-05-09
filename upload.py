@@ -32,13 +32,14 @@ def get_file():
         description = 'upload toc to ftp-server from terminal',
         epilog = 'zhaw hsb, cc-by-sa'
     )
+
     parser.add_argument('-f', '--file', required=True, type=str, help='name of toc file')
     # parser.add_argument('-p', '--path', required=False, type=str, help='name of toc file')
     # parser.add_argument('-l', '--lib', required=True, type=str, help='library, used for remote path')
 
     args = parser.parse_args()
 
-    return args.file
+    return args
 
 def check_toc(p_local):
     """
@@ -185,12 +186,12 @@ def write_json(f_process, p_log, f_name):
     return f_process
 
 if __name__ == '__main__':
-    p_local = get_file()
-    f_process = check_toc(p_local)
+    args = get_file()
+    f_process = check_toc(args.file)
     f_name = f_process[list(f_process)[0]]['filename']
     if f_process[f_name]['valid']:
-        f_process = upload_toc(f_process, f_name, p_local, project_data.P_WIN)
-    f_process = rm_toc(f_process, f_name, p_local)
+        f_process = upload_toc(f_process, f_name, args.file, project_data.P_WIN)
+    f_process = rm_toc(f_process, f_name, args.file)
     f_process = write_json(
         f_process, project_data.P_LOG,
         f'toc_log_{datetime.datetime.now().strftime("%Y")}.json'

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import datetime
+import datetime, pprint
 
 f_process = {}
 
@@ -21,12 +21,12 @@ f_process.update(
     }
 )
 
-print(f_process)
+pprint.pp(f_process)
 
 f_process[f_name]['messages'].append('file not pdf format')
 
-print(f_process)
+pprint.pp(f_process)
 
 f_process[f_name]['messages'].append('file not found')
 
-print(f_process)
+pprint.pp(f_process)

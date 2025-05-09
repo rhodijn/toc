@@ -16,7 +16,6 @@
 
 # NEXT FEATURES:
 # instead of p_local and f_name, reduce do one variable
-# messages as a list
 
 import argparse, datetime, json, os, paramiko, project_data, re
 
@@ -58,7 +57,7 @@ def check_toc(p_local):
                 'valid': False,
                 'upload': False,
                 'deleted': False,
-                'message': None,
+                'messages': [],
                 'url': None, 
                 'mms-id': None
             }
@@ -66,13 +65,18 @@ def check_toc(p_local):
     )
 
     if re.search('\\b\\d{13,23}\\.(pdf|PDF)\\b', f_name):
-        f_process[f_name].update({'valid': True, 'mms-id': int(re.search('\\b\\d{13,23}', f_name).group())})
+        f_process[f_name].update(
+            {
+                'valid': True,
+                'mms-id': int(re.search('\\b\\d{13,23}', f_name).group())
+            }
+        )
     elif re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f_name):
-        f_process[f_name].update({'message': 'file not pdf format'})
+        f_process[f_name]['messages'].append('file not pdf format')
     elif re.search('\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f_name):
-        f_process[f_name].update({'message': 'non-digit characters in file name'})
+        f_process[f_name]['messages'].append('non-digit characters in file name')
     else:
-        f_process[f_name].update({'message': 'error of another kind'})
+        f_process[f_name]['messages'].append('error of another kind')
 
     return f_process
 
@@ -110,15 +114,15 @@ def upload_toc(f_process, f_name, p_local, p_bib):
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
     
     if f_name in f_remote:
-        f_process[f_name].update({'message': 'file already online'})
-        print(f'file {f_name} already on server')
+        f_process[f_name]['messages'].append('file already online')
     else:
         try:
             sftp_client.put(p_local, project_data.P_REMOTE + p_bib + f_process[f_name]['filename'])
             url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{project_data.P_WIN}{f_name}'
-            f_process[f_name].update({'upload': True, 'message': 'upload successful', 'url': url})
+            f_process[f_name].update({'upload': True, 'url': url})
+            f_process[f_name]['messages'].append('upload successful')
         except Exception as e:
-            f_process[f_name].update({'message': f'error {e} occurred'})
+            f_process[f_name]['messages'].append(f'error {e} occurred')
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
 
@@ -142,8 +146,9 @@ def rm_toc(f_process, f_name, p_local):
     if os.path.exists(p_local):
         os.remove(p_local)
         f_process[f_name].update({'deleted': True})
+        f_process[f_name]['messages'].append('local file removed')
     else:
-        f_process[f_name].update({'message': 'file not found'})
+        f_process[f_name]['messages'].append('file not found')
 
     return f_process
 

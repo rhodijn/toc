@@ -40,7 +40,7 @@ def get_file():
 
     return args
 
-def check_toc(p_local: str) -> dict:
+def check_toc(p_local: str) -> tuple:
     """
     Collect files for upload to remote server
 
@@ -51,7 +51,7 @@ def check_toc(p_local: str) -> dict:
     f_process: dict = {file name: dict = {}}
     """
     f_process = {}
-    f_name = re.search('[^\/]\w+\.\w{2,5}', p_local).group()
+    f_name = p_local.split('/')[-1]
 
     f_process.update(
         {
@@ -82,7 +82,7 @@ def check_toc(p_local: str) -> dict:
     else:
         f_process[f_name]['messages'].append('error of another kind')
 
-    return f_process
+    return f_process, f_name
 
 def upload_toc(f_process: dict, f_name: str, p_local: str, p_bib: str) -> dict:
     """
@@ -186,15 +186,14 @@ def write_json(f_process: dict, p_log: str, f_name: str) -> dict:
 
 if __name__ == '__main__':
     args = get_file()
-    if not re.search('\\b[wW][aAiI][eEnN]\\b', args.lib):
+    if not re.search('\\bw[ai][en]\\b', args.lib.lower()):
         print('please specify a valid library')
     else:
-        f_process = check_toc(f'{args.path.rstrip("/")}/{args.file}')
-        f_name = f_process[list(f_process)[0]]['filename']
+        f_process, f_name = check_toc(args.file)
         if not f_process[f_name]['valid']:
             print('please submit a valid file')
         else:
-            f_process = upload_toc(f_process, f_name, args.file, project_data.P_WIN)
+            f_process = upload_toc(f_process, f_name, args.file, project_data.P_LIB[args.lib.lower()])
             f_process = rm_toc(f_process, f_name, args.file)
             f_process = write_json(
                 f_process, project_data.P_LOG,

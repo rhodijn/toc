@@ -25,6 +25,7 @@ if __name__ == '__main__':
     f_name = p_local[-1]
     print('/'.join([x for x in p_local[:-1]]) + '/')
     print(f_name)
+    print(args.file.split('/')[-1])
     print(f'file: {args.file.split("/")[-1]}, path: {args.file.split("/")[:-1]}, lib: {args.lib}')
-    if not re.search('\\b[wW][aAiI][eEnN]\\b', args.lib):
+    if not re.search('\\bw[ai][en]\\b', args.lib.lower()):
         print('please specify a valid library')

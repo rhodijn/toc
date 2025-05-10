@@ -13,7 +13,7 @@ def get_file():
         epilog = 'zhaw hsb, cc-by-sa'
     )
     parser.add_argument('-f', '--file', required=True, type=str, help='name of toc file')
-    parser.add_argument('-l', '--lib', required=True, type=str, help='library, used for remote path')
+    parser.add_argument('-l', '--lib', required=False, type=str, default='', help='library, used for remote path')
 
     args = parser.parse_args()
 

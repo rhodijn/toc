@@ -188,12 +188,15 @@ if __name__ == '__main__':
     args = get_file()
     if not re.search('\\b[wW][aAiI][eEnN]\\b', args.lib):
         print('please specify a valid library')
-    f_process = check_toc(f'{args.path.rstrip("/")}/{args.file}')
-    f_name = f_process[list(f_process)[0]]['filename']
-    if f_process[f_name]['valid']:
-        f_process = upload_toc(f_process, f_name, args.file, project_data.P_WIN)
-    f_process = rm_toc(f_process, f_name, args.file)
-    f_process = write_json(
-        f_process, project_data.P_LOG,
-        f'toc_log_{datetime.datetime.now().strftime("%Y")}.json'
-    )
+    else:
+        f_process = check_toc(f'{args.path.rstrip("/")}/{args.file}')
+        f_name = f_process[list(f_process)[0]]['filename']
+        if not f_process[f_name]['valid']:
+            print('please submit a valid file')
+        else:
+            f_process = upload_toc(f_process, f_name, args.file, project_data.P_WIN)
+            f_process = rm_toc(f_process, f_name, args.file)
+            f_process = write_json(
+                f_process, project_data.P_LOG,
+                f'toc_log_{datetime.datetime.now().strftime("%Y")}.json'
+            )

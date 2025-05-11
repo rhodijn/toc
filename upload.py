@@ -34,7 +34,7 @@ def get_file():
     )
 
     parser.add_argument('-f', '--file', required=True, type=str, help='path to and name of toc file')
-    parser.add_argument('-l', '--lib', required=False, type=str, default='', help='library, used for remote path')
+    parser.add_argument('-l', '--lib', required=False, type=str, help='library, used for remote path')
 
     args = parser.parse_args()
 
@@ -186,8 +186,9 @@ def write_json(f_process: dict, p_log: str, f_name: str) -> dict:
 
 if __name__ == '__main__':
     args = get_file()
-    if not re.search('\\bw[ai][en]\\b', args.lib.lower()):
-        print('please specify a valid library')
+    if args.lib:
+        if not re.search('\\bw[ai][en]\\b', args.lib.lower()):
+            print('please specify a valid library')
     else:
         f_process, f_name = check_toc(args.file)
         if not f_process[f_name]['valid']:

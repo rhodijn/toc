@@ -218,7 +218,7 @@ def write_json(f_process: dict, p_log: str, f_log: str) -> dict:
 
 if __name__ == '__main__':
     """
-    This is the __main__ routine, it controls the entire process
+    This is the __main__ routine, it controls the process
     """
     args = get_file()
     f_process, f_toc, p_lib = check_toc(

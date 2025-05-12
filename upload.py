@@ -58,7 +58,10 @@ def check_toc(p_local: str, library: str) -> tuple:
             f_name: {
                 'dt': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 'filename': f_name,
-                'valid': False,
+                'valid': {
+                    'file': False,
+                    'lib': False
+                },
                 'upload': False,
                 'deleted': False,
                 'messages': [],
@@ -71,8 +74,12 @@ def check_toc(p_local: str, library: str) -> tuple:
     if re.search('\\b\\d{13,23}\\.(pdf|PDF)\\b', f_name):
         f_process[f_name].update(
             {
-                'valid': True,
                 'mms-id': int(re.search('\\b\\d{13,23}', f_name).group())
+            }
+        )
+        f_process[f_name]['valid'].update(
+            {
+                'file': True
             }
         )
     elif re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f_name):
@@ -82,7 +89,13 @@ def check_toc(p_local: str, library: str) -> tuple:
     else:
         f_process[f_name]['messages'].append('error of another kind')
     if args.lib and not re.search('\\bw[ai][en]\\b', library):
-        f_process[f_name]['messages'].append('invalid parameter -l')
+        f_process[f_name]['messages'].append(f'invalid parameter -l: {library}')
+    else:
+        f_process[f_name]['valid'].update(
+            {
+                'lib': True
+            }
+        )
 
     return f_process, f_name
 
@@ -189,7 +202,7 @@ def write_json(f_process: dict, p_log: str, f_name: str) -> dict:
 if __name__ == '__main__':
     args = get_file()
     f_process, f_name = check_toc(args.file, args.lib.lower())
-    if f_process[f_name]['valid']:
+    if f_process[f_name]['valid']['file'] and f_process[f_name]['valid']['lib']:
         f_process = upload_toc(f_process, f_name, args.file, project_data.P_LIB[args.lib.lower()])
     f_process = rm_toc(f_process, f_name, args.file)
     f_process = write_json(

@@ -57,6 +57,9 @@ def check_toc(p_toc: str, library: str, p_log: str, f_log: str) -> tuple:
 
         if f_toc in log.keys():
             f_process.update({f_toc: log[f_toc]})
+            f_process[f_toc]['messages'].append(
+                f'processed again: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
+            )
         else:
             f_process.update(
                 {

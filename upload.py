@@ -32,81 +32,89 @@ def get_file():
     )
 
     parser.add_argument('-f', '--file', required=True, type=str, help='path to toc file (including name)')
-    parser.add_argument('-l', '--lib', required=False, type=str, help='library, used for remote path')
+    parser.add_argument('-l', '--lib', required=True, type=str, help='library, used for remote path')
 
     args = parser.parse_args()
 
     return args
 
 
-def check_toc(p_local: str, library: str) -> tuple:
+def check_toc(p_toc: str, library: str, p_log: str, f_log: str) -> tuple:
     """
     Collect files for upload to remote server
 
     Parameters:
-    p_local: str = relative path to toc-file
+    p_toc: str = relative path to toc-file
 
     Returns:
     f_process: dict = {file name: dict = {}}
     """
     f_process = {}
-    f_name = p_local.split('/')[-1]
+    f_toc = p_toc.split('/')[-1]
 
-    f_process.update(
-        {
-            f_name: {
-                'dt': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                'filename': f_name,
-                'valid': {
-                    'file': False,
-                    'lib': False
-                },
-                'upload': False,
-                'deleted': False,
-                'messages': [],
-                'url': None, 
-                'mms-id': None
-            }
-        }
-    )
+    with open(p_log + f_log, mode='r', encoding='utf-8') as f:
+        log = json.load(f)
 
-    if re.search('\\b\\d{13,23}\\.(pdf|PDF)\\b', f_name):
-        f_process[f_name].update(
+        if f_toc in log.keys():
+            f_process.update({f_toc: log[f_toc]})
+        else:
+            f_process.update(
+                {
+                    f_toc: {
+                        'dt': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        'filename': f_toc,
+                        'valid': {
+                            'file': False,
+                            'lib': False
+                        },
+                        'upload': False,
+                        'deleted': False,
+                        'messages': [],
+                        'url': None, 
+                        'mms-id': None
+                    }
+                }
+            )
+
+    if re.search('\\b\\d{13,23}\\.(pdf|PDF)\\b', f_toc):
+        f_process[f_toc].update(
             {
-                'mms-id': int(re.search('\\b\\d{13,23}', f_name).group())
+                'mms-id': int(re.search('\\b\\d{13,23}', f_toc).group())
             }
         )
-        f_process[f_name]['valid'].update(
+        f_process[f_toc]['valid'].update(
             {
                 'file': True
             }
         )
-    elif re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f_name):
-        f_process[f_name]['messages'].append('file not pdf format')
-    elif re.search('\\b\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f_name):
-        f_process[f_name]['messages'].append('non-digit characters in file name')
+    elif re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f_toc):
+        f_process[f_toc]['messages'].append('file not pdf format')
+    elif re.search('\\b\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f_toc):
+        f_process[f_toc]['messages'].append('non-digit characters in file name')
     else:
-        f_process[f_name]['messages'].append('error of another kind')
-    if args.lib and not re.search('\\bw[ai][en]\\b', library):
-        f_process[f_name]['messages'].append(f'invalid parameter -l: {library}')
-    else:
-        f_process[f_name]['valid'].update(
+        f_process[f_toc]['messages'].append('error of another kind')
+
+    if re.search('\\bw[ai][en]\\b', library):
+        f_process[f_toc]['valid'].update(
             {
                 'lib': True
             }
         )
+        p_lib = args.lib
+    else:
+        f_process[f_toc]['messages'].append(f'invalid parameter -l: {library}')
 
-    return f_process, f_name
+    return f_process, f_toc, p_lib
 
 
-def upload_toc(f_process: dict, f_name: str, p_local: str, p_bib: str) -> dict:
+def upload_toc(f_process: dict, f_toc: str, p_toc: str, p_bib: str) -> dict:
     """
     Upload collected file to remote server (only pdf not already online)
 
     Parameters:
     f_process: dict = {file name: dict = {}}
-    f_name: str = name of the file
-    p_local: str = path to local file
+    f_toc: str = file name
+    p_toc: str = path to local file
     p_bib: str = remote path to files of library (winterthur or waedenswil)
 
     Returns:
@@ -132,16 +140,16 @@ def upload_toc(f_process: dict, f_name: str, p_local: str, p_bib: str) -> dict:
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
     
-    if f_name in f_remote:
-        f_process[f_name]['messages'].append('file already online')
+    if f_toc in f_remote:
+        f_process[f_toc]['messages'].append('file already online')
     else:
         try:
-            sftp_client.put(p_local, project_data.P_REMOTE + p_bib + f_process[f_name]['filename'])
-            url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{p_bib}{f_name}'
-            f_process[f_name].update({'upload': True, 'url': url})
-            f_process[f_name]['messages'].append('upload successful')
+            sftp_client.put(p_toc, project_data.P_REMOTE + p_bib + f_process[f_toc]['filename'])
+            url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{p_bib}{f_toc}'
+            f_process[f_toc].update({'upload': True, 'url': url})
+            f_process[f_toc]['messages'].append('upload successful')
         except Exception as e:
-            f_process[f_name]['messages'].append(f'error {e} occurred')
+            f_process[f_toc]['messages'].append(f'error: {e} occurred')
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
 
@@ -151,36 +159,36 @@ def upload_toc(f_process: dict, f_name: str, p_local: str, p_bib: str) -> dict:
     return f_process
 
 
-def rm_toc(f_process: dict, f_name: str, p_local: str) -> dict:
+def rm_toc(f_process: dict, f_toc: str, p_toc: str) -> dict:
     """
     Delete local file
 
     Parameters:
     f_process: dict = {file name: dict = {}}
-    f_name: str = name of the file
-    p_local: str = path to local file
+    f_toc: str = file name
+    p_toc: str = path to local file
 
     Returns:
     f_process: dict = {file name: dict = {}}
     """
-    if os.path.exists(p_local):
-        os.remove(p_local)
-        f_process[f_name].update({'deleted': True})
-        f_process[f_name]['messages'].append('local file removed')
+    if os.path.exists(p_toc):
+        os.remove(p_toc)
+        f_process[f_toc].update({'deleted': True})
+        f_process[f_toc]['messages'].append('local file removed')
     else:
-        f_process[f_name]['messages'].append('file not found')
+        f_process[f_toc]['messages'].append('file not found')
 
     return f_process
 
 
-def write_json(f_process: dict, p_log: str, f_name: str) -> dict:
+def write_json(f_process: dict, p_log: str, f_log: str) -> dict:
     """
     Save result to a json log file
 
     Parameters:
     f_process: dict = {file name: dict = {}}
     p_log: str = path to log-file
-    f_name: str = name of json log-file
+    f_log: str = name of json log-file
 
     Returns:
     f_process: dict = {file name: dict = {}}
@@ -188,14 +196,14 @@ def write_json(f_process: dict, p_log: str, f_name: str) -> dict:
     log = {}
 
     try:
-        with open(p_log + f_name, mode='r', encoding='utf-8') as f:
+        with open(p_log + f_log, mode='r', encoding='utf-8') as f:
             log = json.load(f)
             log.update(f_process)
-        with open(p_log + f_name, mode='w', encoding='utf-8') as f:
+        with open(p_log + f_log, mode='w', encoding='utf-8') as f:
             f.seek(0)
             json.dump(log, f, indent=4)
     except:
-        with open(p_log + f_name, mode='w', encoding='utf-8') as f:
+        with open(p_log + f_log, mode='w', encoding='utf-8') as f:
             f.seek(0)
             json.dump(f_process, f, indent=4)
 
@@ -204,10 +212,15 @@ def write_json(f_process: dict, p_log: str, f_name: str) -> dict:
 
 if __name__ == '__main__':
     args = get_file()
-    f_process, f_name = check_toc(args.file, args.lib.lower())
-    if f_process[f_name]['valid']['file'] and f_process[f_name]['valid']['lib']:
-        f_process = upload_toc(f_process, f_name, args.file, project_data.P_LIB[args.lib.lower()])
-    f_process = rm_toc(f_process, f_name, args.file)
+    f_process, f_toc, p_lib = check_toc(
+        args.file,
+        args.lib.lower(),
+        project_data.P_LOG,
+        f'toc_log_{datetime.datetime.now().strftime("%Y")}.json'
+    )
+    if f_process[f_toc]['valid']['file'] and f_process[f_toc]['valid']['lib']:
+        f_process = upload_toc(f_process, f_toc, args.file, project_data.P_LIB[p_lib])
+    f_process = rm_toc(f_process, f_toc, args.file)
     f_process = write_json(
         f_process, project_data.P_LOG,
         f'toc_log_{datetime.datetime.now().strftime("%Y")}.json'

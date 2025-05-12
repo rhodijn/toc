@@ -33,14 +33,14 @@ def get_file():
         epilog = 'zhaw hsb, cc-by-sa'
     )
 
-    parser.add_argument('-f', '--file', required=True, type=str, help='path to and name of toc file')
+    parser.add_argument('-f', '--file', required=True, type=str, help='path to toc file (including name)')
     parser.add_argument('-l', '--lib', required=False, type=str, help='library, used for remote path')
 
     args = parser.parse_args()
 
     return args
 
-def check_toc(p_local: str) -> tuple:
+def check_toc(p_local: str, library: str) -> tuple:
     """
     Collect files for upload to remote server
 
@@ -81,6 +81,8 @@ def check_toc(p_local: str) -> tuple:
         f_process[f_name]['messages'].append('non-digit characters in file name')
     else:
         f_process[f_name]['messages'].append('error of another kind')
+    if args.lib and not re.search('\\bw[ai][en]\\b', library):
+        f_process[f_name]['messages'].append('invalid parameter -l')
 
     return f_process, f_name
 
@@ -122,7 +124,7 @@ def upload_toc(f_process: dict, f_name: str, p_local: str, p_bib: str) -> dict:
     else:
         try:
             sftp_client.put(p_local, project_data.P_REMOTE + p_bib + f_process[f_name]['filename'])
-            url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{project_data.P_WIN}{f_name}'
+            url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{p_bib}{f_name}'
             f_process[f_name].update({'upload': True, 'url': url})
             f_process[f_name]['messages'].append('upload successful')
         except Exception as e:
@@ -186,17 +188,11 @@ def write_json(f_process: dict, p_log: str, f_name: str) -> dict:
 
 if __name__ == '__main__':
     args = get_file()
-    if args.lib:
-        if not re.search('\\bw[ai][en]\\b', args.lib.lower()):
-            print('please specify a valid library')
-    else:
-        f_process, f_name = check_toc(args.file)
-        if not f_process[f_name]['valid']:
-            print('please submit a valid file')
-        else:
-            f_process = upload_toc(f_process, f_name, args.file, project_data.P_LIB[args.lib.lower()])
-            f_process = rm_toc(f_process, f_name, args.file)
-            f_process = write_json(
-                f_process, project_data.P_LOG,
-                f'toc_log_{datetime.datetime.now().strftime("%Y")}.json'
-            )
+    f_process, f_name = check_toc(args.file, args.lib.lower())
+    if f_process[f_name]['valid']:
+        f_process = upload_toc(f_process, f_name, args.file, project_data.P_LIB[args.lib.lower()])
+    f_process = rm_toc(f_process, f_name, args.file)
+    f_process = write_json(
+        f_process, project_data.P_LOG,
+        f'toc_log_{datetime.datetime.now().strftime("%Y")}.json'
+    )

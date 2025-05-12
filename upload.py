@@ -41,10 +41,13 @@ def get_file():
 
 def check_toc(p_toc: str, library: str, p_log: str, f_log: str) -> tuple:
     """
-    Collect files for upload to remote server
+    Check if file for upload to remote server is valid
 
     Parameters:
     p_toc: str = relative path to toc-file
+    library: str = clt parameter -l
+    p_log: str = path to log-file
+    f_log: str = name of json log-file
 
     Returns:
     f_process: dict = {file name: dict = {}}

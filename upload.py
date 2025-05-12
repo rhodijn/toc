@@ -2,7 +2,7 @@
 
 #----------------------------------------------------------------------
 # command line tool to upload a toc-file to server
-# version 0.1, 2025-05-08
+# version 0.2, 2025-05-12
 #
 # useage of command line tool:
 #
@@ -14,11 +14,9 @@
 # created by rhodijn for zhaw hsb, cc-by-sa
 #----------------------------------------------------------------------
 
-# NEXT FEATURES:
-# instead of p_local and f_name, reduce do one variable
-# or separate path from file name
 
 import argparse, datetime, json, os, paramiko, project_data, re
+
 
 def get_file():
     """
@@ -39,6 +37,7 @@ def get_file():
     args = parser.parse_args()
 
     return args
+
 
 def check_toc(p_local: str, library: str) -> tuple:
     """
@@ -99,6 +98,7 @@ def check_toc(p_local: str, library: str) -> tuple:
 
     return f_process, f_name
 
+
 def upload_toc(f_process: dict, f_name: str, p_local: str, p_bib: str) -> dict:
     """
     Upload collected file to remote server (only pdf not already online)
@@ -150,6 +150,7 @@ def upload_toc(f_process: dict, f_name: str, p_local: str, p_bib: str) -> dict:
 
     return f_process
 
+
 def rm_toc(f_process: dict, f_name: str, p_local: str) -> dict:
     """
     Delete local file
@@ -170,6 +171,7 @@ def rm_toc(f_process: dict, f_name: str, p_local: str) -> dict:
         f_process[f_name]['messages'].append('file not found')
 
     return f_process
+
 
 def write_json(f_process: dict, p_log: str, f_name: str) -> dict:
     """
@@ -198,6 +200,7 @@ def write_json(f_process: dict, p_log: str, f_name: str) -> dict:
             json.dump(f_process, f, indent=4)
 
     return f_process
+
 
 if __name__ == '__main__':
     args = get_file()

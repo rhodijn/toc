@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#----------------------------------------------------------------------
+#======================================================================
 # command line tool to upload a toc-file to server
 # version 0.5, 2025-05-12
 #
@@ -12,7 +12,7 @@
 # python3 upload.py --file toc/995860000000545470.pdf --lib win
 #
 # created by rhodijn for zhaw hsb, cc-by-sa
-#----------------------------------------------------------------------
+#======================================================================
 
 
 import argparse, datetime, json, os, paramiko, project_data, re

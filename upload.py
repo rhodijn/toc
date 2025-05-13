@@ -6,10 +6,10 @@
 #
 # useage of command line tool:
 #
-# python upload.py -f toc/123.pdf -l win
-# python upload.py --file toc/123.pdf --lib win
-# python3 upload.py -f toc/123.pdf -l win
-# python3 upload.py --file toc/123.pdf --lib win
+# python upload.py -f toc/995860000000545470.pdf -l win
+# python upload.py --file toc/995860000000545470.pdf --lib win
+# python3 upload.py -f toc/995860000000545470.pdf -l win
+# python3 upload.py --file toc/995860000000545470.pdf --lib win
 #
 # created by rhodijn for zhaw hsb, cc-by-sa
 #----------------------------------------------------------------------
@@ -39,13 +39,13 @@ def get_file():
     return args
 
 
-def check_toc(p_toc: str, library: str, p_log: str, f_log: str) -> tuple:
+def check_toc(p_toc: str, p_lib: str, p_log: str, f_log: str) -> tuple:
     """
     Check if file for upload to remote server is valid
 
     Parameters:
     p_toc: str = relative path to toc-file
-    library: str = clt parameter -l
+    p_lib: str = clt parameter -l
     p_log: str = path to log-file
     f_log: str = name of json log-file
 
@@ -100,15 +100,15 @@ def check_toc(p_toc: str, library: str, p_log: str, f_log: str) -> tuple:
     else:
         f_process[f_toc]['messages'].append('error of another kind')
 
-    if library in project_data.P_LIB.keys():
+    if p_lib in project_data.P_LIB.keys():
         f_process[f_toc]['valid'].update(
             {
                 'lib': True
             }
         )
-        p_lib = args.lib
+        p_lib = args.lib.lower()
     else:
-        f_process[f_toc]['messages'].append(f'invalid parameter -l: {library}')
+        f_process[f_toc]['messages'].append(f'invalid parameter -l: {p_lib}')
 
     return f_process, f_toc, p_lib
 

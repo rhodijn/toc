@@ -100,7 +100,7 @@ def check_toc(p_toc: str, library: str, p_log: str, f_log: str) -> tuple:
     else:
         f_process[f_toc]['messages'].append('error of another kind')
 
-    if re.search('\\bw[ai][en]\\b', library):
+    if library in project_data.P_LIB.keys():
         f_process[f_toc]['valid'].update(
             {
                 'lib': True

@@ -31,7 +31,7 @@ def get_file():
         epilog = 'zhaw hsb, cc-by-sa'
     )
 
-    parser.add_argument('-f', '--file', required=True, type=str, help='path to toc file (including name)')
+    parser.add_argument('-f', '--file', required=True, type=str, help='path to toc-file (including name)')
     parser.add_argument('-l', '--lib', required=True, type=str, help='library, used for remote path')
 
     args = parser.parse_args()
@@ -39,13 +39,13 @@ def get_file():
     return args
 
 
-def check_toc(p_toc: str, p_lib: str, p_log: str, f_log: str) -> tuple:
+def check_toc(para_file: str, para_lib: str, p_log: str, f_log: str) -> tuple:
     """
     Check if file for upload to remote server is valid
 
     Parameters:
-    p_toc: str = relative path to toc-file
-    p_lib: str = clt parameter -l
+    para_file: str = clt parameter -f, path to toc-file (including name)
+    para_lib: str = clt parameter -l, library
     p_log: str = path to log-file
     f_log: str = name of json log-file
 
@@ -53,7 +53,7 @@ def check_toc(p_toc: str, p_lib: str, p_log: str, f_log: str) -> tuple:
     f_process: dict = {file name: dict = {}}
     """
     f_process = {}
-    f_toc = p_toc.split('/')[-1]
+    f_toc = para_file.split('/')[-1]
 
     with open(p_log + f_log, mode='r', encoding='utf-8') as f:
         log = json.load(f)
@@ -100,27 +100,26 @@ def check_toc(p_toc: str, p_lib: str, p_log: str, f_log: str) -> tuple:
     else:
         f_process[f_toc]['messages'].append('error of another kind')
 
-    if p_lib in project_data.P_LIB.keys():
+    if para_lib in project_data.P_LIB.keys():
         f_process[f_toc]['valid'].update(
             {
                 'lib': True
             }
         )
-        p_lib = args.lib.lower()
     else:
-        f_process[f_toc]['messages'].append(f'invalid parameter -l: {p_lib}')
+        f_process[f_toc]['messages'].append(f'invalid parameter -l: {para_lib}')
 
-    return f_process, f_toc, p_lib
+    return f_process, f_toc, para_lib
 
 
-def upload_toc(f_process: dict, f_toc: str, p_toc: str, p_bib: str) -> dict:
+def upload_toc(f_process: dict, f_toc: str, para_file: str, p_bib: str) -> dict:
     """
     Upload collected file to remote server (only pdf not already online)
 
     Parameters:
     f_process: dict = {file name: dict = {}}
     f_toc: str = file name
-    p_toc: str = path to local file
+    para_file: str = path to local file
     p_bib: str = remote path to files of library (winterthur or waedenswil)
 
     Returns:
@@ -150,7 +149,7 @@ def upload_toc(f_process: dict, f_toc: str, p_toc: str, p_bib: str) -> dict:
         f_process[f_toc]['messages'].append('file already online')
     else:
         try:
-            sftp_client.put(p_toc, project_data.P_REMOTE + p_bib + f_process[f_toc]['filename'])
+            sftp_client.put(para_file, project_data.P_REMOTE + p_bib + f_process[f_toc]['filename'])
             url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{p_bib}{f_toc}'
             f_process[f_toc].update({'upload': True, 'url': url})
             f_process[f_toc]['messages'].append('upload successful')
@@ -165,20 +164,20 @@ def upload_toc(f_process: dict, f_toc: str, p_toc: str, p_bib: str) -> dict:
     return f_process
 
 
-def rm_toc(f_process: dict, f_toc: str, p_toc: str) -> dict:
+def rm_toc(f_process: dict, f_toc: str, para_file: str) -> dict:
     """
     Delete local file
 
     Parameters:
     f_process: dict = {file name: dict = {}}
     f_toc: str = file name
-    p_toc: str = path to local file
+    para_file: str = path to local file
 
     Returns:
     f_process: dict = {file name: dict = {}}
     """
-    if os.path.exists(p_toc):
-        os.remove(p_toc)
+    if os.path.exists(para_file):
+        os.remove(para_file)
         f_process[f_toc].update({'deleted': True})
         f_process[f_toc]['messages'].append('local file removed')
     else:
@@ -221,14 +220,14 @@ if __name__ == '__main__':
     This is the __main__ routine, it controls the process
     """
     args = get_file()
-    f_process, f_toc, p_lib = check_toc(
+    f_process, f_toc, para_lib = check_toc(
         args.file,
         args.lib.lower(),
         project_data.P_LOG,
         f'toc_log_{datetime.datetime.now().strftime("%Y")}.json'
     )
     if f_process[f_toc]['valid']['file'] and f_process[f_toc]['valid']['lib']:
-        f_process = upload_toc(f_process, f_toc, args.file, project_data.P_LIB[p_lib])
+        f_process = upload_toc(f_process, f_toc, args.file, project_data.P_LIB[para_lib])
     f_process = rm_toc(f_process, f_toc, args.file)
     f_process = write_json(
         f_process, project_data.P_LOG,

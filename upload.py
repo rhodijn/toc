@@ -14,6 +14,7 @@
 # created by rhodijn for zhaw hsb, cc-by-sa
 #======================================================================
 
+# next steps: remove lines 218 - 224 (except from try/except)
 
 import argparse, datetime, json, os, paramiko, project_data, re
 
@@ -215,6 +216,7 @@ def write_json(f_process: dict, p_log: str, f_log: str) -> dict:
         with open(p_log + f_log, mode='w', encoding='utf-8') as f:
             f.seek(0)
             json.dump(log, f, indent=4)
+    # das kann glaubs enfernt werden (ist nun im check_toc abgefangen)
     except:
         with open(p_log + f_log, mode='w', encoding='utf-8') as f:
             f.seek(0)

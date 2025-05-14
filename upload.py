@@ -55,32 +55,40 @@ def check_toc(para_file: str, para_lib: str, p_log: str, f_log: str) -> tuple:
     f_process = {}
     f_toc = para_file.split('/')[-1]
 
-    with open(p_log + f_log, mode='r', encoding='utf-8') as f:
-        log = json.load(f)
+    try:
+        with open(p_log + f_log, mode='r', encoding='utf-8') as f:
+            log = json.load(f)
 
-        if f_toc in log.keys():
-            f_process.update({f_toc: log[f_toc]})
-            f_process[f_toc]['messages'].append(
-                f'processed again: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
-            )
-        else:
-            f_process.update(
-                {
-                    f_toc: {
-                        'dt': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                        'filename': f_toc,
-                        'valid': {
-                            'file': False,
-                            'lib': False
-                        },
-                        'upload': False,
-                        'deleted': False,
-                        'messages': [],
-                        'url': None, 
-                        'mms-id': None
-                    }
+    except:
+        log = {}
+
+        with open(p_log + f_log, mode='w', encoding='utf-8') as f:
+            f.seek(0)
+            json.dump(log, f, indent=4)
+
+    if f_toc in log.keys():
+        f_process.update({f_toc: log[f_toc]})
+        f_process[f_toc]['messages'].append(
+            f'processed again: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
+        )
+    else:
+        f_process.update(
+            {
+                f_toc: {
+                    'dt': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    'filename': f_toc,
+                    'valid': {
+                        'file': False,
+                        'lib': False
+                    },
+                    'upload': False,
+                    'deleted': False,
+                    'messages': [],
+                    'url': None, 
+                    'mms-id': None
                 }
-            )
+            }
+        )
 
     if re.search('\\b\\d{13,23}\\.(pdf|PDF)\\b', f_toc):
         f_process[f_toc].update(
@@ -224,12 +232,12 @@ if __name__ == '__main__':
         args.file,
         args.lib.lower(),
         project_data.P_LOG,
-        f'toc_log_{datetime.datetime.now().strftime("%Y")}.json'
+        f'log_{datetime.datetime.now().strftime("%Y")}.json'
     )
     if f_process[f_toc]['valid']['file'] and f_process[f_toc]['valid']['lib']:
         f_process = upload_toc(f_process, f_toc, args.file, project_data.P_LIB[para_lib])
     f_process = rm_toc(f_process, f_toc, args.file)
     f_process = write_json(
         f_process, project_data.P_LOG,
-        f'toc_log_{datetime.datetime.now().strftime("%Y")}.json'
+        f'log_{datetime.datetime.now().strftime("%Y")}.json'
     )

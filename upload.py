@@ -20,9 +20,9 @@ import argparse, datetime, json, os, paramiko, project_data, re
 
 def get_file():
     """
-    Get path to toc file from input
+    get path to toc file from input
 
-    Returns:
+    returns:
     args.file: str = path to to file
     """
     parser = argparse.ArgumentParser(
@@ -41,15 +41,15 @@ def get_file():
 
 def check_toc(para_file: str, para_lib: str, p_log: str, f_log: str) -> tuple:
     """
-    Check if file for upload to remote server is valid
+    check if file for upload to remote server is valid
 
-    Parameters:
+    parameters:
     para_file: str = clt parameter -f, path to toc-file (including name)
     para_lib: str = clt parameter -l, library
     p_log: str = path to log-file
     f_log: str = name of json log-file
 
-    Returns:
+    returns:
     f_process: dict = {file name: dict = {}}
     """
     f_process = {}
@@ -122,15 +122,15 @@ def check_toc(para_file: str, para_lib: str, p_log: str, f_log: str) -> tuple:
 
 def upload_toc(f_process: dict, f_toc: str, para_file: str, p_bib: str) -> dict:
     """
-    Upload collected file to remote server (only pdf not already online)
+    upload collected file to remote server (only pdf not already online)
 
-    Parameters:
+    parameters:
     f_process: dict = {file name: dict = {}}
     f_toc: str = file name
     para_file: str = path to local file
     p_bib: str = remote path to files of library (winterthur or waedenswil)
 
-    Returns:
+    returns:
     f_process: dict = {file name: dict = {}}
     """
     f_remote : list = []
@@ -174,14 +174,14 @@ def upload_toc(f_process: dict, f_toc: str, para_file: str, p_bib: str) -> dict:
 
 def rm_toc(f_process: dict, f_toc: str, para_file: str) -> dict:
     """
-    Delete local file
+    delete local file
 
-    Parameters:
+    parameters:
     f_process: dict = {file name: dict = {}}
     f_toc: str = file name
     para_file: str = path to local file
 
-    Returns:
+    returns:
     f_process: dict = {file name: dict = {}}
     """
     if os.path.exists(para_file):
@@ -196,14 +196,14 @@ def rm_toc(f_process: dict, f_toc: str, para_file: str) -> dict:
 
 def write_json(f_process: dict, p_log: str, f_log: str) -> dict:
     """
-    Save result to a json log file
+    save result to a json log file
 
-    Parameters:
+    parameters:
     f_process: dict = {file name: dict = {}}
     p_log: str = path to log-file
     f_log: str = name of json log-file
 
-    Returns:
+    returns:
     f_process: dict = {file name: dict = {}}
     """
     log = {}
@@ -225,7 +225,7 @@ def write_json(f_process: dict, p_log: str, f_log: str) -> dict:
 
 if __name__ == '__main__':
     """
-    This is the __main__ routine, it controls the process
+    this is the __main__ routine, it controls the process
     """
     args = get_file()
     f_process, f_toc, para_lib = check_toc(

@@ -124,7 +124,7 @@ def check_toc(p_log: str, f_log: str, para_file: str, para_lib: str) -> tuple:
 
 def upload_toc(f_process: dict, f_toc: str, p_bib: str, para_file: str) -> dict:
     """
-    upload collected file to remote server (only pdf not already online)
+    upload file to remote server (if pdf not already online)
 
     parameters:
     f_process: dict = {file name: dict = {}}

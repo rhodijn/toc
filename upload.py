@@ -8,8 +8,8 @@
 #
 # python upload.py -f toc/995860000000545470.pdf -l win
 # python upload.py --file toc/995860000000545470.pdf --lib win
-# python3 upload.py -f toc/995860000000545470.pdf -l win
-# python3 upload.py --file toc/995860000000545470.pdf --lib win
+# python3 upload.py -f toc/995860000000545470.pdf -l wae
+# python3 upload.py --file toc/995860000000545470.pdf --lib wae
 #
 # created by rhodijn for zhaw hsb, cc-by-sa
 #======================================================================

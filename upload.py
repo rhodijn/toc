@@ -39,18 +39,20 @@ def get_file():
     return args
 
 
-def check_toc(para_file: str, para_lib: str, p_log: str, f_log: str) -> tuple:
+def check_toc(p_log: str, f_log: str, para_file: str, para_lib: str) -> tuple:
     """
     check if file for upload to remote server is valid
 
     parameters:
-    para_file: str = clt parameter -f, path to toc-file (including name)
-    para_lib: str = clt parameter -l, library
     p_log: str = path to log-file
     f_log: str = name of json log-file
+    para_file: str = clt parameter -f, path to toc-file (including name)
+    para_lib: str = clt parameter -l, library
 
     returns:
     f_process: dict = {file name: dict = {}}
+    f_toc: str = file name of toc
+    para_lib: str = clt parameter -l, library
     """
     f_process = {}
     f_toc = para_file.split('/')[-1]
@@ -120,15 +122,15 @@ def check_toc(para_file: str, para_lib: str, p_log: str, f_log: str) -> tuple:
     return f_process, f_toc, para_lib
 
 
-def upload_toc(f_process: dict, f_toc: str, para_file: str, p_bib: str) -> dict:
+def upload_toc(f_process: dict, f_toc: str, p_bib: str, para_file: str) -> dict:
     """
     upload collected file to remote server (only pdf not already online)
 
     parameters:
     f_process: dict = {file name: dict = {}}
-    f_toc: str = file name
-    para_file: str = path to local file
+    f_toc: str = file name of toc
     p_bib: str = remote path to files of library (winterthur or waedenswil)
+    para_file: str = path to local file
 
     returns:
     f_process: dict = {file name: dict = {}}
@@ -178,7 +180,7 @@ def rm_toc(f_process: dict, f_toc: str, para_file: str) -> dict:
 
     parameters:
     f_process: dict = {file name: dict = {}}
-    f_toc: str = file name
+    f_toc: str = file name of toc
     para_file: str = path to local file
 
     returns:
@@ -224,13 +226,13 @@ if __name__ == '__main__':
     """
     args = get_file()
     f_process, f_toc, para_lib = check_toc(
-        args.file,
-        args.lib.lower(),
         project_data.P_LOG,
-        f'log_{datetime.datetime.now().strftime("%Y")}.json'
+        f'log_{datetime.datetime.now().strftime("%Y")}.json',
+        args.file,
+        args.lib.lower()
     )
     if f_process[f_toc]['valid']['file'] and f_process[f_toc]['valid']['lib']:
-        f_process = upload_toc(f_process, f_toc, args.file, project_data.P_LIB[para_lib])
+        f_process = upload_toc(f_process, f_toc, project_data.P_LIB[para_lib], args.file,)
     f_process = rm_toc(f_process, f_toc, args.file)
     f_process = write_json(
         f_process, project_data.P_LOG,

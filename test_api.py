@@ -10,7 +10,7 @@ alma_query = requests.get(f'{project_data.API_URL}{mms_id}?view={project_data.AP
 with open('log/test.xml', 'wb') as f:
     f.write(alma_query.content)
 
-tree = ET.parse('test.xml')
+tree = ET.parse('log/test.xml')
 root = tree.getroot()
 
 for item in root.findall('./'):

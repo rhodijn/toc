@@ -81,11 +81,10 @@ if __name__ == '__main__':
     log = load_log(f_log)
 
     if bool(log):
-        mms_id, url, finished, log = get_record(finished)
-        if not finished:
-            print(f'next record to update: {mms_id}')
-            log = insert_field(mms_id, url, log)
+        while not finished:
+            mms_id, url, finished, log = get_record(finished)
+            if mms_id:
+                print(f'next record to update: {mms_id}')
+                log = insert_field(mms_id, url, log)
 
         write_json(log, project_data.P_LOG, f_log)
-
-    print('finished')

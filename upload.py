@@ -2,7 +2,7 @@
 
 #======================================================================
 # command line tool to upload a toc-file to server
-# version 0.5, 2025-05-12
+# version 0.7, 2025-05-15
 #
 # useage of command line tool:
 #
@@ -83,8 +83,9 @@ def check_toc(p_log: str, f_log: str, para_file: str, para_lib: str) -> tuple:
                         'file': False,
                         'lib': False
                     },
-                    'upload': False,
+                    'uploaded': False,
                     'deleted': False,
+                    'inserted': False,
                     'messages': [],
                     'url': None, 
                     'mms-id': None
@@ -161,7 +162,7 @@ def upload_toc(f_process: dict, f_toc: str, p_bib: str, para_file: str) -> dict:
         try:
             sftp_client.put(para_file, project_data.P_REMOTE + p_bib + f_process[f_toc]['filename'])
             url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{p_bib}{f_toc}'
-            f_process[f_toc].update({'upload': True, 'url': url})
+            f_process[f_toc].update({'uploaded': True, 'url': url})
             f_process[f_toc]['messages'].append('upload successful')
         except Exception as e:
             f_process[f_toc]['messages'].append(f'error: {e} occurred')

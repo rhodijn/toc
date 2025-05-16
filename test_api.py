@@ -7,7 +7,7 @@ mms_id = 991030022319705501
 
 alma_query = requests.get(f'{project_data.API_URL}{mms_id}?view={project_data.API_VIEW}&expand={project_data.API_EXP}&apikey={project_data.API_KEY}')
 
-with open('test.xml', 'wb') as f:
+with open('log/test.xml', 'wb') as f:
     f.write(alma_query.content)
 
 tree = ET.parse('test.xml')

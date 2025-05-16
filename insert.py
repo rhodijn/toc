@@ -12,112 +12,81 @@
 
 import argparse, datetime, json, os, paramiko, project_data, re
 
-finished = False
 
-def get_record(finished: bool) -> tuple:
+def load_log(f_log: str) -> dict:
     """
-    get path to toc file from input
+    load logged data into a dictionary
+
+    parameters:
+    f_log: str = file name of log-file
 
     returns:
-    args.file: str = path to to file
+    log: dict = {file name: dict = {}}
     """
-    
-    for key, value in log:
-        f_process = {}
-
     try:
         with open(project_data.P_LOG + f_log, mode='r', encoding='utf-8') as f:
             log = json.load(f)
+        return log
 
     except:
-        log = {}
+        return {}
 
-        with open(p_log + f_log, mode='w', encoding='utf-8') as f:
-            f.seek(0)
-            json.dump(log, f, indent=4)
-
-    if f_toc in log.keys():
-        f_process.update({f_toc: log[f_toc]})
-        f_process[f_toc]['messages'].append(
-            f'processed again: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
-        )
-    else:
-        f_process.update(
-            {
-                f_toc: {
-                    'dt': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    'filename': f_toc,
-                    'valid': {
-                        'file': False,
-                        'lib': False
-                    },
-                    'upload': False,
-                    'deleted': False,
-                    'messages': [],
-                    'url': None, 
-                    'mms-id': None
-                }
-            }
-        )
-
-    if re.search('\\b\\d{13,23}\\.(pdf|PDF)\\b', f_toc):
-        f_process[f_toc].update(
-            {
-                'mms-id': int(re.search('\\b\\d{13,23}', f_toc).group())
-            }
-        )
-        f_process[f_toc]['valid'].update(
-            {
-                'file': True
-            }
-        )
-    elif re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f_toc):
-        f_process[f_toc]['messages'].append('file not pdf format')
-    elif re.search('\\b\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f_toc):
-        f_process[f_toc]['messages'].append('non-digit characters in file name')
-    else:
-        f_process[f_toc]['messages'].append('error of another kind')
-
-    if para_lib in project_data.P_LIB.keys():
-        f_process[f_toc]['valid'].update(
-            {
-                'lib': True
-            }
-        )
-    else:
-        f_process[f_toc]['messages'].append(f'invalid parameter -l: {para_lib}')
-
-    return mms_id, url, finished
-
-
-def write_json(f_process: dict, p_log: str, f_log: str) -> dict:
+def get_record(finished: bool) -> tuple:
     """
-    save result to a json log file
+    get path to toc-file from input
 
     parameters:
-    f_process: dict = {file name: dict = {}}
+    finished: bool = false if not all records have been processed
+
+    returns:
+    mms_id: int = mms-id of record
+    url: str = url to toc-file
+    finished: bool = false if not all records have been processed
+    log: dict = {file name: dict = {}}
+    """
+    for v in log.values():
+        if v['uploaded'] and not v['inserted']:
+            return v['mms-id'], v['url'], False, log
+
+    return None, None, True, log
+
+
+def insert_field(mms_id: int, url: str, log: dict) -> bool:
+    log[f'{mms_id}.pdf'].update({'inserted': True})
+    return log
+
+
+def write_json(log: dict, p_log: str, f_log: str) -> dict:
+    """
+    save result to a json log-file
+
+    parameters:
+    log: dict = {file name: dict = {}}
     p_log: str = path to log-file
     f_log: str = name of json log-file
 
     returns:
-    f_process: dict = {file name: dict = {}}
+    none
     """
-    log = {}
-
-    with open(p_log + f_log, mode='r', encoding='utf-8') as f:
-        log = json.load(f)
-        log.update(f_process)
     with open(p_log + f_log, mode='w', encoding='utf-8') as f:
         f.seek(0)
         json.dump(log, f, indent=4)
-
-    return f_process
 
 
 if __name__ == '__main__':
     """
     this is the __main__ routine, it controls the process
     """
-    while not finished:
-        mms_id, url, finished = get_record(finished)
-        print()
+    finished = False
+    f_log = f'log_{datetime.datetime.now().strftime("%Y")}.json'
+    log = load_log(f_log)
+
+    if bool(log):
+        mms_id, url, finished, log = get_record(finished)
+        if not finished:
+            print(f'next record to update: {mms_id}')
+            log = insert_field(mms_id, url, log)
+
+        write_json(log, project_data.P_LOG, f_log)
+
+    print('finished')

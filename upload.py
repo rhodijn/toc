@@ -56,7 +56,7 @@ def check_toc(p_log: str, f_log: str, para_file: str, para_lib: str) -> tuple:
     """
     f_process = {}
     f_toc = para_file.split('/')[-1]
-    mms_id = int(f_toc.split('.')[0])
+    mms_id = f_toc.split('.')[0]
 
     try:
         with open(p_log + f_log, mode='r', encoding='utf-8') as f:
@@ -137,7 +137,7 @@ def upload_toc(f_process: dict, f_toc: str, p_bib: str, para_file: str) -> dict:
     returns:
     f_process: dict = {file name: dict = {}}
     """
-    mms_id = int(f_toc.split('.')[0])
+    mms_id = f_toc.split('.')[0]
     f_remote : list = []
     host_name : str = project_data.FTP_HOST
     port : int = project_data.FTP_PORT
@@ -189,7 +189,7 @@ def rm_toc(f_process: dict, f_toc: str, para_file: str) -> dict:
     returns:
     f_process: dict = {file name: dict = {}}
     """    
-    mms_id = int(f_toc.split('.')[0])
+    mms_id = f_toc.split('.')[0]
 
     if os.path.exists(para_file):
         os.remove(para_file)
@@ -236,7 +236,7 @@ if __name__ == '__main__':
         args.file,
         args.lib.lower()
     )
-    mms_id = int(f_toc.split('.')[0])
+    mms_id = f_toc.split('.')[0]
     if f_process[mms_id]['valid']['file'] and f_process[mms_id]['valid']['lib']:
         f_process = upload_toc(f_process, f_toc, project_data.P_LIB[para_lib], args.file,)
     f_process = rm_toc(f_process, f_toc, args.file)

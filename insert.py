@@ -10,7 +10,7 @@
 #======================================================================
 
 
-import argparse, datetime, json, os, paramiko, project_data, re
+import datetime, json, os, project_data
 
 
 def load_log(f_log: str) -> dict:
@@ -23,12 +23,11 @@ def load_log(f_log: str) -> dict:
     returns:
     log: dict = {file name: dict = {}}
     """
-    try:
+    if os.path.exists(f'{project_data.P_LOG}{f_log}'):
         with open(project_data.P_LOG + f_log, mode='r', encoding='utf-8') as f:
             log = json.load(f)
         return log
-
-    except:
+    else:
         return {}
 
 def get_record(finished: bool) -> tuple:
@@ -52,7 +51,7 @@ def get_record(finished: bool) -> tuple:
 
 
 def insert_field(mms_id: int, url: str, log: dict) -> bool:
-    log[f'{mms_id}.pdf'].update({'inserted': True})
+    log[str(mms_id)].update({'inserted': True})
     return log
 
 

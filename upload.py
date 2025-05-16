@@ -56,6 +56,7 @@ def check_toc(p_log: str, f_log: str, para_file: str, para_lib: str) -> tuple:
     """
     f_process = {}
     f_toc = para_file.split('/')[-1]
+    mms_id = int(f_toc.split('.')[0])
 
     try:
         with open(p_log + f_log, mode='r', encoding='utf-8') as f:
@@ -68,15 +69,15 @@ def check_toc(p_log: str, f_log: str, para_file: str, para_lib: str) -> tuple:
             f.seek(0)
             json.dump(log, f, indent=4)
 
-    if f_toc in log.keys():
-        f_process.update({f_toc: log[f_toc]})
-        f_process[f_toc]['messages'].append(
+    if mms_id in log.keys():
+        f_process.update({mms_id: log[mms_id]})
+        f_process[mms_id]['messages'].append(
             f'processed again: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
         )
     else:
         f_process.update(
             {
-                f_toc: {
+                mms_id: {
                     'dt': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                     'filename': f_toc,
                     'valid': {
@@ -94,31 +95,31 @@ def check_toc(p_log: str, f_log: str, para_file: str, para_lib: str) -> tuple:
         )
 
     if re.search('\\b\\d{13,23}\\.(pdf|PDF)\\b', f_toc):
-        f_process[f_toc].update(
+        f_process[mms_id].update(
             {
-                'mms-id': int(re.search('\\b\\d{13,23}', f_toc).group())
+                'mms-id': int(f_toc.split('.')[0])
             }
         )
-        f_process[f_toc]['valid'].update(
+        f_process[mms_id]['valid'].update(
             {
                 'file': True
             }
         )
     elif re.search('(\\.(?!pdf|PDF))\\w{2,5}\\b', f_toc):
-        f_process[f_toc]['messages'].append('file not pdf format')
+        f_process[mms_id]['messages'].append('file not pdf format')
     elif re.search('\\b\\d*[a-zA-Z]+\\d*\\.(pdf|PDF)\\b', f_toc):
-        f_process[f_toc]['messages'].append('non-digit characters in file name')
+        f_process[mms_id]['messages'].append('non-digit characters in file name')
     else:
-        f_process[f_toc]['messages'].append('error of another kind')
+        f_process[mms_id]['messages'].append('error of another kind')
 
     if para_lib in project_data.P_LIB.keys():
-        f_process[f_toc]['valid'].update(
+        f_process[mms_id]['valid'].update(
             {
                 'lib': True
             }
         )
     else:
-        f_process[f_toc]['messages'].append(f'invalid parameter -l: {para_lib}')
+        f_process[mms_id]['messages'].append(f'invalid parameter -l: {para_lib}')
 
     return f_process, f_toc, para_lib
 
@@ -136,6 +137,7 @@ def upload_toc(f_process: dict, f_toc: str, p_bib: str, para_file: str) -> dict:
     returns:
     f_process: dict = {file name: dict = {}}
     """
+    mms_id = int(f_toc.split('.')[0])
     f_remote : list = []
     host_name : str = project_data.FTP_HOST
     port : int = project_data.FTP_PORT
@@ -157,15 +159,15 @@ def upload_toc(f_process: dict, f_toc: str, p_bib: str, para_file: str) -> dict:
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
     
     if f_toc in f_remote:
-        f_process[f_toc]['messages'].append('file already online')
+        f_process[mms_id]['messages'].append('file already online')
     else:
         try:
-            sftp_client.put(para_file, project_data.P_REMOTE + p_bib + f_process[f_toc]['filename'])
+            sftp_client.put(para_file, project_data.P_REMOTE + p_bib + f_process[mms_id]['filename'])
             url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{p_bib}{f_toc}'
-            f_process[f_toc].update({'uploaded': True, 'url': url})
-            f_process[f_toc]['messages'].append('upload successful')
+            f_process[mms_id].update({'uploaded': True, 'url': url})
+            f_process[mms_id]['messages'].append('upload successful')
         except Exception as e:
-            f_process[f_toc]['messages'].append(f'error: {e} occurred')
+            f_process[mms_id]['messages'].append(f'error: {e} occurred')
 
     f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
 
@@ -186,13 +188,15 @@ def rm_toc(f_process: dict, f_toc: str, para_file: str) -> dict:
 
     returns:
     f_process: dict = {file name: dict = {}}
-    """
+    """    
+    mms_id = int(f_toc.split('.')[0])
+
     if os.path.exists(para_file):
         os.remove(para_file)
-        f_process[f_toc].update({'deleted': True})
-        f_process[f_toc]['messages'].append('local file removed')
+        f_process[mms_id].update({'deleted': True})
+        f_process[mms_id]['messages'].append('local file removed')
     else:
-        f_process[f_toc]['messages'].append('file not found')
+        f_process[mms_id]['messages'].append('file not found')
 
     return f_process
 
@@ -232,7 +236,8 @@ if __name__ == '__main__':
         args.file,
         args.lib.lower()
     )
-    if f_process[f_toc]['valid']['file'] and f_process[f_toc]['valid']['lib']:
+    mms_id = int(f_toc.split('.')[0])
+    if f_process[mms_id]['valid']['file'] and f_process[mms_id]['valid']['lib']:
         f_process = upload_toc(f_process, f_toc, project_data.P_LIB[para_lib], args.file,)
     f_process = rm_toc(f_process, f_toc, args.file)
     f_process = write_json(

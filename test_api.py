@@ -15,4 +15,7 @@ root = tree.getroot()
 
 for item in root.findall('./'):
     for child in item:
-        print(f'{item.tag}: {child.tag}')
+        for c in child:
+            print(f'{item.tag.split("}")[1]}: {child.tag.split("}")[1]}: {c.tag.split("}")[1]}')
+            if c.tag.split('}')[1] == 'errorMessage':
+                print(c.text.encode('utf-8'))

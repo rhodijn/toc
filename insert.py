@@ -4,8 +4,6 @@
 # add 856 field to a record in alma
 # version 0.1, 2025-05-16
 #
-# useage of command line tool:
-#
 # created by rhodijn for zhaw hsb, cc-by-sa
 #======================================================================
 

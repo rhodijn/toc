@@ -2,7 +2,7 @@
 
 #======================================================================
 # command line tool to upload a toc-file to server
-# version 0.7, 2025-05-15
+# version 0.8, 2025-05-19
 #
 # useage of command line tool:
 #
@@ -97,7 +97,7 @@ def check_toc(p_log: str, f_log: str, para_file: str, para_lib: str) -> tuple:
     if re.search('\\b99\\d{2,13}5501\\.(pdf|PDF)\\b', f_toc):
         f_process[mms_id].update(
             {
-                'mms-id': int(f_toc.split('.')[0])
+                'mms-id': int(mms_id)
             }
         )
         f_process[mms_id]['valid'].update(

@@ -50,6 +50,7 @@ def insert_field(mms_id: int, url: str, log: dict) -> bool:
     api_body = f'{project_data.API_BDY_1}{log[str(mms_id)]["url"]}{project_data.API_BDY_2}'
     print(api_body)
     log[str(mms_id)].update({'inserted': True})
+    f_process[mms_id]['messages'].append('856 field added to record')
     return log
 
 

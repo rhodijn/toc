@@ -16,7 +16,7 @@ with open('log/get.json', mode='w', encoding='utf-8') as f:
 
 put_url = f'{project_data.API_URL}{mms_id}{project_data.API_PARA_PUT}&apikey={project_data.API_KEY}'
 
-response = requests.put(put_url, data=project_data.API_BDY)
+response = requests.put(put_url, headers=project_data.API_HDR, data=project_data.API_BDY)
 
 with open('log/put.txt', mode='w') as f:
     f.write(str(response))

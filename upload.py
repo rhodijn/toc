@@ -94,7 +94,7 @@ def check_toc(p_log: str, f_log: str, para_file: str, para_lib: str) -> tuple:
             }
         )
 
-    if re.search('\\b99\\d{7,17}5501\\.(pdf|PDF)\\b', f_toc):
+    if re.search('\\b99\\d{2,13}5501\\.(pdf|PDF)\\b', f_toc):
         f_process[mms_id].update(
             {
                 'mms-id': int(f_toc.split('.')[0])

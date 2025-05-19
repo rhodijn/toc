@@ -2,7 +2,8 @@
 
 import json, project_data, requests
 
-mms_id = 991030022319705501
+mms_id = 991112402779705501
+url = 'https://slspmedia.hsb.zhaw.ch/public/swisscovery/inhaltsverzeichnis/winterthur/995860000000545473.pdf'
 
 get_url = f'{project_data.API_URL}{mms_id}{project_data.API_PARA_GET}&apikey={project_data.API_KEY}&format={project_data.API_FRMT}'
 
@@ -16,9 +17,11 @@ with open('log/get.json', mode='w', encoding='utf-8') as f:
 
 put_url = f'{project_data.API_URL}{mms_id}{project_data.API_PARA_PUT}&apikey={project_data.API_KEY}'
 
-response = requests.put(put_url, headers=project_data.API_HDR, data=project_data.API_BDY)
+response = requests.put(put_url, headers=project_data.API_HDR, data=f'{project_data.API_BDY_1}{url}{project_data.API_BDY_2}')
 
 with open('log/put.txt', mode='w') as f:
     f.write(str(response))
 
 print(response)
+
+print(f'{project_data.API_BDY_1}{url}{project_data.API_BDY_2}')

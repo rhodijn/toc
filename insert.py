@@ -28,6 +28,7 @@ def load_log(f_log: str) -> dict:
     else:
         return {}
 
+
 def get_record() -> tuple:
     """
     get path to toc-file from input

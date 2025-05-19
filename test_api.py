@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import json, project_data, requests
-import xml.etree.ElementTree as ET
 
 mms_id = 991030022319705501
 

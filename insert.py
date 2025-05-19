@@ -2,7 +2,7 @@
 
 #======================================================================
 # add 856 field to a record in alma
-# version 0.1, 2025-05-16
+# version 0.2, 2025-05-19
 #
 # created by rhodijn for zhaw hsb, cc-by-sa
 #======================================================================
@@ -28,12 +28,9 @@ def load_log(f_log: str) -> dict:
     else:
         return {}
 
-def get_record(finished: bool) -> tuple:
+def get_record() -> tuple:
     """
     get path to toc-file from input
-
-    parameters:
-    finished: bool = false if not all records have been processed
 
     returns:
     mms_id: int = mms-id of record
@@ -49,11 +46,13 @@ def get_record(finished: bool) -> tuple:
 
 
 def insert_field(mms_id: int, url: str, log: dict) -> bool:
+    api_body = f'{project_data.API_BDY_1}{log[str(mms_id)]["url"]}{project_data.API_BDY_2}'
+    print(api_body)
     log[str(mms_id)].update({'inserted': True})
     return log
 
 
-def write_json(log: dict, p_log: str, f_log: str) -> dict:
+def write_json(log: dict, p_log: str, f_log: str):
     """
     save result to a json log-file
 
@@ -80,7 +79,7 @@ if __name__ == '__main__':
 
     if bool(log):
         while not finished:
-            mms_id, url, finished, log = get_record(finished)
+            mms_id, url, finished, log = get_record()
             if mms_id:
                 print(f'next record to update: {mms_id}')
                 log = insert_field(mms_id, url, log)

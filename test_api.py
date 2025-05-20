@@ -9,6 +9,7 @@
 
 # next steps: alles holen mit GET, updaten, danach den gesamten Datensatz mit PUT wieder hochladen
 # holen mit MMS-ID aus IZ, MMS-ID aus der NZ aus Datensatz extrahieren
+# Barcode über API in Alma suchen und damit die MMS-ID holen?
 
 from lxml import etree
 import project_data, json, os, requests

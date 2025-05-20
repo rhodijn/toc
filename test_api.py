@@ -7,6 +7,8 @@
 # created by rhodijn for zhaw hsb, cc-by-sa
 #======================================================================
 
+# next steps: alles holen mit GET, updaten, danach den gesamten Datensatz mit PUT wieder hochladen
+# holen mit MMS-ID aus IZ, MMS-ID aus der NZ aus Datensatz extrahieren
 
 from lxml import etree
 import project_data, json, os, requests

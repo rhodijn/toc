@@ -4,7 +4,7 @@ from lxml import etree
 import project_data, json, os, requests
 
 mms_id = 9947393580105520
-url = 'https://slspmedia.hsb.zhaw.ch/public/swisscovery/inhaltsverzeichnis/winterthur/995860000000545473.pdf'
+url = f'https://slspmedia.hsb.zhaw.ch/public/swisscovery/inhaltsverzeichnis/winterthur/{mms_id}.pdf'
 
 get_url = f'{project_data.API_URL}{mms_id}{project_data.API_PARA_GET}&apikey={project_data.API_KEY}&format={project_data.API_FRMT}'
 
@@ -32,7 +32,7 @@ print(put_url)
 query = requests.put(put_url, headers=project_data.API_HDR, data=f'{project_data.API_BDY_1}{url}{project_data.API_BDY_2}')
 
 print(query)
-put_log = query.content.decode('utf-8')
+put_log = json.loads(query.content.decode('utf-8'))
 
 with open('log/put_log.json', mode='w', encoding='utf-8') as f:
     f.seek(0)

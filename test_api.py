@@ -4,6 +4,7 @@
 # this script is for testing the alma api
 # version 0.2, 2025-05-20
 #
+# [°_°]
 # created by rhodijn for zhaw hsb, cc-by-sa
 # ======================================================================
 

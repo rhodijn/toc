@@ -11,6 +11,7 @@
 # python3 upload.py -f toc/995860000000545470.pdf -l wae
 # python3 upload.py --file toc/995860000000545470.pdf --lib wae
 #
+# [°_°]
 # created by rhodijn for zhaw hsb, cc-by-sa
 # ======================================================================
 

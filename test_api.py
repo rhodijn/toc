@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-#======================================================================
+# ======================================================================
 # this script is for testing the alma api
 # version 0.2, 2025-05-20
 #
 # created by rhodijn for zhaw hsb, cc-by-sa
-#======================================================================
+# ======================================================================
 
 # next steps: alles holen mit GET, updaten, danach den gesamten Datensatz mit PUT wieder hochladen
 # holen mit MMS-ID aus IZ, MMS-ID aus der NZ aus Datensatz extrahieren

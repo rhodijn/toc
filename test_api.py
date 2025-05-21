@@ -100,9 +100,6 @@ new_item.attrib['tag'] = '856'
 new_item.attrib['ind1'] = '4'
 new_item.attrib['ind2'] = '2'
 
-# Save the changes back to the file
-# tree.write("log/record.xml", pretty_print=True)
-
 
 # put request
 

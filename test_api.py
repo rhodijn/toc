@@ -18,6 +18,8 @@ import project_data, json, os, requests
 mms_id = 9947393580105520
 url = f'https://slspmedia.hsb.zhaw.ch/public/swisscovery/inhaltsverzeichnis/winterthur/{mms_id}.pdf'
 
+# get xml
+
 get_url = f'{project_data.API_URL}{mms_id}{project_data.API_PARA_GET}&apikey={project_data.API_KEY}&format={project_data.API_FRMT}'
 print(f'GET REQUEST: {get_url}')
 
@@ -35,6 +37,18 @@ with open('log/get.xml', mode='w', encoding='utf-8') as f:
     f.write(xml_get)
 
 os.remove('log/tmp.xml')
+
+# get json
+
+get_url = f'{project_data.API_URL}{mms_id}{project_data.API_PARA_GET}&apikey={project_data.API_KEY}&format=json'
+print(f'GET REQUEST: {get_url}')
+
+query = requests.get(get_url)
+
+data_get = query.content.decode(encoding='utf-8')
+
+with open('log/get.json', mode='w', encoding='utf-8') as f:
+    f.write(data_get)
 
 put_url = f'{project_data.API_URL}{mms_id}{project_data.API_PARA_PUT}&apikey={project_data.API_KEY}'
 print(f'PUT REQUEST: {put_url}')

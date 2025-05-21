@@ -109,10 +109,17 @@ new_item.attrib['ind2'] = '2'
 put_url = f'{project_data.API_URL}{mms_id}{project_data.API_PARA_PUT}&apikey={project_data.API_KEY}'
 print(f'PUT REQUEST: {put_url}')
 
-query = requests.put(put_url, headers=project_data.API_HDR, data=f'{project_data.API_BDY_1}{url}{project_data.API_BDY_2}')
+query = requests.put(put_url, headers=project_data.API_HDR, data=etree.tostring(etree.parse('log/record_new.xml')))
 
+if query.ok:
+    print(query.text)
+    print(query.headers)
+    print(query.encoding)
+
+"""
 put_log = json.loads(query.content.decode('utf-8'))
 
 with open('log/put_log.json', mode='w', encoding='utf-8') as f:
     f.seek(0)
     json.dump(put_log, f, indent=4)
+"""

@@ -115,11 +115,3 @@ if query.ok:
     print(query.text)
     print(query.headers)
     print(query.encoding)
-
-"""
-put_log = json.loads(query.content.decode('utf-8'))
-
-with open('log/put_log.json', mode='w', encoding='utf-8') as f:
-    f.seek(0)
-    json.dump(put_log, f, indent=4)
-"""

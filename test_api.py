@@ -18,10 +18,13 @@ import project_data, json, os, requests
 mms_id = 9947393580105520
 url = f'https://slspmedia.hsb.zhaw.ch/public/swisscovery/inhaltsverzeichnis/winterthur/{mms_id}.pdf'
 
-# get xml
+barcode = 'BM2064158'
+
+
+# get record (xml)
 
 get_url = f'{project_data.API_URL}{mms_id}{project_data.API_PARA_GET}&apikey={project_data.API_KEY}&format={project_data.API_FRMT}'
-print(f'GET REQUEST: {get_url}')
+print(f'RECORD GET REQUEST (XML): {get_url}')
 
 query = requests.get(get_url)
 
@@ -38,10 +41,11 @@ with open('log/get.xml', mode='w', encoding='utf-8') as f:
 
 os.remove('log/tmp.xml')
 
-# get json
+
+# get record (json)
 
 get_url = f'{project_data.API_URL}{mms_id}{project_data.API_PARA_GET}&apikey={project_data.API_KEY}&format=json'
-print(f'GET REQUEST: {get_url}')
+print(f'RECORD GET REQUEST (JSON): {get_url}')
 
 query = requests.get(get_url)
 
@@ -50,6 +54,29 @@ data_get = json.loads(query.content.decode(encoding='utf-8'))
 with open('log/get.json', mode='w', encoding='utf-8') as f:
     f.seek(0)
     json.dump(data_get, f, indent=4)
+
+
+# get holdings
+
+get_url = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/9947393580105520/holdings/ALL/items?limit=10&offset=0&order_by=none&direction=desc&view=brief&apikey=l8xxd7a3ece3e77b4d3599f5ef8e4c3a7fa3'
+print(f'HOLDINGS GET REQUEST: {get_url}')
+
+query = requests.get(get_url)
+
+data_get = query.content.decode(encoding='utf-8')
+
+with open('log/tmp.xml', mode='w', encoding='utf-8') as f:
+    f.write(data_get)
+
+tmp = etree.parse('log/tmp.xml')
+xml_get = etree.tostring(tmp, pretty_print=True, encoding=str)
+
+with open('log/holdings.xml', mode='w', encoding='utf-8') as f:
+    f.write(xml_get)
+
+os.remove('log/tmp.xml')
+
+# put request
 
 put_url = f'{project_data.API_URL}{mms_id}{project_data.API_PARA_PUT}&apikey={project_data.API_KEY}'
 print(f'PUT REQUEST: {put_url}')

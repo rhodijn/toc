@@ -45,10 +45,11 @@ print(f'GET REQUEST: {get_url}')
 
 query = requests.get(get_url)
 
-data_get = query.content.decode(encoding='utf-8')
+data_get = json.loads(query.content.decode(encoding='utf-8'))
 
 with open('log/get.json', mode='w', encoding='utf-8') as f:
-    f.write(data_get)
+    f.seek(0)
+    json.dump(data_get, f, indent=4)
 
 put_url = f'{project_data.API_URL}{mms_id}{project_data.API_PARA_PUT}&apikey={project_data.API_KEY}'
 print(f'PUT REQUEST: {put_url}')

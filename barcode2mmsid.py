@@ -1,6 +1,16 @@
 #!/usr/bin/env python3
 
 
+################
+##              ##
+##            ##
+  ######    ##
+    ##    ######
+  ##            ##
+##              ##
+  ################
+
+
 # ======================================================================
 # this script gets the barcode from the filename
 # it then finds the nz mms-id by performing two get requests

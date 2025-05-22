@@ -16,7 +16,8 @@ import json, os, requests
 
 mmsid_iz = 9947393580105520
 mmsid_nz = 991017945329705501
-url = f'https://{FTP_HOST}/{P_REMOTE}winterthur/{mmsid_iz}.pdf'
+url = f'{FTP_HOST}/{P_REMOTE}winterthur/{mmsid_iz}.pdf'
+log = {}
 
 file_list = os.listdir('toc/local')
 
@@ -31,9 +32,12 @@ for el in file_list:
 
     data = json.loads(get_nz_mmsid.content.decode(encoding='utf-8'))
 
+    mmsid_nz = data["linked_record_id"]["value"]
     if data['linked_record_id']['type'].upper() == 'NZ':
-        os.rename(f'{P_TOC}local/{barcode}.pdf', f'{P_TOC}local/{data["linked_record_id"]["value"]}.pdf')
+        os.rename(f'{P_TOC}local/{barcode}.pdf', f'{P_TOC}local/{mmsid_nz}.pdf')
     else:
         print('mms-id not found')
+    
+    log.update({mmsid_nz: barcode})
 
-print(file_list)
+print(log)

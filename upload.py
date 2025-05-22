@@ -165,7 +165,7 @@ def upload_toc(f_process: dict, f_toc: str, p_bib: str, para_file: str) -> dict:
     else:
         try:
             sftp_client.put(para_file, P_REMOTE + p_bib + f_process[mms_id]['filename'])
-            url = f'https://{FTP_HOST}/{P_REMOTE}{p_bib}{f_toc}'
+            url = f'{FTP_HOST}/{P_REMOTE}{p_bib}{f_toc}'
             f_process[mms_id].update({'uploaded': True, 'url': url})
             f_process[mms_id]['messages'].append('upload successful')
         except Exception as e:

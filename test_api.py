@@ -19,7 +19,7 @@ import json, os, requests
 
 mmsid_iz = 9947393580105520
 mmsid_nz = 991017945329705501
-url = f'https://{FTP_HOST}/{P_REMOTE}winterthur/{mmsid_iz}.pdf'
+url = f'{FTP_HOST}/{P_REMOTE}winterthur/{mmsid_iz}.pdf'
 
 barcode = 'BM2064158'
 

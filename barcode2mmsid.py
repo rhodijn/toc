@@ -25,7 +25,7 @@ barcodes = []
 for el in file_list:
     barcodes.append(el.split('.')[0].upper())
 
-get_iz_mmsid = requests.get(f'{API_URL}items?item_barcode={barcodes[0]}&apikey={API_KEY}&format={API_JSON}')
+get_iz_mmsid = requests.get(f'{API_URL}items?item_barcode={barcodes[0]}&apikey={API_KEY}&format={API_FRMT["j"]}')
 
 data = json.loads(get_iz_mmsid.content.decode(encoding='utf-8'))
 
@@ -33,3 +33,13 @@ for key in data.keys():
     print(key)
 
 mmsid_iz = data['bib_data']['mms_id']
+
+get_nz_mmsid = requests.get(f'{API_URL}bibs/{mmsid_iz}{API_PARA_GET}&apikey={API_KEY}&format={API_FRMT["j"]}')
+
+data = json.loads(get_nz_mmsid.content.decode(encoding='utf-8'))
+
+print(data['mms_id'])
+
+if data['linked_record_id']['type'].upper() == 'NZ':
+    print(data['linked_record_id']['value'])
+

@@ -9,7 +9,8 @@
 # ======================================================================
 
 
-import datetime, json, os, project_data
+from project_data import *
+import datetime, json, os
 
 
 def load_log(f_log: str) -> dict:
@@ -22,8 +23,8 @@ def load_log(f_log: str) -> dict:
     returns:
     log: dict = {file name: dict = {}}
     """
-    if os.path.exists(f'{project_data.P_LOG}{f_log}'):
-        with open(project_data.P_LOG + f_log, mode='r', encoding='utf-8') as f:
+    if os.path.exists(f'{P_LOG}{f_log}'):
+        with open(P_LOG + f_log, mode='r', encoding='utf-8') as f:
             log = json.load(f)
         return log
     else:
@@ -48,7 +49,7 @@ def get_record() -> tuple:
 
 
 def insert_field(mms_id: int, url: str, log: dict) -> bool:
-    api_body = f'{project_data.API_BDY_1}{log[str(mms_id)]["url"]}{project_data.API_BDY_2}'
+    api_body = f'{API_BDY_1}{log[str(mms_id)]["url"]}{API_BDY_2}'
     print(api_body)
     log[str(mms_id)].update({'inserted': True})
     log[str(mms_id)]['messages'].append('856 field added to record')
@@ -87,4 +88,4 @@ if __name__ == '__main__':
                 print(f'next record to update: {mms_id}')
                 log = insert_field(mms_id, url, log)
 
-        write_json(log, project_data.P_LOG, f_log)
+        write_json(log, P_LOG, f_log)

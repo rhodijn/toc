@@ -15,8 +15,8 @@
 # created by rhodijn for zhaw hsb, cc-by-sa
 # ======================================================================
 
-
-import argparse, datetime, json, os, paramiko, project_data, re
+from project_data import *
+import argparse, datetime, json, os, paramiko, re
 
 
 def get_file():
@@ -113,7 +113,7 @@ def check_toc(p_log: str, f_log: str, para_file: str, para_lib: str) -> tuple:
     else:
         f_process[mms_id]['messages'].append('error of another kind')
 
-    if para_lib in project_data.P_LIB.keys():
+    if para_lib in P_LIB.keys():
         f_process[mms_id]['valid'].update(
             {
                 'lib': True
@@ -140,10 +140,10 @@ def upload_toc(f_process: dict, f_toc: str, p_bib: str, para_file: str) -> dict:
     """
     mms_id = f_toc.split('.')[0]
     f_remote : list = []
-    host_name : str = project_data.FTP_HOST
-    port : int = project_data.FTP_PORT
-    user_name : str = project_data.FTP_USR
-    p_word : str = project_data.FTP_PWD
+    host_name : str = FTP_HOST
+    port : int = FTP_PORT
+    user_name : str = FTP_USR
+    p_word : str = FTP_PWD
 
     ssh_client = paramiko.SSHClient()
     ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -157,20 +157,20 @@ def upload_toc(f_process: dict, f_toc: str, p_bib: str, para_file: str) -> dict:
 
     sftp_client = ssh_client.open_sftp()
 
-    f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
+    f_remote = sftp_client.listdir(P_REMOTE + p_bib)
     
     if f_toc in f_remote:
         f_process[mms_id]['messages'].append('file already online')
     else:
         try:
-            sftp_client.put(para_file, project_data.P_REMOTE + p_bib + f_process[mms_id]['filename'])
-            url = f'https://{project_data.FTP_HOST}/{project_data.P_REMOTE}{p_bib}{f_toc}'
+            sftp_client.put(para_file, P_REMOTE + p_bib + f_process[mms_id]['filename'])
+            url = f'https://{FTP_HOST}/{P_REMOTE}{p_bib}{f_toc}'
             f_process[mms_id].update({'uploaded': True, 'url': url})
             f_process[mms_id]['messages'].append('upload successful')
         except Exception as e:
             f_process[mms_id]['messages'].append(f'error: {e} occurred')
 
-    f_remote = sftp_client.listdir(project_data.P_REMOTE + p_bib)
+    f_remote = sftp_client.listdir(P_REMOTE + p_bib)
 
     sftp_client.close()
     ssh_client.close()
@@ -232,16 +232,16 @@ if __name__ == '__main__':
     """
     args = get_file()
     f_process, f_toc, para_lib = check_toc(
-        project_data.P_LOG,
+        P_LOG,
         f'log_{datetime.datetime.now().strftime("%Y")}.json',
         args.file,
         args.lib.lower()
     )
     mms_id = f_toc.split('.')[0]
     if f_process[mms_id]['valid']['file'] and f_process[mms_id]['valid']['lib']:
-        f_process = upload_toc(f_process, f_toc, project_data.P_LIB[para_lib], args.file,)
+        f_process = upload_toc(f_process, f_toc, P_LIB[para_lib], args.file,)
     f_process = rm_toc(f_process, f_toc, args.file)
     f_process = write_json(
-        f_process, project_data.P_LOG,
+        f_process, P_LOG,
         f'log_{datetime.datetime.now().strftime("%Y")}.json'
     )

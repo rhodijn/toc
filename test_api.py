@@ -23,7 +23,7 @@ barcode = 'BM2064158'
 
 # get record (xml)
 
-get_url = f'{project_data.API_URL}bibs/{mmsid_iz}{project_data.API_PARA_GET}&apikey={project_data.API_KEY}&format={project_data.API_XML}'
+get_url = f'{project_data.API_URL}bibs/{mmsid_iz}{project_data.API_PARA_GET}&apikey={project_data.API_KEY}&format={project_data.API_FRMT["x"]}'
 print(f'RECORD GET REQUEST (XML): {get_url}')
 
 query = requests.get(get_url)
@@ -44,7 +44,7 @@ os.remove('log/temp.xml')
 
 # get record (json)
 
-get_url = f'{project_data.API_URL}bibs/{mmsid_iz}{project_data.API_PARA_GET}&apikey={project_data.API_KEY}&format=json'
+get_url = f'{project_data.API_URL}bibs/{mmsid_iz}{project_data.API_PARA_GET}&apikey={project_data.API_KEY}&format={project_data.API_FRMT["j"]}'
 print(f'RECORD GET REQUEST (JSON): {get_url}')
 
 query = requests.get(get_url)

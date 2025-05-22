@@ -8,7 +8,6 @@
 # created by rhodijn for zhaw hsb, cc-by-sa
 # ======================================================================
 
-# next steps: alles holen mit GET, updaten, danach den gesamten Datensatz mit PUT wieder hochladen
 # holen mit MMS-ID aus IZ, MMS-ID aus der NZ aus Datensatz extrahieren
 # Barcode über API in Alma suchen und damit die MMS-ID holen?
 
@@ -59,7 +58,7 @@ with open('log/record.json', mode='w', encoding='utf-8') as f:
 
 # get holdings
 
-get_url = f'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/{mmsid_nz}/holdings/ALL/items?limit=10&offset=0&order_by=none&direction=desc&view=brief&apikey={project_data.API_KEY}'
+get_url = f'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/{mmsid_iz}/holdings/ALL/items?limit=10&offset=0&order_by=none&direction=desc&view=brief&apikey={project_data.API_KEY}'
 print(f'HOLDINGS GET REQUEST: {get_url}')
 
 query = requests.get(get_url)

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 # ======================================================================
 # this script is for testing the alma api
 # version 0.2, 2025-05-20
@@ -7,9 +8,6 @@
 # [°_°]
 # created by rhodijn for zhaw hsb, cc-by-sa
 # ======================================================================
-
-# holen mit MMS-ID aus IZ, MMS-ID aus der NZ aus Datensatz extrahieren
-# Barcode über API in Alma suchen und damit die MMS-ID holen?
 
 
 from lxml import etree
@@ -96,6 +94,7 @@ for element in root.iter('datafield'):
             print(f'insert element here: {int(element.attrib["tag"])}')
     except:
         print('tag is not a number')
+
 
 # Append new data
 new_item = etree.SubElement(root[9], 'datafield')

@@ -3,7 +3,7 @@
 
 # ======================================================================
 # command line tool to upload a toc-file to server
-# version 0.8, 2025-05-19
+# version 0.9, 2025-05-19
 #
 # useage of command line tool:
 #

@@ -4,7 +4,7 @@
 # ======================================================================
 # this script gets the barcode from the filename
 # it then finds the nz mms-id by performing two get requests
-# version 0.1, 2025-05-22
+# version 0.4, 2025-05-22
 #
 # [°_°]
 # created by rhodijn for zhaw hsb, cc-by-sa

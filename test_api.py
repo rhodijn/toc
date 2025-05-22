@@ -23,7 +23,7 @@ barcode = 'BM2064158'
 
 # get record (xml)
 
-get_url = f'{project_data.API_URL}{mmsid_iz}{project_data.API_PARA_GET}&apikey={project_data.API_KEY}&format={project_data.API_FRMT}'
+get_url = f'{project_data.API_URL}bibs/{mmsid_iz}{project_data.API_PARA_GET}&apikey={project_data.API_KEY}&format={project_data.API_XML}'
 print(f'RECORD GET REQUEST (XML): {get_url}')
 
 query = requests.get(get_url)
@@ -44,7 +44,7 @@ os.remove('log/temp.xml')
 
 # get record (json)
 
-get_url = f'{project_data.API_URL}{mmsid_iz}{project_data.API_PARA_GET}&apikey={project_data.API_KEY}&format=json'
+get_url = f'{project_data.API_URL}bibs/{mmsid_iz}{project_data.API_PARA_GET}&apikey={project_data.API_KEY}&format=json'
 print(f'RECORD GET REQUEST (JSON): {get_url}')
 
 query = requests.get(get_url)
@@ -58,7 +58,7 @@ with open('log/record.json', mode='w', encoding='utf-8') as f:
 
 # get holdings
 
-get_url = f'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/{mmsid_iz}/holdings/ALL/items?limit=10&offset=0&order_by=none&direction=desc&view=brief&apikey={project_data.API_KEY}'
+get_url = f'{project_data.API_URL}bibs/{mmsid_iz}/holdings/ALL/items?limit=10&offset=0&order_by=none&direction=desc&view=brief&apikey={project_data.API_KEY}'
 print(f'HOLDINGS GET REQUEST: {get_url}')
 
 query = requests.get(get_url)
@@ -103,7 +103,7 @@ new_item.attrib['ind2'] = '2'
 
 # put request
 
-put_url = f'{project_data.API_URL}{mmsid_iz}{project_data.API_PARA_PUT}&apikey={project_data.API_KEY}'
+put_url = f'{project_data.API_URL}bibs/{mmsid_iz}{project_data.API_PARA_PUT}&apikey={project_data.API_KEY}'
 print(f'PUT REQUEST: {put_url}')
 
 query = requests.put(put_url, headers=project_data.API_HDR, data=etree.tostring(etree.parse('log/record_new.xml')))

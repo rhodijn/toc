@@ -16,8 +16,7 @@ import json, os, requests
 
 mmsid_iz = 9947393580105520
 mmsid_nz = 991017945329705501
-url = f'https://slspmedia.hsb.zhaw.ch/public/swisscovery/inhaltsverzeichnis/winterthur/{mmsid_iz}.pdf'
-
+url = f'https://{FTP_HOST}/public/swisscovery/inhaltsverzeichnis/winterthur/{mmsid_iz}.pdf'
 
 file_list = os.listdir('toc/local')
 barcodes = []
@@ -43,3 +42,4 @@ print(data['mms_id'])
 if data['linked_record_id']['type'].upper() == 'NZ':
     print(data['linked_record_id']['value'])
 
+os.rename(f'toc/local/{barcodes[0]}.pdf', f'toc/local/{data["linked_record_id"]["value"]}.pdf')

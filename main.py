@@ -22,9 +22,7 @@ import datetime, json, os, requests
 
 from dotenv import dotenv_values
 
-load_dotenv()
-
-api_key = os.getenv('API_KEY')
+secrets = dotenv_values('.env')
 processing = {}
 log = {}
 
@@ -58,16 +56,15 @@ if __name__ == '__main__':
 
     log.update({barcode: processing})
 
-    success = json_wr(log, f'log_{datetime.datetime.now().strftime("%Y")}.json', 'l')
-
     config = json_ld('config.json', 'd')
 
-    get_iz_mmsid = requests.get(f'{config["api"]["url"]}items?item_barcode={barcode}&apikey={api_key}&format={config["api"]["j"]}')
+    get_iz_mmsid = requests.get(f'{config["api"]["url"]}items?item_barcode={barcode}&apikey={secrets["API_KEY"]}&format={config["api"]["j"]}')
     data = json.loads(get_iz_mmsid.content.decode(encoding='utf-8'))
 
     mmsid_iz = data['bib_data']['mms_id']
     log[barcode]['mms-id'].update({'iz': mmsid_iz})
-    get_nz_mmsid = requests.get(f'{config["api"]["url"]}bibs/{mmsid_iz}{config["api"]["get"]}&apikey={api_key}&format={config["api"]["j"]}')
+    log[barcode]['messages'].append('iz mms-id found')
+    get_nz_mmsid = requests.get(f'{config["api"]["url"]}bibs/{mmsid_iz}{config["api"]["get"]}&apikey={secrets["API_KEY"]}&format={config["api"]["j"]}')
 
     data = json.loads(get_nz_mmsid.content.decode(encoding='utf-8'))
 
@@ -79,3 +76,5 @@ if __name__ == '__main__':
         # os.rename(f'{P_TOC}local/{barcode}.pdf', f'{P_TOC}local/{mmsid_nz}.pdf')
     else:
         log[barcode]['messages'].append('nz mms-id not found')
+
+    success = json_wr(log, f'log_{datetime.datetime.now().strftime("%Y")}.json', 'l')

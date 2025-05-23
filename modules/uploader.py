@@ -11,3 +11,11 @@
 
 
 import os, paramiko
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
+ftp_url = os.getenv('FTP_URL')
+ftp_user = os.getenv('FTP_USER')
+ftp_pass = os.getenv('FTP_PASS')

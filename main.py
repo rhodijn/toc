@@ -3,7 +3,7 @@
 ##################      this is the main routine
 ##                ##    version 0.1, 2025-05-23
 ##              ##
-  ######      ##
+  ######      ##        python3 main.py -f toc/BM2064158.pdf -l win
     ##      ######
   ##              ##    created by rhodijn for zhaw hsb
 ##                ##
@@ -13,22 +13,10 @@
 import sys
 sys.path.append('modules/')
 
-import json, os, requests
-
-from dotenv import load_dotenv
 from apihandler import *
 from checker import *
 from logger import *
 from uploader import *
-
-
-load_dotenv()
-
-api_url = os.getenv('API_URL')
-api_key = os.getenv('API_KEY')
-ftp_url = os.getenv('FTP_URL')
-ftp_user = os.getenv('FTP_USER')
-ftp_pass = os.getenv('FTP_PASS')
 
 
 if __name__ == '__main__':

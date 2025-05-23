@@ -26,9 +26,8 @@ if __name__ == '__main__':
     args = get_args()
     valid_file, msg = check_file(args.file)
     if valid_file:
-        barcode = args.file.split('/')[-1].split('.')[0]
         valid_lib, msg = check_lib(args.lib.lower())
         if valid_lib:
-            print(msg)
+            barcode = args.file.split('/')[-1].split('.')[0]
         else:
             print(msg)

@@ -28,12 +28,12 @@ if __name__ == '__main__':
     """
     this is the __main__ routine, it controls the process
     """
-    log = load_json(f'log_{datetime.datetime.now().strftime("%Y")}.json', 'log')
+    log = json_ld(f'log_{datetime.datetime.now().strftime("%Y")}.json', 'l')
     args = get_args()
     barcode = args.file.split('/')[-1].split('.')[0].upper()
 
     if barcode not in log.keys():
-        processing = load_json('log.json', 'data')
+        processing = json_ld('log.json', 'd')
         processing.update(
             {
                 'dt': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -56,4 +56,4 @@ if __name__ == '__main__':
 
     log.update({barcode: processing})
 
-    write_json(log, f'log_{datetime.datetime.now().strftime("%Y")}.json', 'log')
+    json_wr(log, f'log_{datetime.datetime.now().strftime("%Y")}.json', 'l')

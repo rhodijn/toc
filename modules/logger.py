@@ -22,7 +22,7 @@ def get_value(file, k_1, k_2) -> str:
         return f'error: {e}'
 
 
-def load_json(filename, p) -> dict:
+def json_ld(filename, p) -> dict:
     path = get_value('data/config.json', 'path', p)
 
     try:
@@ -32,7 +32,7 @@ def load_json(filename, p) -> dict:
     except Exception as e:
         return {}
 
-def write_json(data, filename, p):
+def json_wr(data, filename, p):
     path = get_value('data/config.json', 'path', p)
 
     try:

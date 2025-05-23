@@ -5,7 +5,7 @@
 #   ##              ##
 #     ######      ##
 #       ##      ######
-#     ##              ##    created by rhodijn for zhaw hsb
+#     ##              ##    created by rhodijn (zolo) for zhaw hsb
 #   ##                ##
 #     ##################    cc-by-sa [°_°]
 

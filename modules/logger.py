@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-##################      this module handles the upload
+##################      this module keeps track of what happened
 ##                ##    version 0.1, 2025-05-23
 ##              ##
   ######      ##
@@ -10,4 +10,4 @@
   ##################    cc-by-sa [°_°]
 
 
-import os, paramiko
+import argparse, os, re

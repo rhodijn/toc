@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-################      this module handles the local file before upload
-##              ##    version 0.1, 2025-05-23
-##            ##
-  ######    ##
-    ##    ######
-  ##            ##    created by rhodijn for zhaw hsb
+##################      this module checks the file
+##                ##    version 0.1, 2025-05-23
 ##              ##
-  ################    cc-by-sa [°_°]
+  ######      ##
+    ##      ######
+  ##              ##    created by rhodijn for zhaw hsb
+##                ##
+  ##################    cc-by-sa [°_°]
 
 
 import argparse, os, re
@@ -37,8 +37,8 @@ def get_args() -> argparse.Namespace:
 def check_file(path):
     if os.path.exists(path):
         if re.search('(pdf|PDF)', path.split('/')[-1].split('.')[-1]):
-            return True
+            return True, 'file check successful'
         else:
-            return False # file not pdf
+            return False, 'file not pdf'
     else:
-        return False # file does not exist
+        return False, 'file does not exist'

@@ -3,4 +3,5 @@ log/*
 toc/*
 toc_bu/*
 project_*
+.env
 .DS_Store

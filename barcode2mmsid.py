@@ -8,16 +8,24 @@
     ##    ######
   ##            ##
 ##              ##
-  ################    [°_°] created by rhodijn for zhaw hsb, cc-by-sa
+  ################    created by rhodijn for zhaw hsb, cc-by-sa [°_°]
 
 
+from dotenv import load_dotenv
 from project_data import *
 import json, os, requests
 
+load_dotenv()
+
+api_url = os.getenv('API_URL')
+api_key = os.getenv('API_KEY')
+ftp_url = os.getenv('FTP_URL')
+ftp_user = os.getenv('FTP_USER')
+ftp_pass = os.getenv('FTP_PASS')
 
 mmsid_iz = 9947393580105520
 mmsid_nz = 991017945329705501
-url = f'{FTP_HOST}/{P_REMOTE}winterthur/{mmsid_iz}.pdf'
+url = f'{ftp_url}/{P_REMOTE}winterthur/{mmsid_iz}.pdf'
 log = {}
 
 file_list = os.listdir('toc/local')
@@ -25,11 +33,11 @@ file_list = os.listdir('toc/local')
 for el in file_list:
     barcode = el.split('.')[0].upper()
 
-    get_iz_mmsid = requests.get(f'{API_URL}items?item_barcode={barcode}&apikey={API_KEY}&format={API_FRMT["j"]}')
+    get_iz_mmsid = requests.get(f'{api_url}items?item_barcode={barcode}&apikey={api_key}&format={API_FRMT["j"]}')
     data = json.loads(get_iz_mmsid.content.decode(encoding='utf-8'))
 
     mmsid_iz = data['bib_data']['mms_id']
-    get_nz_mmsid = requests.get(f'{API_URL}bibs/{mmsid_iz}{API_PARA_GET}&apikey={API_KEY}&format={API_FRMT["j"]}')
+    get_nz_mmsid = requests.get(f'{api_url}bibs/{mmsid_iz}{API_PARA_GET}&apikey={api_key}&format={API_FRMT["j"]}')
 
     data = json.loads(get_nz_mmsid.content.decode(encoding='utf-8'))
 

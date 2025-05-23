@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-################      this is the main script for the toc project
-##              ##
+################      this is the main routine
+##              ##    version 0.1, 2025-05-23
 ##            ##
-  ######    ##        version 0.1, 2025-05-23
+  ######    ##b
     ##    ######
-  ##            ##
+  ##            ##    created by rhodijn for zhaw hsb
 ##              ##
-  ################    created by rhodijn for zhaw hsb, cc-by-sa [°_°]
+  ################    cc-by-sa [°_°]
 
 
 import sys
@@ -15,7 +15,8 @@ sys.path.append('modules/')
 
 import json, os, requests
 from dotenv import load_dotenv
-from filechecker import *
+from checker import *
+from uploader import *
 
 load_dotenv()
 

@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 
-
-################      this is the main script for the toc project
-##              ##
+################      this module handles the local file before upload
+##              ##    version 0.1, 2025-05-23
 ##            ##
-  ######    ##        version 0.1, 2025-05-23
+  ######    ##
     ##    ######
-  ##            ##
+  ##            ##    created by rhodijn for zhaw hsb
 ##              ##
-  ################    created by rhodijn for zhaw hsb, cc-by-sa [°_°]
+  ################    cc-by-sa [°_°]
 
 
 import argparse, os, re

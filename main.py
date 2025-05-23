@@ -14,9 +14,9 @@
 import sys
 sys.path.append('modules/')
 
+import json, os, requests
 from dotenv import load_dotenv
 from file_checker import *
-import json, os, requests
 
 load_dotenv()
 
@@ -33,5 +33,4 @@ if __name__ == '__main__':
     args = get_args()
     valid_file = check_file(args.file)
     if valid_file:
-        barcode = get_barcode(args.file)
-        print(barcode)
+        print(args.file.split('/')[-1].split('.')[0])

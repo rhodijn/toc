@@ -16,10 +16,10 @@ import argparse, os, re
 
 def get_args() -> argparse.Namespace:
     """
-    get path to toc file from input
+    get path to toc file and library from input
 
     returns:
-    args.file: argparse.Namespace = path to to file
+    args.file: argparse.Namespace = clt arguments
     """
     parser = argparse.ArgumentParser(
         prog = 'toc uploader',
@@ -41,9 +41,3 @@ def check_file(path):
             return True
     else:
         return False
-
-
-def get_barcode(path):
-    elements = path.split('/')
-    barcode = elements[-1].split('.')[0]
-    return barcode

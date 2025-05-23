@@ -11,10 +11,7 @@
 
 
 import argparse, os, re
-from dotenv import load_dotenv
+from dotenv import dotenv_values
 
 
-load_dotenv()
-
-api_url = os.getenv('API_URL')
-api_key = os.getenv('API_KEY')
+secrets = dotenv_values('.env')

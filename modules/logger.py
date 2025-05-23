@@ -10,4 +10,13 @@
   ##################    cc-by-sa [°_°]
 
 
-import argparse, os, re
+import json
+
+
+def get_value(file, k_1, k_2):
+    try:
+        with open(file) as f:
+            data = json.load(f)
+            return data[k_1][k_2]
+    except Exception as e:
+        return f'error: {e}'

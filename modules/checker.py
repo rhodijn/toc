@@ -10,7 +10,7 @@
   ##################    cc-by-sa [°_°]
 
 
-import argparse, os, re
+import argparse, json, os, re
 
 
 def get_args() -> argparse.Namespace:
@@ -42,3 +42,14 @@ def check_file(path):
             return False, 'file not pdf'
     else:
         return False, 'file does not exist'
+
+def check_lib(lib):
+    try:
+        with open('data/config.json') as f:
+            data = json.load(f)
+            if lib in data['library'].keys():
+                return True, 'valid library'
+            else:
+                return False, 'invalid library parameter'
+    except Exception as e:
+        return False, f'error: {e}'

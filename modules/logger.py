@@ -48,8 +48,8 @@ def json_ld(filename, p) -> dict:
 
     try:
         with open(path + filename, mode='r', encoding='utf-8') as f:
-            log = json.load(f)
-            return log
+            data = json.load(f)
+            return data
     except Exception as e:
         return {}
 

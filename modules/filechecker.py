@@ -39,5 +39,7 @@ def check_file(path):
     if os.path.exists(path):
         if re.search('(pdf|PDF)', path.split('/')[-1].split('.')[-1]):
             return True
+        else:
+            return False # file not pdf
     else:
-        return False
+        return False # file does not exist

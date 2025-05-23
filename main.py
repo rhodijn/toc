@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 ################      this is the main script for the toc project
 ##              ##
 ##            ##
@@ -16,7 +15,7 @@ sys.path.append('modules/')
 
 import json, os, requests
 from dotenv import load_dotenv
-from file_checker import *
+from filechecker import *
 
 load_dotenv()
 

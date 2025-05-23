@@ -15,7 +15,7 @@ import argparse, json, os, re
 
 def get_args() -> argparse.Namespace:
     """
-    get path to toc file and library from input
+    get arguments submitted with command line tool
 
     returns:
     args.file: argparse.Namespace = clt arguments
@@ -34,7 +34,16 @@ def get_args() -> argparse.Namespace:
     return args
 
 
-def check_file(path):
+def check_file(path) -> tuple:
+    """
+    check if file parameter exists and is pdf
+
+    parameters:
+    path: str = path to toc-file
+
+    returns:
+    tuple
+    """
     if os.path.exists(path):
         if re.search('(pdf|PDF)', path.split('/')[-1].split('.')[-1]):
             return True, 'valid file'
@@ -44,6 +53,15 @@ def check_file(path):
         return False, 'file does not exist'
 
 def check_lib(lib):
+    """
+    check if library parameter is valid
+
+    parameters:
+    lib: str = library code
+
+    returns:
+    tuple
+    """
     try:
         with open('data/config.json') as f:
             data = json.load(f)

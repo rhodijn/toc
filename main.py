@@ -34,12 +34,8 @@ if __name__ == '__main__':
 
     if barcode not in log.keys():
         processing = json_ld('log.json', 'd')
-        processing.update(
-            {
-                'dt': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                'filename': args.file.split('/')[-1]
-            }
-        )
+        processing.update({'dt': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+        processing['filename'].update({'local': args.file.split('/')[-1]})
     else:
         processing = log[barcode]
 

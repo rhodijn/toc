@@ -11,14 +11,27 @@
 
 
 import requests
+
 from dotenv import dotenv_values
+from logger import *
 
 
 secrets = dotenv_values('.env')
 
 
-def get_request():
+def get_request(code) -> requests.models.Response:
     """
+    write json file
+
+    parameters:
+    d: dict = data to be logged
+    filename: str = library code
+    p: str = code for path
+
+    returns:
+    response: requests.models.Response = success saving data
     """
 
-    pass
+    config = json_load('config.json', 'd')
+    response = requests.get(f'{config["api"]["url"]}items?item_barcode={code}&apikey={secrets["API_KEY"]}&format={config["api"]["j"]}')
+    return response

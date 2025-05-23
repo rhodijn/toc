@@ -10,17 +10,15 @@
 #     ##################    cc-by-sa [°_°]
 
 
-import sys
+import datetime, json, requests, sys
 sys.path.append('modules/')
 
+from dotenv import dotenv_values
 from apihandler import *
 from checker import *
 from logger import *
 from uploader import *
 
-import datetime, json, os, requests
-
-from dotenv import dotenv_values
 
 secrets = dotenv_values('.env')
 processing = {}
@@ -58,7 +56,7 @@ if __name__ == '__main__':
 
     config = json_load('config.json', 'd')
 
-    get_iz_mmsid = requests.get(f'{config["api"]["url"]}items?item_barcode={barcode}&apikey={secrets["API_KEY"]}&format={config["api"]["j"]}')
+    get_iz_mmsid = get_request(barcode)
     data = json.loads(get_iz_mmsid.content.decode(encoding='utf-8'))
 
     mmsid_iz = data['bib_data']['mms_id']

@@ -5,7 +5,7 @@
 #   ##              ##
 #     ######      ##        python main.py -f toc/local/BM2064158.pdf -l win
 #       ##      ######
-#     ##              ##    created by rhodijn (zolo) for zhaw hsb
+#     ##              ##    created by rhodijn for zhaw hsb
 #   ##                ##
 #     ##################    cc-by-sa [°_°]
 

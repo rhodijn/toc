@@ -10,8 +10,15 @@
 #     ##################    cc-by-sa [°_°]
 
 
-import argparse, os, re
+import requests
 from dotenv import dotenv_values
 
 
 secrets = dotenv_values('.env')
+
+
+def get_request():
+    """
+    """
+
+    pass

@@ -32,12 +32,12 @@ if __name__ == '__main__':
     this is the __main__ routine, it controls the process
     """
 
-    log = json_ld(f'log_{datetime.datetime.now().strftime("%Y")}.json', 'l')
+    log = json_load(f'log_{datetime.datetime.now().strftime("%Y")}.json', 'l')
     args = get_args()
     barcode = args.file.split('/')[-1].split('.')[0].upper()
 
     if barcode not in log.keys():
-        processing = json_ld('log.json', 'd')
+        processing = json_load('log.json', 'd')
         processing.update({'dt': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
         processing['filename'].update({'local': args.file.split('/')[-1]})
     else:
@@ -56,7 +56,7 @@ if __name__ == '__main__':
 
     log.update({barcode: processing})
 
-    config = json_ld('config.json', 'd')
+    config = json_load('config.json', 'd')
 
     get_iz_mmsid = requests.get(f'{config["api"]["url"]}items?item_barcode={barcode}&apikey={secrets["API_KEY"]}&format={config["api"]["j"]}')
     data = json.loads(get_iz_mmsid.content.decode(encoding='utf-8'))
@@ -77,4 +77,4 @@ if __name__ == '__main__':
     else:
         log[barcode]['messages'].append('nz mms-id not found')
 
-    success = json_wr(log, f'log_{datetime.datetime.now().strftime("%Y")}.json', 'l')
+    success = json_write(log, f'log_{datetime.datetime.now().strftime("%Y")}.json', 'l')

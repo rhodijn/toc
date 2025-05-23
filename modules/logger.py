@@ -32,7 +32,7 @@ def get_value(file, k_1, k_2) -> str:
         return f'error: {e}'
 
 
-def json_ld(filename, p) -> dict:
+def json_load(filename, p) -> dict:
     """
     load json file
 
@@ -54,7 +54,7 @@ def json_ld(filename, p) -> dict:
         return {}
 
 
-def json_wr(data, filename, p) -> bool:
+def json_write(data, filename, p) -> bool:
     """
     write json file
 

@@ -20,6 +20,7 @@ def get_args() -> argparse.Namespace:
     returns:
     args.file: argparse.Namespace = clt arguments
     """
+
     parser = argparse.ArgumentParser(
         prog = 'toc uploader',
         description = 'upload toc to ftp-server from terminal',
@@ -42,6 +43,7 @@ def check_file(path) -> tuple:
     returns:
     tuple
     """
+
     if os.path.exists(path):
 
         if re.search('(pdf|PDF)', path.split('/')[-1].split('.')[-1]):
@@ -61,6 +63,7 @@ def check_lib(lib):
     returns:
     tuple
     """
+
     try:
         with open('data/config.json') as f:
             data = json.load(f)

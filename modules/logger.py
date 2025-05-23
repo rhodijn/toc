@@ -23,6 +23,7 @@ def get_value(file, k_1, k_2) -> str:
     returns:
     tuple
     """
+
     try:
         with open(file) as f:
             data = json.load(f)
@@ -42,6 +43,7 @@ def json_ld(filename, p) -> dict:
     returns:
     log: dict = metadata for current toc
     """
+
     path = get_value('data/config.json', 'path', p)
 
     try:
@@ -64,6 +66,7 @@ def json_wr(data, filename, p) -> bool:
     returns:
     success: bool = success saving data
     """
+
     path = get_value('data/config.json', 'path', p)
 
     try:

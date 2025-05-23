@@ -29,6 +29,7 @@ if __name__ == '__main__':
     """
     this is the __main__ routine, it controls the process
     """
+
     log = json_ld(f'log_{datetime.datetime.now().strftime("%Y")}.json', 'l')
     args = get_args()
     barcode = args.file.split('/')[-1].split('.')[0].upper()

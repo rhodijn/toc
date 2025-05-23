@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 
-
-################      this script gets the barcode from the filename
-##              ##    it then finds the nz mms-id
-##            ##
-  ######    ##        version 0.4, 2025-05-22
-    ##    ######
-  ##            ##
-##              ##
-  ################    created by rhodijn for zhaw hsb, cc-by-sa [°_°]
+#   ################      this script gets the barcode from the filename
+#   ##              ##    it then finds the nz mms-id
+#   ##            ##
+#     ######    ##        version 0.4, 2025-05-22
+#       ##    ######
+#     ##            ##
+#   ##              ##
+#     ################    created by rhodijn for zhaw hsb, cc-by-sa [°_°]
 
 
 from dotenv import load_dotenv

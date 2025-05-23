@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-##################      this module checks the file
-##                ##    version 0.1, 2025-05-23
-##              ##
-  ######      ##
-    ##      ######
-  ##              ##    created by rhodijn for zhaw hsb
-##                ##
-  ##################    cc-by-sa [°_°]
+#   ##################      this module checks the file
+#   ##                ##    version 0.1, 2025-05-23
+#   ##              ##
+#     ######      ##
+#       ##      ######
+#     ##              ##    created by rhodijn for zhaw hsb
+#   ##                ##
+#     ##################    cc-by-sa [°_°]
 
 
 import argparse, json, os, re
@@ -37,9 +37,9 @@ def get_args() -> argparse.Namespace:
 def check_file(path):
     if os.path.exists(path):
         if re.search('(pdf|PDF)', path.split('/')[-1].split('.')[-1]):
-            return True, 'file check successful'
+            return True, 'valid file'
         else:
-            return False, 'file not pdf'
+            return False, 'invalid file format'
     else:
         return False, 'file does not exist'
 

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-##################      this is the main routine
-##                ##    version 0.1, 2025-05-23
-##              ##
-  ######      ##        python main.py -f toc/local/BM2064158.pdf -l win
-    ##      ######
-  ##              ##    created by rhodijn for zhaw hsb
-##                ##
-  ##################    cc-by-sa [°_°]
+#   ##################      this is the main routine
+#   ##                ##    version 0.1, 2025-05-23
+#   ##              ##
+#     ######      ##        python main.py -f toc/local/BM2064158.pdf -l win
+#       ##      ######
+#     ##              ##    created by rhodijn for zhaw hsb
+#   ##                ##
+#     ##################    cc-by-sa [°_°]
 
 
 import sys
@@ -18,16 +18,42 @@ from checker import *
 from logger import *
 from uploader import *
 
+import datetime
+
+
+processing = {}
+log = {}
 
 if __name__ == '__main__':
     """
     this is the __main__ routine, it controls the process
     """
+    log = load_json(f'log_{datetime.datetime.now().strftime("%Y")}.json', 'log')
     args = get_args()
+    barcode = args.file.split('/')[-1].split('.')[0].upper()
+
+    if barcode not in log.keys():
+        processing = load_json('log.json', 'data')
+        processing.update(
+            {
+                'dt': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                'filename': args.file.split('/')[-1]
+            }
+        )
+    else:
+        processing = log[barcode]
+
     valid_file, msg = check_file(args.file)
+    processing['messages'].append(msg)
+
     if valid_file:
+        processing['valid'].update({'file': True})
         valid_lib, msg = check_lib(args.lib.lower())
+        processing['messages'].append(msg)
+
         if valid_lib:
-            barcode = args.file.split('/')[-1].split('.')[0]
-        else:
-            print(msg)
+            processing['valid'].update({'lib': True})
+
+    log.update({barcode: processing})
+
+    write_json(log, f'log_{datetime.datetime.now().strftime("%Y")}.json', 'log')

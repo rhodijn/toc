@@ -25,10 +25,8 @@ def get_args() -> argparse.Namespace:
         description = 'upload toc to ftp-server from terminal',
         epilog = 'zhaw hsb, cc-by-sa'
     )
-
     parser.add_argument('-f', '--file', required=True, type=str, help='path to toc-file (including name)')
     parser.add_argument('-l', '--lib', required=True, type=str, help='library, used for remote path')
-
     args = parser.parse_args()
 
     return args
@@ -45,6 +43,7 @@ def check_file(path) -> tuple:
     tuple
     """
     if os.path.exists(path):
+
         if re.search('(pdf|PDF)', path.split('/')[-1].split('.')[-1]):
             return True, 'valid file'
         else:
@@ -65,6 +64,7 @@ def check_lib(lib):
     try:
         with open('data/config.json') as f:
             data = json.load(f)
+
             if lib in data['library'].keys():
                 return True, 'valid library'
             else:

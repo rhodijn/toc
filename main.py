@@ -24,6 +24,7 @@ import datetime
 processing = {}
 log = {}
 
+
 if __name__ == '__main__':
     """
     this is the __main__ routine, it controls the process
@@ -52,4 +53,4 @@ if __name__ == '__main__':
 
     log.update({barcode: processing})
 
-    json_wr(log, f'log_{datetime.datetime.now().strftime("%Y")}.json', 'l')
+    success = json_wr(log, f'log_{datetime.datetime.now().strftime("%Y")}.json', 'l')

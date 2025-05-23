@@ -14,6 +14,15 @@ import datetime, json
 
 
 def get_value(file, k_1, k_2) -> str:
+    """
+    check if library parameter is valid
+
+    parameters:
+    lib: str = library code
+
+    returns:
+    tuple
+    """
     try:
         with open(file) as f:
             data = json.load(f)
@@ -23,6 +32,16 @@ def get_value(file, k_1, k_2) -> str:
 
 
 def json_ld(filename, p) -> dict:
+    """
+    load json file
+
+    parameters:
+    filename: str = library code
+    p: str = code for path
+
+    returns:
+    log: dict = metadata for current toc
+    """
     path = get_value('data/config.json', 'path', p)
 
     try:
@@ -32,12 +51,25 @@ def json_ld(filename, p) -> dict:
     except Exception as e:
         return {}
 
-def json_wr(data, filename, p):
+
+def json_wr(data, filename, p) -> bool:
+    """
+    write json file
+
+    parameters:
+    d: dict = data to be logged
+    filename: str = library code
+    p: str = code for path
+
+    returns:
+    success: bool = success saving data
+    """
     path = get_value('data/config.json', 'path', p)
 
     try:
         with open(path + filename, mode='w', encoding='utf-8') as f:
             f.seek(0)
             json.dump(data, f, indent=4)
+        return True
     except Exception as e:
-        print(e)
+        return False

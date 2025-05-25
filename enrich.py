@@ -3,7 +3,7 @@
 #   ##################      this is the main routine
 #   ##                ##    version 0.3 (2025-05-23)
 #   ##              ##
-#     ######      ##        python main.py -f toc/local/BM2064158.pdf -l win
+#     ######      ##        python enrich.py -f toc/local/BM2064158.pdf -l win
 #       ##      ######
 #     ##              ##    created by rhodijn (zolo) for zhaw hsb
 #   ##                ##

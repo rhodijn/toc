@@ -34,6 +34,6 @@ def api_request(method: str, value: str, param_1: str, param_2='') -> tuple:
     """
     config = load_json('config.json', 'd')
     if method == 'get':
-        req = f'{secrets["API_URL"]}{param_1}{value}{param_2}&apikey={secrets["API_KEY"]}&format={config["api"]["j"]}'
+        req = f"{secrets['API_URL']}{param_1}{value}{param_2}&apikey={secrets['API_KEY']}&format={config['api']['j']}"
         response = requests.get(req)
     return req, response

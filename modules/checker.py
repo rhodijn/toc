@@ -70,4 +70,4 @@ def check_lib(lib: str) -> tuple:
             else:
                 return False, 'invalid library parameter'
     except Exception as e:
-        return False, f'error: {e}'
+        return False, f"error: {e}"

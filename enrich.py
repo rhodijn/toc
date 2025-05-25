@@ -30,7 +30,7 @@ if __name__ == '__main__':
     """
     this is the __main__ routine, it controls the process
     """
-    log = load_json(f'log_{datetime.datetime.now().strftime("%Y")}.json', 'l')
+    log = load_json(f"log_{datetime.datetime.now().strftime('%Y')}.json", 'l')
     args = get_args()
     barcode = args.file.split('/')[-1].split('.')[0].upper()
 
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     try:
         mmsid_nz = data['linked_record_id']['value']
     except Exception as e:
-        processing['messages'].append(f'error: {e}')
+        processing['messages'].append(f"error: {e}")
 
     if data['linked_record_id']['type'].upper() == 'NZ':
         processing['mms-id'].update({'nz': mmsid_nz})
@@ -76,4 +76,4 @@ if __name__ == '__main__':
         processing['messages'].append('nz mms-id not found')
 
     log.update({barcode: processing})
-    success = write_json(log, f'log_{datetime.datetime.now().strftime("%Y")}.json', 'l')
+    success = write_json(log, f"log_{datetime.datetime.now().strftime('%Y')}.json", 'l')

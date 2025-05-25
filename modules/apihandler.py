@@ -32,7 +32,7 @@ def api_request(method: str, value: str, param_1: str, param_2='') -> requests.m
     response: requests.models.Response = success saving data
     """
 
-    config = json_load('config.json', 'd')
+    config = load_json('config.json', 'd')
     if method == 'get':
         response = requests.get(f'{config["api"]["url"]}{param_1}{value}{param_2}&apikey={secrets["API_KEY"]}&format={config["api"]["j"]}')
     return response

@@ -32,7 +32,7 @@ def get_value(file: str, k_1: str, k_2: str) -> str:
         return None
 
 
-def json_load(filename: str, p: str) -> dict:
+def load_json(filename: str, p: str) -> dict:
     """
     load json file
 
@@ -57,7 +57,7 @@ def json_load(filename: str, p: str) -> dict:
         return {}
 
 
-def json_write(data: dict, filename: str, p: str) -> bool:
+def write_json(data: dict, filename: str, p: str) -> bool:
     """
     write json file
 

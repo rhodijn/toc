@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
-#   ##################      this module handles the upload
-#   ##                ##    version 0.1 (2025-05-23)
+#   ##################      this module sends an email report
+#   ##                ##    version 0.1 (2025-05-25)
 #   ##              ##
 #     ######      ##
 #       ##      ######

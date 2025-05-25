@@ -24,14 +24,14 @@ def api_request(method: str, value: str, param_1: str, param_2='') -> tuple:
     write json file
 
     parameters:
-    d: dict = data to be logged
-    filename: str = library code
-    p: str = code for path
+    method: str = 
+    value: str = 
+    param_1: str = 
+    param_2: str =
 
     returns:
-    response: tuple = success saving data
+    response: tuple = request: str, response: requests.models.Response
     """
-
     config = load_json('config.json', 'd')
     if method == 'get':
         req = f'{secrets["API_URL"]}{param_1}{value}{param_2}&apikey={secrets["API_KEY"]}&format={config["api"]["j"]}'

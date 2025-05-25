@@ -23,7 +23,6 @@ def get_value(file: str, k_1: str, k_2: str) -> str:
     returns:
     tuple
     """
-
     try:
         with open(file) as f:
             data = json.load(f)
@@ -43,7 +42,6 @@ def load_json(filename: str, p: str) -> dict:
     returns:
     log: dict = metadata for current toc
     """
-
     path = get_value('data/config.json', 'path', p)
 
     if path:
@@ -69,7 +67,6 @@ def write_json(data: dict, filename: str, p: str) -> bool:
     returns:
     success: bool = success saving data
     """
-
     path = get_value('data/config.json', 'path', p)
 
     if path:

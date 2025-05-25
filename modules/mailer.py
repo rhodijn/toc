@@ -21,7 +21,7 @@ from logger import *
 secrets = dotenv_values('.env')
 
 
-def send_mail(barcode: str, processing: dict) -> dict:
+def send_email(barcode: str, processing: dict) -> dict:
     """
     upload file to remote server (if pdf not already online)
 
@@ -41,38 +41,40 @@ def send_mail(barcode: str, processing: dict) -> dict:
     password = secrets['EMAIL_PASS']
 
     message = MIMEMultipart('alternative')
-    message['Subject'] = 'multipart test'
+    message['Subject'] = 'Table of Contents Enrichment Report'
     message['From'] = from_email
     message['To'] = to_email
 
-    # Create the plain-text and HTML version of your message
     text = f"""\
-Hi,
-How are you? {barcode}
-Real Python has many great tutorials:
-www.realpython.com"""
+Report:
+Item barcode: {barcode}
+MMS-ID IZ: {processing['mms-id']['iz']}
+MMS-ID NZ: {processing['mms-id']['nz']}
+
+Go to this address to see the table of contents:
+{processing['url']}
+Thank you for using this service."""
 
     html = f"""\
 <html>
   <body>
-    <p>Hi,<br>
-       How are you? {barcode}<br>
-       <a href="http://www.realpython.com">Real Python</a> 
-       has many great tutorials.
+    <p>Report:<br />
+       Item barcode: {barcode}<br />
+       MMS-ID IZ: {processing['mms-id']['iz']}<br />
+       MMS-ID NZ: {processing['mms-id']['nz']}<br />
+       <br />
+       Click <a href="{processing['url']}" target="_blank">here</a> to see the table of contents<br />
+       Thank you for using this service.
     </p>
   </body>
 </html>"""
 
-    # Turn these into plain/html MIMEText objects
     part1 = MIMEText(text, 'plain')
     part2 = MIMEText(html, 'html')
 
-    # Add HTML/plain-text parts to MIMEMultipart message
-    # The email client will try to render the last part first
     message.attach(part1)
     message.attach(part2)
 
-    # Create secure connection with server and send email
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL('mail.infomaniak.com', 465, context=context) as server:
         server.login(from_email, password)

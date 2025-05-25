@@ -79,4 +79,4 @@ if __name__ == '__main__':
     log.update({barcode: processing})
     success = write_json(log, f"log_{datetime.datetime.now().strftime('%Y')}.json", 'l')
 
-    send_mail(barcode, processing)
+    send_email(barcode, processing)

@@ -17,6 +17,7 @@ from dotenv import dotenv_values
 from modules.apihandler import *
 from modules.checker import *
 from modules.logger import *
+from modules.mailer import *
 from modules.uploader import *
 
 

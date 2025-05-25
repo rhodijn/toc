@@ -71,11 +71,9 @@ if __name__ == '__main__':
     except Exception as e:
         log[barcode]['messages'].append(f'error: {e}')
 
-
     if data['linked_record_id']['type'].upper() == 'NZ':
         log[barcode]['mms-id'].update({'nz': mmsid_nz})
         log[barcode]['messages'].append('nz mms-id successfully retrieved')
-        # os.rename(f'{P_TOC}local/{barcode}.pdf', f'{P_TOC}local/{mmsid_nz}.pdf')
     else:
         log[barcode]['messages'].append('nz mms-id not found')
 

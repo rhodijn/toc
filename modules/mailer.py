@@ -21,15 +21,13 @@ from logger import *
 secrets = dotenv_values('.env')
 
 
-def send_email(barcode: str, processing: dict) -> dict:
+def send_email(barcode: str, processing: dict):
     """
     upload file to remote server (if pdf not already online)
 
     parameters:
-    f_process: dict = {file name: dict = {}}
-    f_toc: str = file name of toc
-    p_bib: str = remote path to files of library (winterthur or waedenswil)
-    para_file: str = path to local file
+    barcode: str = item barcode
+    processing: dict =
 
     returns:
     f_process: dict = {file name: dict = {}}

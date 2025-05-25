@@ -19,7 +19,7 @@ from logger import *
 secrets = dotenv_values('.env')
 
 
-def api_request(method: str, value: str, param_1: str, param_2='') -> requests.models.Response:
+def api_request(method: str, value: str, param_1: str, param_2='') -> tuple:
     """
     write json file
 
@@ -29,10 +29,11 @@ def api_request(method: str, value: str, param_1: str, param_2='') -> requests.m
     p: str = code for path
 
     returns:
-    response: requests.models.Response = success saving data
+    response: tuple = success saving data
     """
 
     config = load_json('config.json', 'd')
     if method == 'get':
-        response = requests.get(f'{config["api"]["url"]}{param_1}{value}{param_2}&apikey={secrets["API_KEY"]}&format={config["api"]["j"]}')
-    return response
+        req = f'{secrets["API_URL"]}{param_1}{value}{param_2}&apikey={secrets["API_KEY"]}&format={config["api"]["j"]}'
+        response = requests.get(req)
+    return req, response

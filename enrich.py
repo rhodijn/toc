@@ -53,28 +53,28 @@ if __name__ == '__main__':
         if valid_lib:
             processing['valid'].update({'lib': True})
 
-    log.update({barcode: processing})
-
-    get_iz_mmsid = api_request('get', barcode, 'items?item_barcode=')
+    req, get_iz_mmsid = api_request('get', barcode, 'items?item_barcode=')
+    processing['requests'].append(req)
     data = json.loads(get_iz_mmsid.content.decode(encoding='utf-8'))
 
     mmsid_iz = data['bib_data']['mms_id']
-    log[barcode]['mms-id'].update({'iz': mmsid_iz})
-    log[barcode]['messages'].append('iz mms-id successfully retrieved')
+    processing['mms-id'].update({'iz': mmsid_iz})
+    processing['messages'].append('iz mms-id successfully retrieved')
 
-    get_nz_mmsid = api_request('get', mmsid_iz, 'bibs/', config["api"]["get"])
-
+    req, get_nz_mmsid = api_request('get', mmsid_iz, 'bibs/', config["api"]["get"])
+    processing['requests'].append(req)
     data = json.loads(get_nz_mmsid.content.decode(encoding='utf-8'))
 
     try:
         mmsid_nz = data['linked_record_id']['value']
     except Exception as e:
-        log[barcode]['messages'].append(f'error: {e}')
+        processing['messages'].append(f'error: {e}')
 
     if data['linked_record_id']['type'].upper() == 'NZ':
-        log[barcode]['mms-id'].update({'nz': mmsid_nz})
-        log[barcode]['messages'].append('nz mms-id successfully retrieved')
+        processing['mms-id'].update({'nz': mmsid_nz})
+        processing['messages'].append('nz mms-id successfully retrieved')
     else:
-        log[barcode]['messages'].append('nz mms-id not found')
+        processing['messages'].append('nz mms-id not found')
 
+    log.update({barcode: processing})
     success = write_json(log, f'log_{datetime.datetime.now().strftime("%Y")}.json', 'l')

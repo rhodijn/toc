@@ -33,7 +33,7 @@ def get_args() -> argparse.Namespace:
     return args
 
 
-def check_file(path) -> tuple:
+def check_file(path: str) -> tuple:
     """
     check if file parameter exists and is pdf
 
@@ -53,7 +53,7 @@ def check_file(path) -> tuple:
     else:
         return False, 'file does not exist'
 
-def check_lib(lib):
+def check_lib(lib: str) -> tuple:
     """
     check if library parameter is valid
 

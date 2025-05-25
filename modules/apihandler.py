@@ -19,7 +19,7 @@ from logger import *
 secrets = dotenv_values('.env')
 
 
-def get_request(code) -> requests.models.Response:
+def api_request(method: str, value: str, param_1: str, param_2='') -> requests.models.Response:
     """
     write json file
 
@@ -33,5 +33,6 @@ def get_request(code) -> requests.models.Response:
     """
 
     config = json_load('config.json', 'd')
-    response = requests.get(f'{config["api"]["url"]}items?item_barcode={code}&apikey={secrets["API_KEY"]}&format={config["api"]["j"]}')
+    if method == 'get':
+        response = requests.get(f'{config["api"]["url"]}{param_1}{value}{param_2}&apikey={secrets["API_KEY"]}&format={config["api"]["j"]}')
     return response

@@ -20,6 +20,7 @@ from modules.logger import *
 from modules.uploader import *
 
 
+config = json_load('config.json', 'd')
 secrets = dotenv_values('.env')
 processing = {}
 log = {}
@@ -54,15 +55,14 @@ if __name__ == '__main__':
 
     log.update({barcode: processing})
 
-    config = json_load('config.json', 'd')
-
-    get_iz_mmsid = get_request(barcode)
+    get_iz_mmsid = api_request('get', barcode, 'items?item_barcode=')
     data = json.loads(get_iz_mmsid.content.decode(encoding='utf-8'))
 
     mmsid_iz = data['bib_data']['mms_id']
     log[barcode]['mms-id'].update({'iz': mmsid_iz})
     log[barcode]['messages'].append('iz mms-id successfully retrieved')
-    get_nz_mmsid = requests.get(f'{config["api"]["url"]}bibs/{mmsid_iz}{config["api"]["get"]}&apikey={secrets["API_KEY"]}&format={config["api"]["j"]}')
+
+    get_nz_mmsid = api_request('get', mmsid_iz, 'bibs/', config["api"]["get"])
 
     data = json.loads(get_nz_mmsid.content.decode(encoding='utf-8'))
 

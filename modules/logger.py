@@ -10,10 +10,10 @@
 #     ##################    cc-by-sa [°_°]
 
 
-import datetime, json
+import json
 
 
-def get_value(file, k_1, k_2) -> str:
+def get_value(file: str, k_1: str, k_2: str) -> str:
     """
     check if library parameter is valid
 
@@ -32,7 +32,7 @@ def get_value(file, k_1, k_2) -> str:
         return None
 
 
-def json_load(filename, p) -> dict:
+def json_load(filename: str, p: str) -> dict:
     """
     load json file
 
@@ -57,7 +57,7 @@ def json_load(filename, p) -> dict:
         return {}
 
 
-def json_write(data, filename, p) -> bool:
+def json_write(data: dict, filename: str, p: str) -> bool:
     """
     write json file
 

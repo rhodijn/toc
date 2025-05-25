@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     if barcode not in log.keys():
         processing = json_load('log.json', 'd')
-        processing.update({'dt': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")})
+        processing.update({'dt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         processing['filename'].update({'local': args.file.split('/')[-1]})
     else:
         processing = log[barcode]
@@ -61,7 +61,7 @@ if __name__ == '__main__':
 
     mmsid_iz = data['bib_data']['mms_id']
     log[barcode]['mms-id'].update({'iz': mmsid_iz})
-    log[barcode]['messages'].append('iz mms-id found')
+    log[barcode]['messages'].append('iz mms-id successfully retrieved')
     get_nz_mmsid = requests.get(f'{config["api"]["url"]}bibs/{mmsid_iz}{config["api"]["get"]}&apikey={secrets["API_KEY"]}&format={config["api"]["j"]}')
 
     data = json.loads(get_nz_mmsid.content.decode(encoding='utf-8'))
@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     if data['linked_record_id']['type'].upper() == 'NZ':
         log[barcode]['mms-id'].update({'nz': mmsid_nz})
-        log[barcode]['messages'].append('nz mms-id found')
+        log[barcode]['messages'].append('nz mms-id successfully retrieved')
         # os.rename(f'{P_TOC}local/{barcode}.pdf', f'{P_TOC}local/{mmsid_nz}.pdf')
     else:
         log[barcode]['messages'].append('nz mms-id not found')

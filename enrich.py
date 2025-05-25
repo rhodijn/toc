@@ -14,10 +14,10 @@ import datetime, json, requests, sys
 sys.path.append('modules/')
 
 from dotenv import dotenv_values
-from apihandler import *
-from checker import *
-from logger import *
-from uploader import *
+from modules.apihandler import *
+from modules.checker import *
+from modules.logger import *
+from modules.uploader import *
 
 
 secrets = dotenv_values('.env')

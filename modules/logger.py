@@ -28,8 +28,8 @@ def get_value(file, k_1, k_2) -> str:
         with open(file) as f:
             data = json.load(f)
             return data[k_1][k_2]
-    except Exception as e:
-        return f'error: {e}'
+    except:
+        return None
 
 
 def json_load(filename, p) -> dict:
@@ -46,11 +46,14 @@ def json_load(filename, p) -> dict:
 
     path = get_value('data/config.json', 'path', p)
 
-    try:
-        with open(path + filename, mode='r', encoding='utf-8') as f:
-            data = json.load(f)
-            return data
-    except Exception as e:
+    if path:
+        try:
+            with open(path + filename, mode='r', encoding='utf-8') as f:
+                data = json.load(f)
+                return data
+        except:
+            return {}
+    else:
         return {}
 
 
@@ -69,10 +72,10 @@ def json_write(data, filename, p) -> bool:
 
     path = get_value('data/config.json', 'path', p)
 
-    try:
+    if path:
         with open(path + filename, mode='w', encoding='utf-8') as f:
             f.seek(0)
             json.dump(data, f, indent=4)
         return True
-    except Exception as e:
+    else:
         return False

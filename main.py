@@ -66,7 +66,11 @@ if __name__ == '__main__':
 
     data = json.loads(get_nz_mmsid.content.decode(encoding='utf-8'))
 
-    mmsid_nz = data['linked_record_id']['value']
+    try:
+        mmsid_nz = data['linked_record_id']['value']
+    except Exception as e:
+        log[barcode]['messages'].append(f'error: {e}')
+
 
     if data['linked_record_id']['type'].upper() == 'NZ':
         log[barcode]['mms-id'].update({'nz': mmsid_nz})

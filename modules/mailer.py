@@ -53,6 +53,7 @@ MMS-ID NZ: {processing['mms-id']['nz']}
 
 Go to this address to see the table of contents:
 {processing['url']}
+
 Thank you for using this service."""
 
     html = f"""\
@@ -64,18 +65,19 @@ Thank you for using this service."""
        MMS-ID NZ: {processing['mms-id']['nz']}<br />
        <br />
        Click <a href="{processing['url']}" target="_blank">here</a> to see the table of contents<br />
+       <br />
        Thank you for using this service.
     </p>
   </body>
 </html>"""
 
-    part1 = MIMEText(text, 'plain')
-    part2 = MIMEText(html, 'html')
+    part_1 = MIMEText(text, 'plain')
+    part_2 = MIMEText(html, 'html')
 
-    message.attach(part1)
-    message.attach(part2)
+    message.attach(part_1)
+    message.attach(part_2)
 
     context = ssl.create_default_context()
-    with smtplib.SMTP_SSL('mail.infomaniak.com', 465, context=context) as server:
-        server.login(from_email, password)
-        server.sendmail(from_email, to_email, message.as_string())
+    with smtplib.SMTP_SSL('mail.infomaniak.com', 465, context=context) as s:
+        s.login(from_email, password)
+        s.sendmail(from_email, to_email, message.as_string())

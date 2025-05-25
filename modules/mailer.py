@@ -10,16 +10,18 @@
 #     ##################    cc-by-sa [°_°]
 
 
-import paramiko
+import smtplib, ssl
 
 from dotenv import dotenv_values
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from logger import *
 
 
 secrets = dotenv_values('.env')
 
 
-def send_mail(f_process: dict, f_toc: str, p_bib: str, para_file: str) -> dict:
+def send_mail(barcode: str, processing: dict) -> dict:
     """
     upload file to remote server (if pdf not already online)
 
@@ -33,37 +35,45 @@ def send_mail(f_process: dict, f_toc: str, p_bib: str, para_file: str) -> dict:
     f_process: dict = {file name: dict = {}}
     """
     config = load_json('config.json', 'd')
-    mms_id = f_toc.split('.')[0]
-    f_remote : list = []
 
-    ssh_client = paramiko.SSHClient()
-    ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh_client.connect(
-        hostname=secrets['FTP_URL'],
-        port=config['ftp']['port'],
-        username=secrets['FTP_USER'],
-        password=secrets['FTP_PASS'],
-        look_for_keys=False
-    )
+    from_email = config['email']['from']
+    to_email = config['email']['to']
+    password = secrets['EMAIL_PASS']
 
-    sftp_client = ssh_client.open_sftp()
+    message = MIMEMultipart('alternative')
+    message['Subject'] = 'multipart test'
+    message['From'] = from_email
+    message['To'] = to_email
 
-    f_remote = sftp_client.listdir(config['path']['r'] + p_bib)
-    
-    if f_toc in f_remote:
-        f_process[mms_id]['messages'].append('file already online')
-    else:
-        try:
-            sftp_client.put(para_file, config['path']['r'] + p_bib + f_process[mms_id]['filename'])
-            url = f"{secrets['FTP_URL']}/{config['path']['r']}{p_bib}{f_toc}"
-            f_process[mms_id].update({'uploaded': True, 'url': url})
-            f_process[mms_id]['messages'].append('upload successful')
-        except Exception as e:
-            f_process[mms_id]['messages'].append(f"error: {e} occurred")
+    # Create the plain-text and HTML version of your message
+    text = f"""\
+Hi,
+How are you? {barcode}
+Real Python has many great tutorials:
+www.realpython.com"""
 
-    f_remote = sftp_client.listdir(config['path']['r'] + p_bib)
+    html = f"""\
+<html>
+  <body>
+    <p>Hi,<br>
+       How are you? {barcode}<br>
+       <a href="http://www.realpython.com">Real Python</a> 
+       has many great tutorials.
+    </p>
+  </body>
+</html>"""
 
-    sftp_client.close()
-    ssh_client.close()
+    # Turn these into plain/html MIMEText objects
+    part1 = MIMEText(text, 'plain')
+    part2 = MIMEText(html, 'html')
 
-    return f_process
+    # Add HTML/plain-text parts to MIMEMultipart message
+    # The email client will try to render the last part first
+    message.attach(part1)
+    message.attach(part2)
+
+    # Create secure connection with server and send email
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL('mail.infomaniak.com', 465, context=context) as server:
+        server.login(from_email, password)
+        server.sendmail(from_email, to_email, message.as_string())

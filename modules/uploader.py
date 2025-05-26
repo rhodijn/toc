@@ -19,13 +19,13 @@ from logger import *
 secrets = dotenv_values('.env')
 
 
-def upload_pdf(processing: dict, f_toc: str, lib: str, para_file: str) -> dict:
+def upload_pdf(processing: dict, filename: str, lib: str, para_file: str) -> dict:
     """
     upload file to remote server (if pdf not already online)
 
     parameters:
     processing: dict = {file name: dict = {}}
-    f_toc: str = file name of toc
+    filename: str = file name of toc
     p_bib: str = remote path to files of library (winterthur or waedenswil)
     para_file: str = path to local file
 
@@ -50,12 +50,12 @@ def upload_pdf(processing: dict, f_toc: str, lib: str, para_file: str) -> dict:
 
     f_remote = sftp_client.listdir(config['path']['r'] + config['library'][lib])
     
-    if f_toc in f_remote:
+    if filename in f_remote:
         processing[mms_id]['messages'].append('file already online')
     else:
         try:
             sftp_client.put(para_file, config['path']['r'] + config['library'][lib] + processing[mms_id]['filename'])
-            url = f"{secrets['FTP_URL']}/{config['path']['r']}{config['library'][lib]}{f_toc}"
+            url = f"{secrets['FTP_URL']}/{config['path']['r']}{config['library'][lib]}{filename}"
             processing[mms_id].update({'uploaded': True, 'url': url})
             processing[mms_id]['messages'].append('upload successful')
         except Exception as e:

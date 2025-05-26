@@ -45,11 +45,11 @@ def check_file(path: str) -> tuple:
     if os.path.exists(path):
 
         if re.search('(pdf|PDF)', path.split('/')[-1].split('.')[-1]):
-            return True, 'valid file'
+            return True, 'local file valid'
         else:
-            return False, 'invalid file format'
+            return False, 'local file invalid format'
     else:
-        return False, 'file does not exist'
+        return False, 'local file does not exist'
 
 def check_lib(lib: str) -> tuple:
     """
@@ -66,8 +66,8 @@ def check_lib(lib: str) -> tuple:
             data = json.load(f)
 
             if lib in data['library'].keys():
-                return True, 'valid library'
+                return True, 'library code valid'
             else:
-                return False, 'invalid library parameter'
+                return False, 'library code invalid'
     except Exception as e:
         return False, f"error: {e}"

@@ -43,8 +43,9 @@ def send_email(barcode: str, processing: dict):
     message['From'] = from_email
     message['To'] = to_email
 
-    text = f"""\
-Report:
+    if processing['mms-id']['nz']:
+        text = f"""Enrichment Report:
+
 Item barcode: {barcode}
 MMS-ID IZ: {processing['mms-id']['iz']}
 MMS-ID NZ: {processing['mms-id']['nz']}
@@ -52,19 +53,34 @@ MMS-ID NZ: {processing['mms-id']['nz']}
 Go to this address to see the table of contents:
 {processing['url']}
 
-Thank you for using this service."""
+Thank you for using this service!"""
 
-    html = f"""\
-<html>
+        html = f"""<html>
   <body>
-    <p>Report:<br />
+    <p><h2>Enrichment Report</h2>
        Item barcode: {barcode}<br />
        MMS-ID IZ: {processing['mms-id']['iz']}<br />
-       MMS-ID NZ: {processing['mms-id']['nz']}<br />
-       <br />
-       Click <a href="{processing['url']}" target="_blank">here</a> to see the table of contents<br />
-       <br />
-       Thank you for using this service.
+       MMS-ID NZ: {processing['mms-id']['nz']}<br /><br />
+       Click <a href="{processing['url']}" target="_blank">here</a> to see the table of contents<br /><br />
+       Thank you for using this service!
+    </p>
+  </body>
+</html>"""
+    else:
+        text = f"""Enrichment Report:
+
+Item Barcode: {barcode}
+Message: {processing['messages'][-1]}
+
+Thank you for using this service!
+        """
+
+        html = f"""<html>
+  <body>
+    <p><h2>Enrichment Report</h2>
+       Item barcode: {barcode}<br />
+       Message: {processing['messages'][-1]}<br /><br />
+       Thank you for using this service!
     </p>
   </body>
 </html>"""

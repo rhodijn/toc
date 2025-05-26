@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ##################      this is the main routine
-#   ##                ##    version 0.3 (2025-05-23)
+#   ##                ##    version 0.4 (2025-05-26)
 #   ##              ##
 #     ######      ##        python enrich.py -f toc/local/BM2064158.pdf -l win
 #       ##      ######
@@ -35,46 +35,47 @@ if __name__ == '__main__':
     args = get_args()
     barcode = args.file.split('/')[-1].split('.')[0].upper()
 
-    if barcode not in log.keys():
+    if barcode in log.keys() and log[barcode]['inserted']:
+        processing = log[barcode]
+        processing['messages'].append('toc already processed')
+    else:
         processing = load_json('log.json', 'd')
         processing.update({'dt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
         processing['filename'].update({'local': args.file.split('/')[-1]})
-    else:
-        processing = log[barcode]
 
-    valid_file, msg = check_file(args.file)
-    processing['messages'].append(msg)
-
-    if valid_file:
-        processing['valid'].update({'file': True})
-        valid_lib, msg = check_lib(args.lib.lower())
+        valid_file, msg = check_file(args.file)
         processing['messages'].append(msg)
 
-        if valid_lib:
-            processing['valid'].update({'lib': True})
+        if valid_file:
+            processing['valid'].update({'file': True})
+            valid_lib, msg = check_lib(args.lib.lower())
+            processing['messages'].append(msg)
 
-    req, get_iz_mmsid = api_request('get', barcode, 'items?item_barcode=')
-    processing['requests'].append(req)
-    data = json.loads(get_iz_mmsid.content.decode(encoding='utf-8'))
+            if valid_lib:
+                processing['valid'].update({'lib': True})
 
-    mmsid_iz = data['bib_data']['mms_id']
-    processing['mms-id'].update({'iz': mmsid_iz})
-    processing['messages'].append('iz mms-id successfully retrieved')
+                req, get_iz_mmsid = api_request('get', barcode, 'items?item_barcode=')
+                processing['requests'].append(req)
+                data = json.loads(get_iz_mmsid.content.decode(encoding='utf-8'))
 
-    req, get_nz_mmsid = api_request('get', mmsid_iz, 'bibs/', config["api"]["get"])
-    processing['requests'].append(req)
-    data = json.loads(get_nz_mmsid.content.decode(encoding='utf-8'))
+                mmsid_iz = data['bib_data']['mms_id']
+                processing['mms-id'].update({'iz': mmsid_iz})
+                processing['messages'].append('iz mms-id successfully retrieved')
 
-    try:
-        mmsid_nz = data['linked_record_id']['value']
-    except Exception as e:
-        processing['messages'].append(f"error: {e}")
+                req, get_nz_mmsid = api_request('get', mmsid_iz, 'bibs/', config["api"]["get"])
+                processing['requests'].append(req)
+                data = json.loads(get_nz_mmsid.content.decode(encoding='utf-8'))
 
-    if data['linked_record_id']['type'].upper() == 'NZ':
-        processing['mms-id'].update({'nz': mmsid_nz})
-        processing['messages'].append('nz mms-id successfully retrieved')
-    else:
-        processing['messages'].append('nz mms-id not found')
+                try:
+                    mmsid_nz = data['linked_record_id']['value']
+                except Exception as e:
+                    processing['messages'].append(f"error: {e}")
+
+                if data['linked_record_id']['type'].upper() == 'NZ':
+                    processing['mms-id'].update({'nz': mmsid_nz})
+                    processing['messages'].append('nz mms-id successfully retrieved')
+                else:
+                    processing['messages'].append('nz mms-id not found')
 
     log.update({barcode: processing})
     success = write_json(log, f"log_{datetime.datetime.now().strftime('%Y')}.json", 'l')

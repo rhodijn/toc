@@ -76,6 +76,7 @@ if __name__ == '__main__':
                     processing['messages'].append('nz mms-id retrieved')
                     processing = upload_pdf(processing, args.file, args.lib.lower())
                     processing = rm_file(processing, args.file)
+                    processing = check_url(processing)
                 else:
                     processing['messages'].append('nz mms-id not found')
 

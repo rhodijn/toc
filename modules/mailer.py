@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ##################      this module sends an email report
-#   ##                ##    version 0.3 (2025-05-26)
+#   ##                ##    version 0.4 (2025-05-26)
 #   ##              ##
 #     ######      ##
 #       ##      ######
@@ -43,7 +43,7 @@ def send_email(barcode: str, processing: dict):
     message['From'] = from_email
     message['To'] = to_email
 
-    if processing['mms-id']['nz']:
+    if processing['mms-id']['nz'] and processing['link_tested']:
         text = f"""Enrichment Report:
 
 Item barcode: {barcode}

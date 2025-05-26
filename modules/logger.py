@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ##################      this module keeps track of what happened
-#   ##                ##    version 0.4 (2025-05-23)
+#   ##                ##    version 0.7 (2025-05-26)
 #   ##              ##
 #     ######      ##
 #       ##      ######

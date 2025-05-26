@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ##################      this module handles the upload
-#   ##                ##    version 0.4 (2025-05-26)
+#   ##                ##    version 0.7 (2025-05-26)
 #   ##              ##
 #     ######      ##
 #       ##      ######
@@ -55,7 +55,7 @@ def upload_pdf(processing: dict, filepath: str, lib: str) -> dict:
             sftp_client.put(filepath, f"{config['path']['r']}{config['library'][lib]}{processing['mms-id']['nz']}.pdf")
             url = f"https://{secrets['FTP_URL']}/{config['path']['r']}{config['library'][lib]}{processing['mms-id']['nz']}.pdf"
             processing.update({'uploaded': True, 'url': url})
-            processing['filename']['remote'] = url.split('/')[-1]
+            processing['filename'].update({'remote': url.split('/')[-1]})
             processing['messages'].append('pdf uploaded')
         except Exception as e:
             processing['messages'].append(f"error: {e} occurred")

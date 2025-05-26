@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ##################      this module communicates with alma
-#   ##                ##    version 0.2 (2025-05-23)
+#   ##                ##    version 0.7 (2025-05-26)
 #   ##              ##
 #     ######      ##
 #       ##      ######
@@ -37,3 +37,27 @@ def api_request(method: str, value: str, param_1: str, param_2='') -> tuple:
         req = f"{secrets['API_URL']}{param_1}{value}{param_2}&apikey={secrets['API_KEY']}&format={config['api']['j']}"
         response = requests.get(req)
     return req, response
+
+
+def check_url(processing: dict) -> dict:
+    """
+    test the link to the pdf
+
+    parameters:
+    processing: dict
+
+    returns:
+    processing: dict =
+    """
+    try:
+        response = requests.head(processing['url'])
+
+        if response.status_code == 200:
+            processing['messages'].append('link test successful')
+            return True, processing
+        else:
+            processing['messages'].append('link test failed')
+            return processing
+    except requests.ConnectionError as e:
+        processing['messages'].append(f"error: {e} occurred")
+        return processing

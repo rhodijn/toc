@@ -19,21 +19,21 @@ from logger import *
 secrets = dotenv_values('.env')
 
 
-def upload_pdf(f_process: dict, f_toc: str, p_bib: str, para_file: str) -> dict:
+def upload_pdf(processing: dict, f_toc: str, lib: str, para_file: str) -> dict:
     """
     upload file to remote server (if pdf not already online)
 
     parameters:
-    f_process: dict = {file name: dict = {}}
+    processing: dict = {file name: dict = {}}
     f_toc: str = file name of toc
     p_bib: str = remote path to files of library (winterthur or waedenswil)
     para_file: str = path to local file
 
     returns:
-    f_process: dict = {file name: dict = {}}
+    processing: dict = {file name: dict = {}}
     """
     config = load_json('config.json', 'd')
-    mms_id = f_toc.split('.')[0]
+    mms_id = processing['mms-id']['nz']
     f_remote : list = []
 
     ssh_client = paramiko.SSHClient()
@@ -48,22 +48,22 @@ def upload_pdf(f_process: dict, f_toc: str, p_bib: str, para_file: str) -> dict:
 
     sftp_client = ssh_client.open_sftp()
 
-    f_remote = sftp_client.listdir(config['path']['r'] + p_bib)
+    f_remote = sftp_client.listdir(config['path']['r'] + config['library'][lib])
     
     if f_toc in f_remote:
-        f_process[mms_id]['messages'].append('file already online')
+        processing[mms_id]['messages'].append('file already online')
     else:
         try:
-            sftp_client.put(para_file, config['path']['r'] + p_bib + f_process[mms_id]['filename'])
-            url = f"{secrets['FTP_URL']}/{config['path']['r']}{p_bib}{f_toc}"
-            f_process[mms_id].update({'uploaded': True, 'url': url})
-            f_process[mms_id]['messages'].append('upload successful')
+            sftp_client.put(para_file, config['path']['r'] + config['library'][lib] + processing[mms_id]['filename'])
+            url = f"{secrets['FTP_URL']}/{config['path']['r']}{config['library'][lib]}{f_toc}"
+            processing[mms_id].update({'uploaded': True, 'url': url})
+            processing[mms_id]['messages'].append('upload successful')
         except Exception as e:
-            f_process[mms_id]['messages'].append(f"error: {e} occurred")
+            processing[mms_id]['messages'].append(f"error: {e} occurred")
 
-    f_remote = sftp_client.listdir(config['path']['r'] + p_bib)
+    f_remote = sftp_client.listdir(config['path']['r'] + config['library'][lib])
 
     sftp_client.close()
     ssh_client.close()
 
-    return f_process
+    return processing

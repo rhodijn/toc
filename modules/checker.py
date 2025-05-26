@@ -51,6 +51,7 @@ def check_file(path: str) -> tuple:
     else:
         return False, 'local file does not exist'
 
+
 def check_lib(lib: str) -> tuple:
     """
     check if library parameter is valid

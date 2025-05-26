@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ##################      this module handles the upload
-#   ##                ##    version 0.1 (2025-05-23)
+#   ##                ##    version 0.4 (2025-05-26)
 #   ##              ##
 #     ######      ##
 #       ##      ######
@@ -10,7 +10,7 @@
 #     ##################    cc-by-sa [°_°]
 
 
-import paramiko
+import os, paramiko
 
 from dotenv import dotenv_values
 from logger import *
@@ -19,22 +19,20 @@ from logger import *
 secrets = dotenv_values('.env')
 
 
-def upload_pdf(processing: dict, filename: str, lib: str, para_file: str) -> dict:
+def upload_pdf(processing: dict, filepath: str, lib: str) -> dict:
     """
     upload file to remote server (if pdf not already online)
 
     parameters:
-    processing: dict = {file name: dict = {}}
-    filename: str = file name of toc
-    p_bib: str = remote path to files of library (winterthur or waedenswil)
-    para_file: str = path to local file
+    processing: dict =
+    filepath: str = file name of toc
+    lib: str = remote path to files of library (winterthur or waedenswil)
 
     returns:
-    processing: dict = {file name: dict = {}}
+    processing: dict =
     """
     config = load_json('config.json', 'd')
-    mms_id = processing['mms-id']['nz']
-    f_remote : list = []
+    remote_files : list = []
 
     ssh_client = paramiko.SSHClient()
     ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -48,22 +46,43 @@ def upload_pdf(processing: dict, filename: str, lib: str, para_file: str) -> dic
 
     sftp_client = ssh_client.open_sftp()
 
-    f_remote = sftp_client.listdir(config['path']['r'] + config['library'][lib])
+    remote_files = sftp_client.listdir(config['path']['r'] + config['library'][lib])
     
-    if filename in f_remote:
-        processing[mms_id]['messages'].append('file already online')
+    if f"{processing['mms-id']['nz']}.pdf" in remote_files:
+        processing['messages'].append('file already online')
     else:
         try:
-            sftp_client.put(para_file, config['path']['r'] + config['library'][lib] + processing[mms_id]['filename'])
-            url = f"{secrets['FTP_URL']}/{config['path']['r']}{config['library'][lib]}{filename}"
-            processing[mms_id].update({'uploaded': True, 'url': url})
-            processing[mms_id]['messages'].append('upload successful')
+            sftp_client.put(filepath, f"{config['path']['r']}{config['library'][lib]}{processing['mms-id']['nz']}.pdf")
+            url = f"https://{secrets['FTP_URL']}/{config['path']['r']}{config['library'][lib]}{processing['mms-id']['nz']}.pdf"
+            processing.update({'uploaded': True, 'url': url})
+            processing['filename']['remote'] = url.split('/')[-1]
+            processing['messages'].append('pdf uploaded')
         except Exception as e:
-            processing[mms_id]['messages'].append(f"error: {e} occurred")
-
-    f_remote = sftp_client.listdir(config['path']['r'] + config['library'][lib])
+            processing['messages'].append(f"error: {e} occurred")
 
     sftp_client.close()
     ssh_client.close()
+
+    return processing
+
+
+def rm_file(processing: dict, filepath: str) -> dict:
+    """
+    delete local file
+
+    parameters:
+    processing: dict = {file name: dict = {}}
+    f_toc: str = file name of toc
+    para_file: str = path to local file
+
+    returns:
+    processing: dict = {file name: dict = {}}
+    """    
+    if os.path.exists(filepath):
+        os.remove(filepath)
+        processing.update({'deleted': True})
+        processing['messages'].append('local file removed')
+    else:
+        processing['messages'].append('local file not found')
 
     return processing

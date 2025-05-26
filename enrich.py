@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
                 mmsid_iz = data['bib_data']['mms_id']
                 processing['mms-id'].update({'iz': mmsid_iz})
-                processing['messages'].append('iz mms-id successfully retrieved')
+                processing['messages'].append('iz mms-id retrieved')
 
                 req, get_nz_mmsid = api_request('get', mmsid_iz, 'bibs/', config["api"]["get"])
                 processing['requests'].append(req)
@@ -73,7 +73,8 @@ if __name__ == '__main__':
 
                 if data['linked_record_id']['type'].upper() == 'NZ':
                     processing['mms-id'].update({'nz': mmsid_nz})
-                    processing['messages'].append('nz mms-id successfully retrieved')
+                    processing['messages'].append('nz mms-id retrieved')
+                    processing = upload_pdf(processing, args.file, args.lib.lower())
                 else:
                     processing['messages'].append('nz mms-id not found')
 

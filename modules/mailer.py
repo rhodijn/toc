@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ##################      this module sends an email report
-#   ##                ##    version 0.1 (2025-05-25)
+#   ##                ##    version 0.3 (2025-05-26)
 #   ##              ##
 #     ######      ##
 #       ##      ######
@@ -72,8 +72,7 @@ Thank you for using this service!"""
 Item Barcode: {barcode}
 Message: {processing['messages'][-1]}
 
-Thank you for using this service!
-        """
+Thank you for using this service!"""
 
         html = f"""<html>
   <body>

@@ -21,7 +21,7 @@ from logger import *
 secrets = dotenv_values('.env')
 
 
-def api_request(method: str, value: str, param_1: str, param_2='') -> tuple:
+def api_request(method: str, value: str, par_1: str, par_2='') -> tuple:
     """
     write json file
 
@@ -36,7 +36,7 @@ def api_request(method: str, value: str, param_1: str, param_2='') -> tuple:
     """
     config = load_json('config.json', 'd')
     if method == 'get':
-        req = f"{secrets['API_URL']}{param_1}{value}{param_2}&apikey={secrets['API_KEY']}&format={config['api']['j']}"
+        req = f"{secrets['API_URL']}{par_1}{value}{par_2}&apikey={secrets['API_KEY']}&format={config['api']['j']}"
         response = requests.get(req)
     return req, response
 

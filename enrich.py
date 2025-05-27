@@ -37,9 +37,10 @@ if __name__ == '__main__':
     args = get_args()
     barcode = args.file.split('/')[-1].split('.')[0].upper()
 
-    if barcode in log.keys() and log[barcode]['inserted']:
+    if barcode in log.keys():
         processing = log[barcode]
-        processing['messages'].append('toc already processed')
+        if log[barcode]['inserted']:
+            processing['messages'].append('toc already processed')
     else:
         processing = load_json('log.json', 'd')
         processing.update({'dt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')})

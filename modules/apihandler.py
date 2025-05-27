@@ -35,9 +35,11 @@ def api_request(method: str, value: str, par_1: str, par_2='') -> tuple:
     response: tuple = request: str, response: requests.models.Response
     """
     config = load_json('config.json', 'd')
+
     if method == 'get':
         req = f"{secrets['API_URL']}{par_1}{value}{par_2}&apikey={secrets['API_KEY']}&format={config['api']['j']}"
         response = requests.get(req)
+
     return req, response
 
 
@@ -52,14 +54,17 @@ def check_url(processing: dict) -> dict:
     processing: dict =
     """
     try:
-        response = requests.head(processing['url'])
+        if processing['url']:
+            response = requests.head(processing['url'])
 
-        if response.status_code == 200:
-            processing['messages'].append('link test successful')
-            return True, processing
+            if response.status_code == 200:
+                processing.update({'link_tested': True})
+                processing['messages'].append(f"link tested (code: {response.status_code})")
+            else:
+                processing['messages'].append(f"link test failed (code: {response.status_code})")
         else:
-            processing['messages'].append('link test failed')
-            return processing
+            processing['messages'].append('no url to test')
     except requests.ConnectionError as e:
         processing['messages'].append(f"error: {e} occurred")
-        return processing
+    
+    return processing

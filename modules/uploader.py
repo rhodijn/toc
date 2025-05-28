@@ -50,12 +50,12 @@ def upload_pdf(processing: dict, filepath: str, lib: str) -> dict:
 
     remote_files = sftp_client.listdir(config['path']['r'] + config['library'][lib])
     
-    if f"{processing['mms-id']['nz']}.pdf" in remote_files:
+    if f"{processing['mms_id']['nz']}.pdf" in remote_files:
         processing['messages'].append('file already online')
     else:
         try:
-            sftp_client.put(filepath, f"{config['path']['r']}{config['library'][lib]}{processing['mms-id']['nz']}.pdf")
-            url = f"https://{secrets['FTP_URL']}/{config['path']['r']}{config['library'][lib]}{processing['mms-id']['nz']}.pdf"
+            sftp_client.put(filepath, f"{config['path']['r']}{config['library'][lib]}{processing['mms_id']['nz']}.pdf")
+            url = f"https://{secrets['FTP_URL']}/{config['path']['r']}{config['library'][lib]}{processing['mms_id']['nz']}.pdf"
             processing.update({'file_uploaded': True, 'url': url})
             processing['filename'].update({'remote': url.split('/')[-1]})
             processing['messages'].append('pdf uploaded')

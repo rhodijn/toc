@@ -50,7 +50,7 @@ xml_get = etree.tostring(tmp, pretty_print=True, encoding=str)
 with open('log/record.xml', mode='w', encoding='utf-8') as f:
     f.write(xml_get)
 
-os.remove('log/temp.xml')
+# os.remove('log/temp.xml')
 
 
 # get record (json)
@@ -85,7 +85,7 @@ xml_get = etree.tostring(tmp, pretty_print=True, encoding=str)
 with open('log/holdings.xml', mode='w', encoding='utf-8') as f:
     f.write(xml_get)
 
-os.remove('log/temp.xml')
+# os.remove('log/temp.xml')
 
 
 # manipulate xml before putting

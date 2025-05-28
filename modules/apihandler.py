@@ -26,7 +26,7 @@ def api_request(method: str, value: str, par_1: str, par_2='') -> tuple:
     write json file
 
     parameters:
-    method: str = 
+    method: str = api request method (GET, PUT, POST, ...)
     value: str = 
     param_1: str = 
     param_2: str =

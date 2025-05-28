@@ -45,12 +45,12 @@ def send_email(barcode: str, processing: dict):
     message['From'] = from_email
     message['To'] = to_email
 
-    if processing['mms-id']['nz'] and processing['link_tested']:
+    if processing['mms_id']['nz'] and processing['link_tested']:
         text = f"""Enrichment Report:
 
 Item barcode: {barcode}
-MMS-ID IZ: {processing['mms-id']['iz']}
-MMS-ID NZ: {processing['mms-id']['nz']}
+MMS-ID IZ: {processing['mms_id']['iz']}
+MMS-ID NZ: {processing['mms_id']['nz']}
 
 Go to this address to see the table of contents:
 {processing['url']}
@@ -61,8 +61,8 @@ Thank you for using this service!"""
   <body>
     <p><h2>Enrichment Report</h2>
        Item barcode: {barcode}<br />
-       MMS-ID IZ: {processing['mms-id']['iz']}<br />
-       MMS-ID NZ: {processing['mms-id']['nz']}<br /><br />
+       MMS-ID IZ: {processing['mms_id']['iz']}<br />
+       MMS-ID NZ: {processing['mms_id']['nz']}<br /><br />
        Click <a href="{processing['url']}" target="_blank">here</a> to see the table of contents<br /><br />
        Thank you for using this service!
     </p>

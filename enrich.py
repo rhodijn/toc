@@ -88,10 +88,14 @@ if __name__ == '__main__':
                     data_json = json.loads(get_iz_record.content.decode(encoding='utf-8'))
                     write_json(data_json, f"{data_json['mms_id']}.json", 't')
 
-                    data_xml = etree.tostring(data_json['anies'], pretty_print=True, encoding='utf-8')
+                    data_str = etree.fromstring(data_json['anies'][0])
+                    data_xml = etree.tostring(data_str, pretty_print=True, encoding='utf-8')
 
-                    with open(f"temp/{data_json['mms_id']}.xml", mode='w', encoding='utf-8') as f:
-                        f.write(data_xml)
+                    tmp = etree.parse(data_xml)
+                    xml_str = etree.tostring(tmp, pretty_print=True, encoding=str)
+
+                    with open('temp/test.xml', mode='w', encoding='utf-8') as f:
+                        f.write(xml_str)
 
             else:
                 processing['messages'].append('nz mms-id not found')

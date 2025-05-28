@@ -1,6 +1,7 @@
 data/*
 log/*
 modules/__pycache__/*
+temp/*
 toc/*
 toc_bu/*
 project_*

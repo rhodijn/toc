@@ -16,6 +16,7 @@ import datetime, json, sys
 sys.path.append('modules/')
 
 from dotenv import dotenv_values
+from lxml import etree
 from modules.apihandler import *
 from modules.checker import *
 from modules.logger import *
@@ -86,6 +87,11 @@ if __name__ == '__main__':
                     req, get_iz_record = api_request('get', processing['mms_id']['iz'], 'bibs/', '?view=full&expand=p_avail')
                     data_json = json.loads(get_iz_record.content.decode(encoding='utf-8'))
                     write_json(data_json, f"{data_json['mms_id']}.json", 't')
+
+                    data_xml = etree.tostring(data_json['anies'], pretty_print=True, encoding='utf-8')
+
+                    with open(f"temp/{data_json['mms_id']}.xml", mode='w', encoding='utf-8') as f:
+                        f.write(data_xml)
 
             else:
                 processing['messages'].append('nz mms-id not found')

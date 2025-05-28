@@ -56,7 +56,7 @@ def upload_pdf(processing: dict, filepath: str, lib: str) -> dict:
         try:
             sftp_client.put(filepath, f"{config['path']['r']}{config['library'][lib]}{processing['mms-id']['nz']}.pdf")
             url = f"https://{secrets['FTP_URL']}/{config['path']['r']}{config['library'][lib]}{processing['mms-id']['nz']}.pdf"
-            processing.update({'uploaded': True, 'url': url})
+            processing.update({'file_uploaded': True, 'url': url})
             processing['filename'].update({'remote': url.split('/')[-1]})
             processing['messages'].append('pdf uploaded')
         except Exception as e:
@@ -82,8 +82,8 @@ def rm_file(processing: dict, filepath: str) -> dict:
     """    
     if os.path.exists(filepath):
         os.remove(filepath)
-        processing.update({'deleted': True})
-        processing['messages'].append('local file removed')
+        processing.update({'file_deleted': True})
+        processing['messages'].append('local file deleted')
     else:
         processing['messages'].append('local file not found')
 

@@ -41,16 +41,16 @@ query = requests.get(get_url)
 
 data_get = query.content.decode(encoding='utf-8')
 
-with open('log/temp.xml', mode='w', encoding='utf-8') as f:
+with open('temp/temp.xml', mode='w', encoding='utf-8') as f:
     f.write(data_get)
 
-tmp = etree.parse('log/temp.xml')
+tmp = etree.parse('temp/temp.xml')
 xml_get = etree.tostring(tmp, pretty_print=True, encoding=str)
 
-with open('log/record.xml', mode='w', encoding='utf-8') as f:
+with open('temp/record.xml', mode='w', encoding='utf-8') as f:
     f.write(xml_get)
 
-# os.remove('log/temp.xml')
+# os.remove('temp/temp.xml')
 
 
 # get record (json)
@@ -62,7 +62,7 @@ query = requests.get(get_url)
 
 data_get = json.loads(query.content.decode(encoding='utf-8'))
 
-with open('log/record.json', mode='w', encoding='utf-8') as f:
+with open('temp/record.json', mode='w', encoding='utf-8') as f:
     f.seek(0)
     json.dump(data_get, f, indent=4)
 
@@ -76,21 +76,21 @@ query = requests.get(get_url)
 
 data_get = query.content.decode(encoding='utf-8')
 
-with open('log/temp.xml', mode='w', encoding='utf-8') as f:
+with open('temp/temp.xml', mode='w', encoding='utf-8') as f:
     f.write(data_get)
 
-tmp = etree.parse('log/temp.xml')
+tmp = etree.parse('temp/temp.xml')
 xml_get = etree.tostring(tmp, pretty_print=True, encoding=str)
 
-with open('log/holdings.xml', mode='w', encoding='utf-8') as f:
+with open('temp/holdings.xml', mode='w', encoding='utf-8') as f:
     f.write(xml_get)
 
-# os.remove('log/temp.xml')
+# os.remove('temp/temp.xml')
 
 
 # manipulate xml before putting
 
-tree = etree.parse('log/record.xml')
+tree = etree.parse('temp/record.xml')
 
 root = tree.getroot()
 
@@ -118,7 +118,7 @@ new_item.attrib['ind2'] = '2'
 put_url = f'{API_URL}bibs/{mmsid_iz}{API_PARA_PUT}&apikey={API_KEY}'
 print(f'PUT REQUEST: {put_url}')
 
-query = requests.put(put_url, headers=API_HDR, data=etree.tostring(etree.parse('log/record_new.xml')))
+query = requests.put(put_url, headers=API_HDR, data=etree.tostring(etree.parse('temp/record_new.xml')))
 
 if query.ok:
     print(query.text)

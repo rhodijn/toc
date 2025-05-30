@@ -4,6 +4,7 @@ modules/__pycache__/*
 temp/*
 toc/*
 toc_bu/*
-project_*
 .env
 .DS_Store
+project_*
+README.md

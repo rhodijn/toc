@@ -23,12 +23,12 @@ def get_args() -> argparse.Namespace:
     args.file: argparse.Namespace = clt arguments
     """
     parser = argparse.ArgumentParser(
-        prog = 'toc uploader',
+        prog = 'enrich',
         description = 'upload toc to ftp-server from terminal',
         epilog = 'zhaw hsb, cc-by-sa'
     )
     parser.add_argument('-f', '--file', required=True, type=str, help='path to toc-file (including name)')
-    parser.add_argument('-l', '--lib', required=True, type=str, help='library, used for remote path')
+    parser.add_argument('-l', '--lib', required=True, type=str, help='library code, used for remote path')
     args = parser.parse_args()
 
     return args

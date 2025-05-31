@@ -1,6 +1,6 @@
 # Enriching Bibliographic Records in Alma with Tables of Content
 
-When a table of content is added to enrich a bibliographic record, this script automates the process.
+When a table of content should added to enrich a bibliographic record, this script automates the process. It uploads the file to a public server and adds a 856 field to the bibliographic record in Alma, generating a link in the discovery system.
 
 ## Description
 

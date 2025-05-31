@@ -40,13 +40,10 @@ command to run if program contains helper info
 
 ## Authors
 
-This script was created by Rhodijn (zolo) for ZHAW HSB inside the CAS Data Management and Information Technologies at University of Zurich
+This script was created by Rhodijn (zolo) for ZHAW HSB inside the CAS Data Management and Information Technologies at the University of Zurich.
 
 ## Version History
 
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
 * 0.1
     * Initial Release
 

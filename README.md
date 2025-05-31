@@ -4,7 +4,7 @@ When a table of content should added to enrich a bibliographic record, this scri
 
 ## Description
 
-As soon as the scanned pdf-file (named ```barcode.pdf```, where ```barcode``` is the actual barcode ot the bibliographic item) is placed in a folder on a computer or on Sharepoint, the script will upload it to a public server and add a 856 field to the MARC21 record in Alma.
+As soon as the scanned pdf-file (named ```barcode.pdf```, where ```barcode``` is the actual barcode ot the bibliographic item) is placed in a folder on a computer or on Sharepoint, the script will upload it to a public server, rename it to ```mms-id.pdf``` (where ```mms-id``` is the NZ MMS-ID of the record) and add a field 856 to the MARC21 record in Alma.
 
 ## Getting Started
 

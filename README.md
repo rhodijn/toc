@@ -10,8 +10,18 @@ As soon as the scanned pdf-file (named ```barcode.pdf```, where ```barcode``` is
 
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+The following python modules are required for the script to run:
+* argparse
+* datetime
+* dotenv
+* json
+* lxml
+* paramiko
+* os
+* re
+* smtplib
+* ssl
+* sys
 
 ### Installing
 
@@ -33,9 +43,13 @@ python enrich.py -f toc/BM2064150.pdf -l win
 
 ## Help
 
-Any advise for common problems or issues.
+* This is how to show the help message on MacOS:
 ```
-command to run if program contains helper info
+python3 enrich.py -h
+```
+* This is how to show the help message on Windows:
+```
+python enrich.py -h
 ```
 
 ## Authors

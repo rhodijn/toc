@@ -20,11 +20,16 @@ As soon as the scanned pdf-file (named ```barcode.pdf```, where ```barcode``` is
 
 ### Executing program
 
-* How to run the program
-* Step-by-step bullets
+* This is how to run the script from the command line on MacOS:
 ```
-code blocks for commands
+python3 enrich.py -f toc/BM2064150.pdf -l win
 ```
+* This is how to run the script from the command line on Windows:
+```
+python enrich.py -f toc/BM2064150.pdf -l win
+```
+* The relative path to the pdf-file including its name must be suplied in the -f parameter.
+* The code for the library for the pdf-file must be suplied in the -l parameter.
 
 ## Help
 

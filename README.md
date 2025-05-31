@@ -4,7 +4,7 @@ When a table of content is added to enrich a bibliographic record, this script a
 
 ## Description
 
-As soon as the scanned pdf-file (named «barcode.pdf», where barcode is the actual barcode ot the bibliographic item) is placed in a folder on a computer or on Sharepoint, the script will upload it to a public server and add a 856 field to the MARC21 record in Alma.
+As soon as the scanned pdf-file (named ```barcode.pdf```, where ```barcode``` is the actual barcode ot the bibliographic item) is placed in a folder on a computer or on Sharepoint, the script will upload it to a public server and add a 856 field to the MARC21 record in Alma.
 
 ## Getting Started
 
@@ -35,10 +35,7 @@ command to run if program contains helper info
 
 ## Authors
 
-Contributors names and contact info
-
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
+This script was created by Rhodijn (zolo) for ZHAW HSB inside the CAS Data Management and Information Technologies at University of Zurich
 
 ## Version History
 
@@ -50,13 +47,4 @@ ex. [@DomPizzie](https://twitter.com/dompizzie)
 
 ## License
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
-
-## Acknowledgments
-
-Inspiration, code snippets, etc.
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
-* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* [dbader](https://github.com/dbader/readme-template)
-* [zenorocha](https://gist.github.com/zenorocha/4526327)
-* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+This project is licensed under the Apache 2.0 License - see the LICENSE.md file for details

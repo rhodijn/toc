@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 #
-#   ##################      this module communicates with alma
-#   ##                ##    version 0.5 (2025-05-27)
-#   ##              ##
-#     ######      ##
-#       ##      ######
-#     ##              ##    created by rhodijn (zolo) for zhaw hsb
-#   ##                ##
-#     ##################    licensed under the apache license, version 2.0
+#   ###################      this module communicates with alma
+#   ##                 ##    version 0.5 (2025-05-27)
+#   ##               ##
+#     ######       ##
+#       ##       ######
+#     ##               ##    created by rhodijn (zolo) for zhaw hsb
+#   ##                 ##
+#     ###################    licensed under the apache license, version 2.0
 #
 #===============================================================================
 

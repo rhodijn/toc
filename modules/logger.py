@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 #
-#   ##################      this module keeps track of what happened
-#   ##                ##    version 0.7 (2025-05-26)
-#   ##              ##
-#     ######      ##
-#       ##      ######
-#     ##              ##    created by rhodijn (zolo) for zhaw hsb
-#   ##                ##
-#     ##################    licensed under the apache license, version 2.0
+#   ###################      this module keeps track of what happened
+#   ##                 ##    version 0.7 (2025-05-26)
+#   ##               ##
+#     ######       ##
+#       ##       ######
+#     ##               ##    created by rhodijn (zolo) for zhaw hsb
+#   ##                 ##
+#     ###################    licensed under the apache license, version 2.0
 #
 #===============================================================================
 

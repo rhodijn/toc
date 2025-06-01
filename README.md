@@ -25,8 +25,18 @@ The following python modules are required for the script to run:
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+* Download all files
+* Create a .env file with the following parameters:
+```
+ÀPI_URL=""
+API_KEY=""
+
+EMAIL_PASS=""
+
+FTP_URL=""
+FTP_USER=""
+FTP_PASS=""
+```
 
 ### Executing program
 

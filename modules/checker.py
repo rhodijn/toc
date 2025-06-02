@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ###################      this module checks the file
-#   ##                 ##    version 0.7 (2025-05-26)
+#   ##                 ##    version 0.7 (2025-06-02)
 #   ##               ##
 #     ######       ##
 #       ##       ######

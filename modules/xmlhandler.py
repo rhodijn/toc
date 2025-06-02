@@ -17,3 +17,26 @@ from lxml import etree
 
 
 secrets = dotenv_values('.env')
+
+
+def json_to_xml(data_json: dict):
+    """
+    convert json to xml
+
+    parameters:
+    method: str = api request method (GET, PUT, POST, ...)
+    value: str = 
+    param_1: str = 
+    param_2: str =
+
+    returns:
+    response: tuple = request: str, response: requests.models.Response
+    """
+    with open('temp/temp.xml', mode='w', encoding='utf-8') as f:
+        f.write(data_json['anies'][0])
+
+    tmp = etree.parse('temp/temp.xml')
+    data_xml = etree.tostring(tmp, pretty_print=True, encoding=str)
+
+    with open(f"temp/{data_json['mms_id']}.xml", mode='w', encoding='utf-8') as f:
+        f.write(data_xml)

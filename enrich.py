@@ -89,15 +89,9 @@ if __name__ == '__main__':
                     data_json = json.loads(get_iz_record.content.decode(encoding='utf-8'))
                     write_json(data_json, f"{data_json['mms_id']}.json", 't')
 
-                    with open('temp/temp.xml', mode='w', encoding='utf-8') as f:
-                        f.write(data_json['anies'][0])
+                    json_to_xml(data_json)
 
-                    tmp = etree.parse('temp/temp.xml')
-                    data_xml = etree.tostring(tmp, pretty_print=True, encoding=str)
                     os.remove('temp/temp.xml')
-
-                    with open(f"temp/{data_json['mms_id']}.xml", mode='w', encoding='utf-8') as f:
-                        f.write(data_xml)
                     os.remove(f"temp/{data_json['mms_id']}.json")
 
             else:

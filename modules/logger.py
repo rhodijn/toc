@@ -21,6 +21,8 @@ def get_value(file: str, k_1: str, k_2: str) -> str:
 
     parameters:
     lib: str = library code
+    k_1: str = key 1
+    k_2: str = key 2
 
     returns:
     tuple

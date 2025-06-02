@@ -22,6 +22,7 @@ from modules.checker import *
 from modules.logger import *
 from modules.mailer import *
 from modules.uploader import *
+from modules.xmlhandler import *
 
 
 config = load_json('config.json', 'd')

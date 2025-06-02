@@ -13,6 +13,7 @@
 
 
 from dotenv import dotenv_values
+from lxml import etree
 
 
 secrets = dotenv_values('.env')

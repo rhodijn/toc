@@ -12,7 +12,9 @@
 #===============================================================================
 
 
-import argparse, json, os, re
+import argparse, os, re
+
+from logger import *
 
 
 def get_args() -> argparse.Namespace:
@@ -64,13 +66,9 @@ def check_lib(lib: str) -> tuple:
     returns:
     tuple
     """
-    try:
-        with open('data/config.json') as f:
-            data = json.load(f)
+    config = load_json('config.json', 'd')
 
-            if lib in data['library'].keys():
-                return True, 'library code valid'
-            else:
-                return False, 'library code invalid'
-    except Exception as e:
-        return False, f"error: {e}"
+    if lib in config['library'].keys():
+        return True, 'library code valid'
+    else:
+        return False, 'library code invalid'

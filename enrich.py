@@ -89,10 +89,13 @@ if __name__ == '__main__':
                     data_json = json.loads(get_iz_record.content.decode(encoding='utf-8'))
                     write_json(data_json, f"{data_json['mms_id']}.json", 't')
 
-                    json_to_xml(data_json)
-
-                    os.remove('temp/temp.xml')
-                    os.remove(f"temp/{data_json['mms_id']}.json")
+                    try:
+                        json_to_xml(data_json)
+                        os.remove('temp/temp.xml')
+                        os.remove(f"temp/{data_json['mms_id']}.json")
+                        processing['messages'].append('record saved as xml')
+                    except:
+                        processing['messages'].append('saving xml failed')
 
             else:
                 processing['messages'].append('nz mms-id not found')

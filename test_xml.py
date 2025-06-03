@@ -18,9 +18,10 @@ import os
 
 
 file_list = os.listdir('temp/')
-attrib_list = []
 
 for f in file_list:
+    attrib_list = []
+
     tree = etree.parse(f"temp/{f}")
     root = tree.getroot()
 

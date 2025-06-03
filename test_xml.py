@@ -40,6 +40,7 @@ for f in file_list:
     if '856' in attrib_list:
         print('ja')
         print(attrib_list.index('856'))
+        root.insert(attrib_list.index('856') + 1, r)
 
     data_xml = etree.tostring(root, pretty_print=True, encoding=str)
     with open(f"temp/t_{f}", mode='w', encoding='utf-8') as f:

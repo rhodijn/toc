@@ -32,4 +32,4 @@ for f in file_list:
                 for ancestor in child:
                     print(f"\t${ancestor.attrib['code']}: {ancestor.text}")
 
-print(attrib_list)
+    print(attrib_list)

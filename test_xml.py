@@ -26,10 +26,17 @@ for f in file_list:
 
     for child in root:
         if child.tag == 'datafield':
+            print(child)
             attrib_list.append(child.attrib['tag'])
             if child.attrib['tag'] == '856':
                 print(f"{child.attrib['tag']}:")
                 for ancestor in child:
                     print(f"\t${ancestor.attrib['code']}: {ancestor.text}")
 
-    print(attrib_list)
+    if '856' in attrib_list:
+        print('ja')
+        print(attrib_list.index('856'))
+
+    field_856 = {'ind1': '4', 'ind2': '2', 'tag': '856'}
+
+    tree.write(f"temp/{f}")

@@ -95,7 +95,7 @@ if __name__ == '__main__':
                         os.remove(f"temp/{data_json['mms_id']}.json")
                         processing['messages'].append('record saved as xml')
                     except:
-                        processing['messages'].append('saving xml failed')
+                        processing['messages'].append('saving xml-file failed')
 
             else:
                 processing['messages'].append('nz mms-id not found')

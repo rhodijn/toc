@@ -23,7 +23,12 @@ url = f'{FTP_HOST}/{P_REMOTE}winterthur/{mmsid_iz}.pdf'
 
 barcode = 'BM2064158'
 
+file_list = os.listdir('temp/')
 
+for f in file_list:
+    print(f)
+
+"""
 # get record (xml)
 
 get_url = f'{API_URL}bibs/{mmsid_iz}{API_PARA_GET}&apikey={API_KEY}&format={API_FRMT["x"]}'
@@ -116,3 +121,4 @@ if query.ok:
     print(query.text)
     print(query.headers)
     print(query.encoding)
+"""

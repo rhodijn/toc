@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ###################      this script is for testing the alma api
-#   ##                 ##    version 0.7 (2025-06-02)
+#   ##                 ##    version 0.4 (2025-06-03)
 #   ##               ##
 #     ######       ##        python enrich.py -f toc/local/BM2064158.pdf -l win
 #       ##       ######
@@ -14,13 +14,21 @@
 
 from lxml import etree
 from project_data import *
-import json, os, requests
+import os
 
 
 file_list = os.listdir('temp/')
 
 for f in file_list:
-    print(f)
+    tree = etree.parse(f"temp/{f}")
+    root = tree.getroot()
+
+    for child in root:
+        if child.tag == 'datafield' and child.attrib['tag'] == '856':
+            print(f"{child.attrib['tag']}:")
+            for ancestor in child:
+                print(f"\t${ancestor.attrib['code']}: {ancestor.text}")
+
 
 """
 # get record (xml)

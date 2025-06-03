@@ -35,13 +35,21 @@ for f in file_list:
                 print(f"{child.attrib['tag']}:")
                 for ancestor in child:
                     print(f"\t${ancestor.attrib['code']}: {ancestor.text}")
-                root.append(r)
+        root.append(r)
 
     if '856' in attrib_list:
         print('ja')
         print(attrib_list.index('856'))
 
     data_xml = etree.tostring(root, pretty_print=True, encoding=str)
-    with open(f"temp/test.xml", mode='w', encoding='utf-8') as f:
+    with open(f"temp/t_{f}", mode='w', encoding='utf-8') as f:
         f.write(data_xml)
-    # tree.write(f"temp/{f}")
+
+    """
+    tree = etree.parse(f"temp/t_{f}")
+    root = tree.getroot()
+
+    data_xml = etree.tostring(root, pretty_print=True, encoding=str)
+    with open(f"temp/d_{f}", mode='w', encoding='utf-8') as f:
+        f.write(data_xml)
+    """

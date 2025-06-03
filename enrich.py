@@ -85,7 +85,7 @@ if __name__ == '__main__':
                 processing = rm_file(processing, args.file)
 
                 if processing['link_tested']:
-                    req, get_iz_record = api_request('get', processing['mms_id']['iz'], 'bibs/', '?view=full&expand=p_avail')
+                    req, get_iz_record = api_request('get', processing['mms_id']['iz'], 'bibs/', config['api']['get'])
                     data_json = json.loads(get_iz_record.content.decode(encoding='utf-8'))
                     write_json(data_json, f"{data_json['mms_id']}.json", 't')
 

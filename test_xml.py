@@ -17,12 +17,6 @@ from project_data import *
 import json, os, requests
 
 
-mmsid_iz = 9947393580105520
-mmsid_nz = 991017945329705501
-url = f'{FTP_HOST}/{P_REMOTE}winterthur/{mmsid_iz}.pdf'
-
-barcode = 'BM2064158'
-
 file_list = os.listdir('temp/')
 
 for f in file_list:

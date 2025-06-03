@@ -48,10 +48,10 @@ def check_url(processing: dict) -> dict:
     test the link to the pdf
 
     parameters:
-    processing: dict
+    processing: dict = logging info of the currently processed record
 
     returns:
-    processing: dict =
+    processing: dict = logging info of the currently processed record
     """
     try:
         if processing['url']:

@@ -25,11 +25,11 @@ secrets = dotenv_values('.env')
 
 def send_email(barcode: str, processing: dict):
     """
-    upload file to remote server (if pdf not already online)
+    send an email with the enrichment report
 
     parameters:
     barcode: str = item barcode
-    processing: dict =
+    processing: dict = logging info of the currently processed record
 
     returns:
     f_process: dict = {file name: dict = {}}

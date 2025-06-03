@@ -33,7 +33,7 @@ log = {}
 
 if __name__ == '__main__':
     """
-    this is the __main__ routine, it controls the process
+    this is the __main__ routine, it controls the entire workflow
     """
     log = load_json(f"log_{datetime.datetime.now().strftime('%Y')}.json", 'l')
     args = get_args()

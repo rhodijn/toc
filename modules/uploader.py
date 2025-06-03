@@ -26,12 +26,12 @@ def upload_pdf(processing: dict, filepath: str, lib: str) -> dict:
     upload file to remote server (if pdf not already online)
 
     parameters:
-    processing: dict =
+    processing: dict = logging info of the currently processed record
     filepath: str = file name of toc
     lib: str = remote path to files of library (winterthur or waedenswil)
 
     returns:
-    processing: dict =
+    processing: dict = logging info of the currently processed record
     """
     config = load_json('config.json', 'd')
     remote_files : list = []
@@ -73,12 +73,12 @@ def rm_file(processing: dict, filepath: str) -> dict:
     delete local file
 
     parameters:
-    processing: dict = {file name: dict = {}}
+    processing: dict = logging info of the currently processed record
     f_toc: str = file name of toc
     para_file: str = path to local file
 
     returns:
-    processing: dict = {file name: dict = {}}
+    processing: dict = logging info of the currently processed record
     """    
     if os.path.exists(filepath):
         os.remove(filepath)

@@ -22,6 +22,24 @@ r = field_856.getroot()
 
 file_list = os.listdir('temp/')
 
+
+def quicksort(x):
+    if len(x) <= 1:
+        return x
+    else:
+        pivot = x[0]
+        i = 0
+        for j in range(len(x) - 1):
+            if x[j + 1] < pivot:
+                x[j + 1], x[i + 1] = x[i + 1], x[j + 1]
+                i += 1
+        x[0], x[i] = x[i], x[0]
+        first_part = quicksort(x[:i])
+        second_part = quicksort(x[i + 1:])
+        first_part.append(x[i])
+        return first_part + second_part
+
+
 for f in file_list:
     attrib_l = []
     attrib_l_a = []
@@ -50,6 +68,8 @@ for f in file_list:
         attrib_l_num = [int(el) for el in attrib_l if el.isnumeric()]
 
         print(attrib_l_num)
+        attrib_l_sorted = quicksort(attrib_l_num)
+        print(attrib_l_sorted)
         print(attrib_l_a)
 
     data_xml = etree.tostring(root, pretty_print=True, encoding=str)

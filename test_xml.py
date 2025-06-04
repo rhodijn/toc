@@ -23,24 +23,34 @@ r = field_856.getroot()
 file_list = os.listdir('temp/')
 
 for f in file_list:
-    attrib_list = []
+    attrib_l = []
+    attrib_l_a = []
+    attrib_l_num = []
 
     tree = etree.parse(f"temp/{f}")
     root = tree.getroot()
 
     for child in root:
         if child.tag == 'datafield':
-            attrib_list.append(child.attrib['tag'])
+            attrib_l.append(child.attrib['tag'])
             if child.attrib['tag'] == '856':
                 print(f"{child.attrib['tag']}:")
                 for ancestor in child:
                     print(f"\t${ancestor.attrib['code']}: {ancestor.text}")
         root.append(r)
 
-    if '856' in attrib_list:
-        print('ja')
-        print(attrib_list.index('856'))
-        root.insert(attrib_list.index('856') + 1, r)
+    if '856' in attrib_l:
+        print(attrib_l.index('856'))
+        root.insert(attrib_l.index('856') + 1, r)
+
+    for el in attrib_l:
+        if not el.isnumeric():
+            attrib_l_a.append(el)
+
+        attrib_l_num = [int(el) for el in attrib_l if el.isnumeric()]
+
+        print(attrib_l_num)
+        print(attrib_l_a)
 
     data_xml = etree.tostring(root, pretty_print=True, encoding=str)
     with open(f"temp/t_{f}", mode='w', encoding='utf-8') as f:

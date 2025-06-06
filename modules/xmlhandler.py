@@ -54,4 +54,13 @@ def add_856_field(processing: dict) -> dict:
     param_1: str = 
     param_2: str =
     """
-    pass
+    field_856 = etree.parse('data/856.xml')
+    root_856 = field_856.getroot()
+
+    try:
+        tree = etree.parse(f"temp/{f}")
+        root = tree.getroot()
+        root_856.find("./subfield[@code='u']").text = url
+        root.append(root_856)
+    except:
+        processing['messages'].append('unable to add field 856, record not found')

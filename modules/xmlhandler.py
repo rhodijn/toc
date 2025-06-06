@@ -31,17 +31,17 @@ def json_to_xml(data_json: dict):
     param_1: str = 
     param_2: str =
     """
-    with open('xml/temp/temp.xml', mode='w', encoding='utf-8') as f:
+    with open('xml/temp.xml', mode='w', encoding='utf-8') as f:
         f.write(data_json['anies'][0])
 
-    tmp = etree.parse('xml/temp/temp.xml')
+    tmp = etree.parse('xml/temp.xml')
     data_xml = etree.tostring(tmp, pretty_print=True, encoding=str)
 
     with open(f"xml/{data_json['mms_id']}.xml", mode='w', encoding='utf-8') as f:
         f.write(data_xml)
     
-    os.remove('xml/temp/temp.xml')
-    os.remove(f"xml/temp/{data_json['mms_id']}.json")
+    os.remove('xml/temp.xml')
+    os.remove(f"xml/{data_json['mms_id']}.json")
 
 
 def add_856_field(processing: dict) -> dict:
@@ -54,3 +54,4 @@ def add_856_field(processing: dict) -> dict:
     param_1: str = 
     param_2: str =
     """
+    pass

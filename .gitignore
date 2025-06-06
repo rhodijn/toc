@@ -1,5 +1,4 @@
 data/*
-json/*
 log/*
 modules/__pycache__/*
 toc/*

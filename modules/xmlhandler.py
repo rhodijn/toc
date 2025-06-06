@@ -12,6 +12,8 @@
 #===============================================================================
 
 
+import os
+
 from dotenv import dotenv_values
 from lxml import etree
 
@@ -29,11 +31,26 @@ def json_to_xml(data_json: dict):
     param_1: str = 
     param_2: str =
     """
-    with open('temp/temp.xml', mode='w', encoding='utf-8') as f:
+    with open('xml/temp/temp.xml', mode='w', encoding='utf-8') as f:
         f.write(data_json['anies'][0])
 
-    tmp = etree.parse('temp/temp.xml')
+    tmp = etree.parse('xml/temp/temp.xml')
     data_xml = etree.tostring(tmp, pretty_print=True, encoding=str)
 
-    with open(f"temp/{data_json['mms_id']}.xml", mode='w', encoding='utf-8') as f:
+    with open(f"xml/{data_json['mms_id']}.xml", mode='w', encoding='utf-8') as f:
         f.write(data_xml)
+    
+    os.remove('xml/temp/temp.xml')
+    os.remove(f"xml/temp/{data_json['mms_id']}.json")
+
+
+def add_856_field(processing: dict) -> dict:
+    """
+    adds a field 856 to the record with the correct url
+
+    parameters:
+    method: str = api request method (GET, PUT, POST, ...)
+    value: str = 
+    param_1: str = 
+    param_2: str =
+    """

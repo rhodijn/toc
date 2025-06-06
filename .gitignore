@@ -1,9 +1,10 @@
 data/*
+json/*
 log/*
 modules/__pycache__/*
-temp/*
 toc/*
 toc_bu/*
+xml/*
 .env
 .DS_Store
 LICENSE.md

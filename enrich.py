@@ -91,8 +91,6 @@ if __name__ == '__main__':
 
                     try:
                         json_to_xml(data_json)
-                        os.remove('temp/temp.xml')
-                        os.remove(f"temp/{data_json['mms_id']}.json")
                         processing['messages'].append('record saved as xml')
                     except:
                         processing['messages'].append('saving xml-file failed')

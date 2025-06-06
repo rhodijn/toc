@@ -90,7 +90,7 @@ if __name__ == '__main__':
                     success = write_json(data_json, f"{data_json['mms_id']}.json", 't')
 
                     if success:
-                        processing = json_to_xml(data_json)
+                        processing = json_to_xml(processing, data_json)
 
                         if processing['xml_saved']:
                             processing = add_856_field(processing, data_json)

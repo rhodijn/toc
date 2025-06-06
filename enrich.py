@@ -87,13 +87,13 @@ if __name__ == '__main__':
                 if processing['link_tested']:
                     req, get_iz_record = api_request('get', processing['mms_id']['iz'], 'bibs/', config['api']['get'])
                     data_json = json.loads(get_iz_record.content.decode(encoding='utf-8'))
-                    write_json(data_json, f"{data_json['mms_id']}.json", 't')
+                    success = write_json(data_json, f"{data_json['mms_id']}.json", 't')
 
-                    try:
-                        json_to_xml(data_json)
-                        processing['messages'].append('record saved as xml')
-                    except:
-                        processing['messages'].append('saving xml-file failed')
+                    if success:
+                        processing = json_to_xml(data_json)
+
+                        if processing['xml_saved']:
+                            processing = add_856_field(processing, data_json)
 
             else:
                 processing['messages'].append('nz mms-id not found')

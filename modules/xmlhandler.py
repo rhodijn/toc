@@ -41,7 +41,7 @@ def json_to_xml(data_json: dict):
         f.write(data_xml)
     
     os.remove('xml/temp.xml')
-    os.remove(f"xml/{data_json['mms_id']}.json")
+    os.remove(f"temp/{data_json['mms_id']}.json")
 
 
 def add_856_field(processing: dict) -> dict:
@@ -58,9 +58,15 @@ def add_856_field(processing: dict) -> dict:
     root_856 = field_856.getroot()
 
     try:
-        tree = etree.parse(f"temp/{f}")
+        tree = etree.parse(f"temp/{processing['mms_id']['nz']}.xml")
         root = tree.getroot()
-        root_856.find("./subfield[@code='u']").text = url
+        root_856.find("./subfield[@code='u']").text = processing['url']
         root.append(root_856)
+
+        data_xml = etree.tostring(root, pretty_print=True, encoding=str)
+        with open(f"xml/{processing['mms_id']['nz']}.xml", mode='w', encoding='utf-8') as f:
+            f.write(data_xml)
     except:
-        processing['messages'].append('unable to add field 856, record not found')
+        processing['messages'].append('failed to add field 856')
+
+    return processing

@@ -60,7 +60,7 @@ if __name__ == '__main__':
         if valid_lib:
             processing['valid'].update({'lib': True})
 
-            req, get_iz_mmsid = api_request('get', barcode, 'items?item_barcode=')
+            req, get_iz_mmsid = api_request('get', barcode, 'j', 'items?item_barcode=')
             processing['requests'].append(req)
             data = json.loads(get_iz_mmsid.content.decode(encoding='utf-8'))
 
@@ -68,7 +68,7 @@ if __name__ == '__main__':
             processing['mms_id'].update({'iz': mmsid_iz})
             processing['messages'].append('iz mms-id retrieved')
 
-            req, get_nz_mmsid = api_request('get', mmsid_iz, 'bibs/', config["api"]["get"])
+            req, get_nz_mmsid = api_request('get', mmsid_iz, 'j', 'bibs/', config["api"]["get"])
             processing['requests'].append(req)
             data = json.loads(get_nz_mmsid.content.decode(encoding='utf-8'))
 
@@ -85,16 +85,26 @@ if __name__ == '__main__':
                 processing = rm_file(processing, args.file)
 
                 if processing['link_tested']:
-                    req, get_iz_record = api_request('get', processing['mms_id']['iz'], 'bibs/', config['api']['get'])
-                    data_json = json.loads(get_iz_record.content.decode(encoding='utf-8'))
-                    success = write_json(data_json, f"{data_json['mms_id']}.json", 't')
+                    req, get_iz_record = api_request('get', processing['mms_id']['iz'], 'x', 'bibs/', config['api']['get'])
+                    data_xml = get_iz_record.content.decode(encoding='utf-8')
 
-                    if success:
-                        processing = json_to_xml(processing, data_json)
+                    with open(f"temp/{processing['mms_id']['iz']}.xml", mode='w', encoding='utf-8') as f:
+                        f.write(data_xml)
 
-                        if processing['xml_saved']:
-                            processing = add_856_field(processing, data_json)
+                    if processing['xml_saved']:
+                        processing = add_856_field(processing, data_xml)
 
+                        req, update_record = api_request('put', mmsid_iz, 'bibs/', config["api"]["put"])
+                        processing['requests'].append(req)
+
+                        if update_record.ok:
+                            processing.update({'put_request': True})
+                            processing['messages'].append('alma record updated')
+                        else:
+                            processing['messages'].append('put request failed')
+
+                        print(update_record.ok)
+                        print(update_record.content.decode(encoding='utf-8'))
             else:
                 processing['messages'].append('nz mms-id not found')
 

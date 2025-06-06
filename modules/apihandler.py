@@ -12,16 +12,17 @@
 #===============================================================================
 
 
-import requests
+import os, requests
 
 from dotenv import dotenv_values
 from logger import *
+from lxml import etree
 
 
 secrets = dotenv_values('.env')
 
 
-def api_request(method: str, value: str, par_1: str, par_2='') -> tuple:
+def api_request(method: str, value: str, frmt: str, par_1: str, par_2='') -> tuple:
     """
     write json file
 
@@ -37,8 +38,16 @@ def api_request(method: str, value: str, par_1: str, par_2='') -> tuple:
     config = load_json('config.json', 'd')
 
     if method == 'get':
-        req = f"{secrets['API_URL']}{par_1}{value}{par_2}&apikey={secrets['API_KEY']}&format={config['api']['j']}"
+        if frmt == 'j':
+            req = f"{secrets['API_URL']}{par_1}{value}{par_2}&apikey={secrets['API_KEY']}&format={config['api']['j']}"
+        elif frmt == 'x':
+            req = f"{secrets['API_URL']}{par_1}{value}{par_2}&apikey={secrets['API_KEY']}&format={config['api']['x']}"
         response = requests.get(req)
+    elif method == 'put':
+        req = f"{secrets['API_URL']}{par_1}{value}{par_2}&apikey={secrets['API_KEY']}"
+        filename = os.listdir('xml/')
+        response = requests.put(req, headers=config['api']['header'], data=etree.tostring(etree.parse(f"xml/{filename[0]}")))
+        # os.remove(f"xml/{filename[0]}")
 
     return req, response
 

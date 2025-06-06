@@ -41,8 +41,8 @@ def json_to_xml(processing: dict, data_json: dict) -> dict:
         with open(f"temp/{data_json['mms_id']}.xml", mode='w', encoding='utf-8') as f:
             f.write(data_xml)
 
-        os.remove('temp/temp.xml')
-        os.remove(f"temp/{data_json['mms_id']}.json")
+        # os.remove('temp/temp.xml')
+        # os.remove(f"temp/{data_json['mms_id']}.json")
 
         processing.update({'xml_saved': True})
         processing['messages'].append('record saved as xml')
@@ -75,10 +75,10 @@ def add_856_field(processing: dict, data_json: dict) -> dict:
         with open(f"xml/{data_json['mms_id']}.xml", mode='w', encoding='utf-8') as f:
             f.write(data_xml)
 
-        os.remove(f"temp/{data_json['mms_id']}.xml")
+        # os.remove(f"temp/{data_json['mms_id']}.xml")
 
         processing.update({'added_856': True})
-        processing['messages'].append('added field 856 to record')
+        processing['messages'].append('added field 856')
     except:
         processing['messages'].append('failed to add field 856')
 

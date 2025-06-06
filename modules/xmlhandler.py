@@ -28,9 +28,6 @@ def json_to_xml(data_json: dict):
     value: str = 
     param_1: str = 
     param_2: str =
-
-    returns:
-    response: tuple = request: str, response: requests.models.Response
     """
     with open('temp/temp.xml', mode='w', encoding='utf-8') as f:
         f.write(data_json['anies'][0])

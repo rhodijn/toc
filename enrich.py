@@ -93,7 +93,7 @@ if __name__ == '__main__':
                     if processing['xml_saved']:
                         processing = add_856_field(processing)
 
-                        req, update_record = api_request('put', processing['mms_id']['iz'], 'j', 'bibs/', config["api"]["put"])
+                        req, update_record = api_request('put', processing['mms_id']['iz'], 'x', 'bibs/', config["api"]["put"])
                         processing['requests'].append(req)
 
                         if update_record.ok:
@@ -102,8 +102,6 @@ if __name__ == '__main__':
                         else:
                             processing['messages'].append('put request failed')
 
-                        print(update_record.ok)
-                        print(update_record.content.decode(encoding='utf-8'))
             else:
                 processing['messages'].append('nz mms-id not found')
 

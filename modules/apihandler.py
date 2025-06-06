@@ -38,6 +38,7 @@ def api_request(method: str, value: str, frmt: str, par_1: str, par_2='') -> tup
     config = load_json('config.json', 'd')
 
     if method == 'get':
+
         if frmt == 'j':
             req = f"{secrets['API_URL']}{par_1}{value}{par_2}&apikey={secrets['API_KEY']}&format={config['api']['j']}"
         elif frmt == 'x':
@@ -46,8 +47,12 @@ def api_request(method: str, value: str, frmt: str, par_1: str, par_2='') -> tup
     elif method == 'put':
         req = f"{secrets['API_URL']}{par_1}{value}{par_2}&apikey={secrets['API_KEY']}"
         filename = os.listdir('xml/')
-        response = requests.put(req, headers=config['api']['header'], data=etree.tostring(etree.parse(f"xml/{filename[0]}")))
-        # os.remove(f"xml/{filename[0]}")
+
+        if filename:
+            response = requests.put(req, headers=config['api']['header'], data=etree.tostring(etree.parse(f"xml/{filename[0]}")))
+            # os.remove(f"xml/{filename[0]}")
+        else:
+            response = False
 
     return req, response
 

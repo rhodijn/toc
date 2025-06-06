@@ -88,13 +88,12 @@ if __name__ == '__main__':
                     req, get_iz_record = api_request('get', processing['mms_id']['iz'], 'x', 'bibs/', config['api']['get'])
                     data_xml = get_iz_record.content.decode(encoding='utf-8')
 
-                    with open(f"temp/{processing['mms_id']['iz']}.xml", mode='w', encoding='utf-8') as f:
-                        f.write(data_xml)
+                    save_to_xml(processing, data_xml)
 
                     if processing['xml_saved']:
-                        processing = add_856_field(processing, data_xml)
+                        processing = add_856_field(processing)
 
-                        req, update_record = api_request('put', mmsid_iz, 'bibs/', config["api"]["put"])
+                        req, update_record = api_request('put', processing['mms_id']['iz'], 'j', 'bibs/', config["api"]["put"])
                         processing['requests'].append(req)
 
                         if update_record.ok:

@@ -21,7 +21,7 @@ from lxml import etree
 secrets = dotenv_values('.env')
 
 
-def json_to_xml(processing: dict, data_json: dict) -> dict:
+def save_to_xml(processing: dict, data_xml: dict) -> dict:
     """
     convert json to xml
 
@@ -33,12 +33,12 @@ def json_to_xml(processing: dict, data_json: dict) -> dict:
     """
     try:
         with open('temp/temp.xml', mode='w', encoding='utf-8') as f:
-            f.write(data_json['anies'][0])
+            f.write(data_xml)
 
         tmp = etree.parse('temp/temp.xml')
         data_xml = etree.tostring(tmp, pretty_print=True, encoding=str)
 
-        with open(f"temp/{data_json['mms_id']}.xml", mode='w', encoding='utf-8') as f:
+        with open(f"temp/{processing['mms_id']['iz']}.xml", mode='w', encoding='utf-8') as f:
             f.write(data_xml)
 
         # os.remove('temp/temp.xml')
@@ -52,7 +52,7 @@ def json_to_xml(processing: dict, data_json: dict) -> dict:
     return processing
 
 
-def add_856_field(processing: dict, data_json: dict) -> dict:
+def add_856_field(processing: dict) -> dict:
     """
     adds a field 856 to the record with the correct url
 
@@ -66,16 +66,16 @@ def add_856_field(processing: dict, data_json: dict) -> dict:
     root_856 = field_856.getroot()
 
     try:
-        tree = etree.parse(f"temp/{data_json['mms_id']}.xml")
+        tree = etree.parse(f"temp/{processing['mms_id']['iz']}.xml")
         root = tree.getroot()
         root_856.find("./subfield[@code='u']").text = processing['url']
-        root.append(root_856)
+        root.find('./record').append(root_856)
 
         data_xml = etree.tostring(root, pretty_print=True, encoding=str)
-        with open(f"xml/{data_json['mms_id']}.xml", mode='w', encoding='utf-8') as f:
+        with open(f"xml/{processing['mms_id']['iz']}.xml", mode='w', encoding='utf-8') as f:
             f.write(data_xml)
 
-        # os.remove(f"temp/{data_json['mms_id']}.xml")
+        # os.remove(f"temp/{processing['mms_id']['iz']}.xml")
 
         processing.update({'added_856': True})
         processing['messages'].append('added field 856')

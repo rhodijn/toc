@@ -21,9 +21,7 @@ url = 'https://slspmedia.hsb.zhaw.ch/public/swisscovery/inhaltsverzeichnis/winte
 tree = etree.parse('temp/note.xml')
 root = tree.getroot()
 
-file_list = os.listdir('temp/')
-
 
 data_xml = etree.tostring(root, pretty_print=True, encoding=str)
 with open(f"temp/note_2.xml", mode='w', encoding='utf-8') as f:
-    f.write('<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n' + data_xml)
+    f.write('<?xml version="1.0" encoding="UTF-8" ?>\n' + data_xml)

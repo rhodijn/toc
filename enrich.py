@@ -16,7 +16,6 @@ import datetime, json, os, sys
 sys.path.append('modules/')
 
 from dotenv import dotenv_values
-from lxml import etree
 from modules.apihandler import *
 from modules.checker import *
 from modules.logger import *

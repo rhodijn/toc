@@ -19,6 +19,7 @@ from lxml import etree
 
 
 secrets = dotenv_values('.env')
+xml_declaration = '<?xml version="1.0" encoding="UTF-8" ?>\n'
 
 
 def save_to_xml(processing: dict, data_xml: dict) -> dict:
@@ -73,7 +74,7 @@ def add_856_field(processing: dict) -> dict:
 
         data_xml = etree.tostring(root, pretty_print=True, encoding=str)
         with open(f"xml/{processing['mms_id']['iz']}.xml", mode='w', encoding='utf-8') as f:
-            f.write(data_xml)
+            f.write(xml_declaration + data_xml)
 
         # os.remove(f"temp/{processing['mms_id']['iz']}.xml")
 

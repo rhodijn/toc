@@ -39,7 +39,7 @@ for f in file_list:
                 print(f"{child.attrib['tag']}:")
                 for ancestor in child:
                     print(f"\t${ancestor.attrib['code']}: {ancestor.text}")
-    
+
     r.find("./subfield[@code='u']").text = url
     root.append(r)
 

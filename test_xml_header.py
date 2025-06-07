@@ -14,7 +14,6 @@
 
 from lxml import etree
 from project_data import *
-import os
 
 
 XML_DECLARATION = '<?xml version="1.0" encoding="UTF-8" ?>\n'
@@ -23,5 +22,5 @@ root = tree.getroot()
 
 
 data_xml = etree.tostring(root, pretty_print=True, encoding=str)
-with open(f"temp/note_2.xml", mode='w', encoding='utf-8') as f:
+with open('temp/note_2.xml', mode='w', encoding='utf-8') as f:
     f.write(XML_DECLARATION + data_xml)

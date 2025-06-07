@@ -12,7 +12,7 @@
 #===============================================================================
 
 
-import datetime, json, os, sys
+import datetime, json, sys
 sys.path.append('modules/')
 
 from dotenv import dotenv_values

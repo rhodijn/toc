@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ###################      this is the main routine
-#   ##                 ##    version 0.7 (2025-06-02)
+#   ##                 ##    version 0.9 (2025-06-07)
 #   ##               ##
 #     ######       ##        python enrich.py -f toc/local/BM2064158.pdf -l win
 #       ##       ######

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ###################      this module sends an email report
-#   ##                 ##    version 0.5 (2025-06-02)
+#   ##                 ##    version 0.9 (2025-06-07)
 #   ##               ##
 #     ######       ##
 #       ##       ######

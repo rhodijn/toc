@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ###################      this module handles xml data
-#   ##                 ##    version 0.7 (2025-06-06)
+#   ##                 ##    version 0.9 (2025-06-06)
 #   ##               ##
 #     ######       ##
 #       ##       ######

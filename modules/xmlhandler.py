@@ -19,7 +19,6 @@ from lxml import etree
 
 
 secrets = dotenv_values('.env')
-XML_DECLARATION = '<?xml version="1.0" encoding="UTF-8" ?>\n'
 
 
 def save_to_xml(processing: dict, data_xml: dict) -> dict:
@@ -42,8 +41,7 @@ def save_to_xml(processing: dict, data_xml: dict) -> dict:
         with open(f"temp/{processing['mms_id']['iz']}.xml", mode='w', encoding='utf-8') as f:
             f.write(data_xml)
 
-        # os.remove('temp/temp.xml')
-        # os.remove(f"temp/{data_json['mms_id']}.json")
+        os.remove('temp/temp.xml')
 
         processing.update({'xml_saved': True})
         processing['messages'].append('record saved as xml')
@@ -63,6 +61,8 @@ def add_856_field(processing: dict) -> dict:
     param_1: str = 
     param_2: str =
     """
+    XML_DECLARATION = '<?xml version="1.0" encoding="UTF-8" ?>\n'
+
     field_856 = etree.parse('data/856.xml')
     root_856 = field_856.getroot()
 
@@ -76,7 +76,7 @@ def add_856_field(processing: dict) -> dict:
         with open(f"xml/{processing['mms_id']['iz']}.xml", mode='w', encoding='utf-8') as f:
             f.write(XML_DECLARATION + data_xml)
 
-        # os.remove(f"temp/{processing['mms_id']['iz']}.xml")
+        os.remove(f"temp/{processing['mms_id']['iz']}.xml")
 
         processing.update({'added_856': True})
         processing['messages'].append('added field 856')

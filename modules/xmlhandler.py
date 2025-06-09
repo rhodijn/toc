@@ -79,7 +79,7 @@ def add_856_field(processing: dict) -> dict:
         os.remove(f"temp/{processing['mms_id']['iz']}.xml")
 
         processing.update({'added_856': True})
-        processing['messages'].append('added field 856')
+        processing['messages'].append('field 856 added')
     except:
         processing['messages'].append('failed to add field 856')
 

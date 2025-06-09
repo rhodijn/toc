@@ -8,5 +8,4 @@ xml/*
 .env
 .DS_Store
 LICENSE.md
-project_*
 README.md

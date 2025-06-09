@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ###################      this module communicates with alma
-#   ##                 ##    version 0.9 (2025-06-07)
+#   ##                 ##    version 0.9 (2025-06-09)
 #   ##               ##
 #     ######       ##
 #       ##       ######

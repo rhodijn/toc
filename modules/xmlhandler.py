@@ -31,17 +31,11 @@ def save_to_xml(processing: dict, data_xml: dict) -> dict:
     param_1: str = 
     param_2: str =
     """
+    XML_DECLARATION = '<?xml version="1.0" encoding="UTF-8" ?>'
+
     try:
-        with open('temp/temp.xml', mode='w', encoding='utf-8') as f:
-            f.write(data_xml)
-
-        tmp = etree.parse('temp/temp.xml')
-        data_xml = etree.tostring(tmp, pretty_print=True, encoding=str)
-
         with open(f"temp/{processing['mms_id']['iz']}.xml", mode='w', encoding='utf-8') as f:
-            f.write(data_xml)
-
-        os.remove('temp/temp.xml')
+            f.write(XML_DECLARATION + data_xml)
 
         processing.update({'xml_saved': True})
         processing['messages'].append('record saved as xml')
@@ -61,8 +55,6 @@ def add_856_field(processing: dict) -> dict:
     param_1: str = 
     param_2: str =
     """
-    XML_DECLARATION = '<?xml version="1.0" encoding="UTF-8" ?>\n'
-
     field_856 = etree.parse('data/856.xml')
     root_856 = field_856.getroot()
 
@@ -74,7 +66,7 @@ def add_856_field(processing: dict) -> dict:
 
         data_xml = etree.tostring(root, pretty_print=True, encoding=str)
         with open(f"xml/{processing['mms_id']['iz']}.xml", mode='w', encoding='utf-8') as f:
-            f.write(XML_DECLARATION + data_xml)
+            f.write(data_xml)
 
         os.remove(f"temp/{processing['mms_id']['iz']}.xml")
 

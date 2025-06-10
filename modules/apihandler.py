@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ###################      this module communicates with alma
-#   ##                 ##    version 0.9 (2025-06-09)
+#   ##                 ##    version 1.0 (2025-06-10)
 #   ##               ##
 #     ######       ##
 #       ##       ######
@@ -36,6 +36,7 @@ def api_request(method: str, value: str, frmt: str, par_1: str, par_2='') -> tup
     response: tuple = request: str, response: requests.models.Response
     """
     config = load_json('config.json', 'd')
+    response = False
 
     if method == 'get':
 
@@ -50,9 +51,7 @@ def api_request(method: str, value: str, frmt: str, par_1: str, par_2='') -> tup
 
         if filename:
             response = requests.put(req, headers=config['api']['header'], data=etree.tostring(etree.parse(f"xml/{filename[0]}")))
-            # os.remove(f"xml/{filename[0]}")
-        else:
-            response = False
+            os.remove(f"xml/{filename[0]}")
 
     return req, response
 

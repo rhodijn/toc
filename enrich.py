@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 #   ###################      this is the main routine
-#   ##                 ##    version 0.9 (2025-06-09)
+#   ##                 ##    version 1.0 (2025-06-10)
 #   ##               ##
 #     ######       ##        python enrich.py -f toc/local/BM2064158.pdf -l win
 #       ##       ######
@@ -92,10 +92,10 @@ if __name__ == '__main__':
                     if processing['xml_saved']:
                         processing = add_856_field(processing)
 
-                        req, update_record = api_request('put', processing['mms_id']['iz'], 'x', 'bibs/', config["api"]["put"])
+                        req, record_updated = api_request('put', processing['mms_id']['iz'], 'x', 'bibs/', config["api"]["put"])
                         processing['requests'].append(req)
 
-                        if update_record:
+                        if record_updated:
                             processing.update({'put_request': True})
                             processing['messages'].append('alma record updated')
                         else:

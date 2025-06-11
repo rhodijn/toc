@@ -24,16 +24,17 @@ secrets = dotenv_values('.env')
 
 def api_request(method: str, value: str, frmt: str, par_1: str, par_2='') -> tuple:
     """
-    write json file
+    perform an api request and return the answer
 
     parameters:
     method: str = api request method (GET, PUT, POST, ...)
-    value: str = 
-    param_1: str = 
-    param_2: str =
+    value: str = item id
+    frmt: str = format (json, xml)
+    param_1: str = api parameter 1
+    param_2: str = api parameter 2
 
     returns:
-    response: tuple = request: str, response: requests.models.Response
+    tuple = (req: str, response: requests.models.Response)
     """
     config = load_json('config.json', 'd')
     response = False

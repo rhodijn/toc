@@ -23,11 +23,11 @@ secrets = dotenv_values('.env')
 
 def upload_pdf(processing: dict, filepath: str, lib: str) -> dict:
     """
-    upload file to remote server (if pdf not already online)
+    upload toc-file (pdf) to remote server (if file  is not online yet)
 
     parameters:
     processing: dict = logging info of the currently processed record
-    filepath: str = file name of toc
+    filepath: str = path to local file (including file name)
     lib: str = remote path to files of library (winterthur or waedenswil)
 
     returns:
@@ -70,12 +70,11 @@ def upload_pdf(processing: dict, filepath: str, lib: str) -> dict:
 
 def rm_file(processing: dict, filepath: str) -> dict:
     """
-    delete local file
+    delete the local toc-file
 
     parameters:
     processing: dict = logging info of the currently processed record
-    f_toc: str = file name of toc
-    para_file: str = path to local file
+    filepath: str = path to local file (including file name)
 
     returns:
     processing: dict = logging info of the currently processed record

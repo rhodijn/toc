@@ -17,15 +17,15 @@ import json
 
 def get_value(file: str, k_1: str, k_2: str) -> str:
     """
-    check if library parameter is valid
+    get a specific value from a json-file
 
     parameters:
-    lib: str = library code
+    file: str = file name
     k_1: str = key 1
     k_2: str = key 2
 
     returns:
-    tuple
+    str or None
     """
     try:
         with open(file) as f:
@@ -37,14 +37,14 @@ def get_value(file: str, k_1: str, k_2: str) -> str:
 
 def load_json(filename: str, p: str) -> dict:
     """
-    load json file
+    load data from a json-file
 
     parameters:
     filename: str = library code
-    p: str = code for path
+    p: str = code for the file location
 
     returns:
-    log: dict = metadata for current toc
+    dict = data from the json-file
     """
     path = get_value('data/config.json', 'path', p)
 
@@ -61,12 +61,12 @@ def load_json(filename: str, p: str) -> dict:
 
 def write_json(data: dict, filename: str, p: str) -> bool:
     """
-    write json file
+    write data to a json-file
 
     parameters:
-    d: dict = data to be logged
-    filename: str = library code
-    p: str = code for path
+    data: dict = data to be saved
+    file name: str = name of the file to save data to
+    p: str = code for the file location
 
     returns:
     success: bool = success saving data

@@ -30,9 +30,6 @@ def send_email(barcode: str, processing: dict):
     parameters:
     barcode: str = item barcode
     processing: dict = logging info of the currently processed record
-
-    returns:
-    f_process: dict = {file name: dict = {}}
     """
     config = load_json('config.json', 'd')
 

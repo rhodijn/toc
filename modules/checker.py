@@ -38,13 +38,13 @@ def get_args() -> argparse.Namespace:
 
 def check_file(path: str) -> tuple:
     """
-    check if file parameter exists and is pdf
+    check if toc-file exists and is pdf
 
     parameters:
     path: str = path to toc-file
 
     returns:
-    tuple
+    tuple = (bool, str)
     """
     if os.path.exists(path):
 
@@ -64,7 +64,7 @@ def check_lib(lib: str) -> tuple:
     lib: str = library code
 
     returns:
-    tuple
+    tuple = (bool, str)
     """
     config = load_json('config.json', 'd')
 

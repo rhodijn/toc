@@ -23,13 +23,14 @@ secrets = dotenv_values('.env')
 
 def save_to_xml(processing: dict, data_xml: dict) -> dict:
     """
-    convert json to xml
+    convert data to xml-file
 
     parameters:
-    method: str = api request method (GET, PUT, POST, ...)
-    value: str = 
-    param_1: str = 
-    param_2: str =
+    processing: dict = logging info of the currently processed record
+    data_xml: dict = data to save to xml-file
+
+    returns:
+    processing: dict = logging info of the currently processed record
     """
     try:
         with open(f"temp/{processing['mms_id']['iz']}.xml", mode='w', encoding='utf-8') as f:
@@ -48,10 +49,10 @@ def add_856_field(processing: dict) -> dict:
     adds a field 856 to the record with the correct url
 
     parameters:
-    method: str = api request method (GET, PUT, POST, ...)
-    value: str = 
-    param_1: str = 
-    param_2: str =
+    processing: dict = logging info of the currently processed record
+
+    returns:
+    processing: dict = logging info of the currently processed record
     """
     XML_DECLARATION = '<?xml version="1.0" encoding="UTF-8" ?>\n'
 

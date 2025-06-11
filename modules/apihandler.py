@@ -80,5 +80,5 @@ def check_url(processing: dict) -> dict:
             processing['messages'].append('no url to test')
     except requests.ConnectionError as e:
         processing['messages'].append(f"error: {e} occurred")
-    
+
     return processing

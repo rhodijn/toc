@@ -49,7 +49,7 @@ def upload_pdf(processing: dict, filepath: str, lib: str) -> dict:
     sftp_client = ssh_client.open_sftp()
 
     remote_files = sftp_client.listdir(config['path']['r'] + config['library'][lib])
-    
+
     if f"{processing['mms_id']['nz']}.pdf" in remote_files:
         processing['messages'].append('file already online')
     else:

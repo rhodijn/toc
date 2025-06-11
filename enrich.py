@@ -44,7 +44,7 @@ if __name__ == '__main__':
             processing['messages'].append('toc already processed')
     else:
         processing = load_json('log.json', 'd')
-    
+
     processing.update({'dt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
     processing['filename'].update({'local': args.file.split('/')[-1]})
 
@@ -100,7 +100,6 @@ if __name__ == '__main__':
                             processing['messages'].append('alma record updated')
                         else:
                             processing['messages'].append('put request failed')
-
             else:
                 processing['messages'].append('nz mms-id not found')
 

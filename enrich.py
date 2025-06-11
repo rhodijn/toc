@@ -44,7 +44,7 @@ if __name__ == '__main__':
             processing['messages'].append('toc already processed')
     else:
         processing = load_json('log.json', 'd')
-        
+    
     processing.update({'dt': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')})
     processing['filename'].update({'local': args.file.split('/')[-1]})
 

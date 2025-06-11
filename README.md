@@ -46,7 +46,7 @@ FTP_PASS=""
         "j": "json",
         "x": "xml",
         "header": {
-            "Accept": "application/json",
+            "Accept": "application/xml",
             "Content-Type": "application/xml"
         }
     },

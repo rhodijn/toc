@@ -63,7 +63,7 @@ python enrich.py -h
 ```
 If this doesn't help, feel free to contact me.
 
-## Authors
+## Author
 
 This script was created by Rhodijn (zolo) for ZHAW HSB inside the CAS Data Management and Information Technologies at the University of Zurich.
 

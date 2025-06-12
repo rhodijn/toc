@@ -37,66 +37,8 @@ FTP_URL=""
 FTP_USER=""
 FTP_PASS=""
 ```
-* Create a subfolder ```data``` with two files, ```config.json```:
-```
-{
-    "api": {
-        "get": "?view=full&expand=p_avail",
-        "put": "?validate=true&override_warning=true&override_lock=true&stale_version_check=false&cataloger_level=20&check_match=false",
-        "j": "json",
-        "x": "xml",
-        "header": {
-            "Accept": "application/xml",
-            "Content-Type": "application/xml"
-        }
-    },
-    "email": {
-        "from": "",
-        "to": ""
-    },
-    "ftp": {
-        "port":
-    },
-    "path": {
-        "d": "",
-        "h": "",
-        "l": "",
-        "r": "",
-        "t": ""
-    },
-    "library": {
-        "wae": "",
-        "win": ""
-    }
-}
-```
-and ```log.json``` which is the template for the log file:
-```
-{
-    "mms-id": {
-        "iz": null,
-        "nz": null
-    },
-    "dt": null,
-    "url": null,
-    "filename": {
-        "local": null,
-        "remote": null
-    },
-    "valid": {
-        "file": false,
-        "lib": false
-    },
-    "file_uploaded": false,
-    "link_tested": false,
-    "file_deleted": false,
-    "added_856": false,
-    "messages": [],
-    "requests": []
-}
-```
 
-### Executing program
+### Execute the script
 
 * This is how to run the script from the command line on MacOS:
 ```

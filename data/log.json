@@ -1,0 +1,24 @@
+{
+    "mms_id": {
+        "iz": null,
+        "nz": null
+    },
+    "dt": null,
+    "url": null,
+    "filename": {
+        "local": null,
+        "remote": null
+    },
+    "valid": {
+        "file": false,
+        "lib": false
+    },
+    "file_uploaded": false,
+    "link_tested": false,
+    "file_deleted": false,
+    "xml_saved": false,
+    "added_856": false,
+    "put_request": false,
+    "messages": [],
+    "requests": []
+}

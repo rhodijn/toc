@@ -48,8 +48,8 @@ python3 enrich.py -f toc/BM2064150.pdf -l win
 ```
 python enrich.py -f toc/BM2064150.pdf -l win
 ```
-* The relative path to the pdf-file including its name must be suplied in the `-f` or `--file` parameter.
-* The code for the library for the pdf-file must be suplied in the `-l` or `--lib` parameter.
+* The relative path to the pdf-file including its name must be suplied by passing a parameter `-f` or `--file`.
+* The code for the library for the pdf-file must be suplied by passing a parameter `-l` or `--lib`.
 
 ## Help
 

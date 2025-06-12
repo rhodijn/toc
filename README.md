@@ -26,9 +26,9 @@ The following python modules are required for the script to run:
 ### Installing
 
 * Download all files
-* Create a .env file with the following content:
+* Create a .env file with the following content (and submit your personal values):
 ```
-ÀPI_URL=""
+API_URL=""
 API_KEY=""
 
 EMAIL_PASS=""

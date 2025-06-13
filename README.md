@@ -1,16 +1,16 @@
 # Enriching Bibliographic Records in Alma with Tables of Content
 
-When a table of content should added to enrich a bibliographic record, this script automates the process. It uploads the file to a public server and adds a 856 field to the bibliographic record in Alma, generating a link in the discovery system.
+When a table of content should be added to enrich a bibliographic record, this script automates the process. It uploads the file to a public server and adds a 856 field to the bibliographic record in Alma, generating a link in the discovery system.
 
 ## Description
 
-As soon as the scanned pdf-file (named ```barcode.pdf```, where ```barcode``` is the actual barcode ot the bibliographic item) is placed in a folder on a computer or on Sharepoint, the script will upload it to a public server, rename it to ```mms-id.pdf``` (where ```mms-id``` is the NZ MMS-ID of the record) and add a field 856 to the MARC21 record in Alma.
+As soon as the scanned pdf-file (named `barcode.pdf`, where `barcode` is the actual barcode ot the bibliographic item) is placed in a folder on a computer or on Sharepoint, the script will upload it to a public server, rename it to ```mms-id.pdf``` (where ```mms-id``` is the NZ MMS-ID of the record) and add a field 856 to the MARC21 record in Alma.
 
 ## Getting Started
 
 ### Dependencies
 
-The following python modules are required for the script to run:
+The following python modules are required for the script to run (there is a `requirements.txt` included):
 * argparse
 * datetime
 * dotenv
@@ -26,7 +26,7 @@ The following python modules are required for the script to run:
 ### Installing
 
 * Download all files
-* Create a .env file with the following content (and submit your personal values):
+* Create a .env file with the following content (and submit your personal values inside the quotes):
 ```
 API_URL=""
 API_KEY=""
@@ -40,11 +40,11 @@ FTP_PASS=""
 
 ### Execute the script
 
-* This is how to run the script from the command line on MacOS:
+* This is how to run the script from the command line on MacOS (replace `toc/BM2064150.pdf` and `win`with your values):
 ```
 python3 enrich.py -f toc/BM2064150.pdf -l win
 ```
-* This is how to run the script from the command line on Windows:
+* This is how to run the script from the command line on Windows (replace `toc/BM2064150.pdf` and `win`with your values):
 ```
 python enrich.py -f toc/BM2064150.pdf -l win
 ```
@@ -53,11 +53,11 @@ python enrich.py -f toc/BM2064150.pdf -l win
 
 ## Help
 
-* This is how to show the help message on MacOS:
+* To show the help message on MacOS enter:
 ```
 python3 enrich.py -h
 ```
-* This is how to show the help message on Windows:
+* To show the help message on Windows enter:
 ```
 python enrich.py -h
 ```
@@ -65,7 +65,7 @@ If this doesn't help, feel free to contact me.
 
 ## Author
 
-This script was created by Rhodijn (zolo) for ZHAW HSB inside the CAS Data Management and Information Technologies at the University of Zurich.
+This script was created by Rhodijn (zolo) for ZHAW HSB inside the CAS Data Management (2025) and Information Technologies at the University of Zurich.
 
 ## Version History
 

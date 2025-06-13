@@ -4,7 +4,7 @@ When a table of content should be added to enrich a bibliographic record, this s
 
 ## Description
 
-As soon as the scanned pdf-file (named `barcode.pdf`, where `barcode` is the actual barcode ot the bibliographic item) is placed in a folder on a computer or on Sharepoint, the script will upload it to a public server, rename it to ```mms-id.pdf``` (where ```mms-id``` is the NZ MMS-ID of the record) and add a field 856 to the MARC21 record in Alma.
+As soon as the scanned pdf-file (named `barcode.pdf`, where `barcode` is the actual barcode ot the bibliographic item) is placed in a folder on a computer or on Sharepoint, the script will upload it to a public server, rename it to `mms-id.pdf` (where `mms-id` is the NZ MMS-ID of the record) and add a field 856 to the MARC21 record in Alma.
 
 ## Getting Started
 
@@ -25,7 +25,7 @@ The following python modules are required for the script to run (there is a `req
 
 ### Installing
 
-* Download all files
+* Download all files.
 * Create a .env file with the following content (and submit your personal values inside the quotes):
 ```
 API_URL=""
@@ -74,4 +74,4 @@ This script was created by Rhodijn (zolo) for ZHAW HSB inside the CAS Data Manag
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE.md](https://github.com/rhodijn/toc/blob/main/LICENSE.md) file for details
+This project is licensed under the Apache 2.0 License - see the [LICENSE.md](https://github.com/rhodijn/toc/blob/main/LICENSE.md) file for details.

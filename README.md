@@ -1,18 +1,19 @@
+# Enriching Bibliographic Records in Alma with Tables of Content
+
 ```
-#===============================================================================
+#==============================================================================================
 #
-#   ###################     script to enrich the alma catalog with tocs
-#   ##                 ##   version 1.0 (2025-06-10)
+#   ###################
+#   ##                 ##
 #   ##               ##
 #     ######       ##
 #       ##       ######
-#     ##               ##   created by rhodijn (zolo) for zhaw hsb
-#   ##                 ##   without the help of ai
-#     ###################   licensed under the apache license, version 2.0
+#     ##               ##
+#   ##                 ##
+#     ###################
 #
-#===============================================================================
+#==============================================================================================
 ```
-# Enriching Bibliographic Records in Alma with Tables of Content
 
 When a table of content should be added to enrich a bibliographic record, this script automates the process. It uploads the file to a public server and adds a 856 field to the bibliographic record in Alma, generating a link in the discovery system.
 

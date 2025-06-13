@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 #
-#   ###################      this module handles the upload
-#   ##                 ##    version 1.0 (2025-06-10)
+#   ###################     this module handles the upload
+#   ##                 ##   version 1.0 (2025-06-10)
 #   ##               ##
 #     ######       ##
 #       ##       ######
-#     ##               ##    created by rhodijn (zolo) for zhaw hsb
-#   ##                 ##
-#     ###################    licensed under the apache license, version 2.0
+#     ##               ##   created by rhodijn (zolo) for zhaw hsb
+#   ##                 ##   without the help of ai
+#     ###################   licensed under the apache license, version 2.0
 #
 #===============================================================================
 

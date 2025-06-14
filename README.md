@@ -74,7 +74,7 @@ If this doesn't help, feel free to contact me.
 
 ## Author
 
-This script was created by Rhodijn (zolo) for ZHAW HSB inside the CAS Data Management (2025) and Information Technologies at the University of Zurich.
+This script was created by Rhodijn (zolo) for ZHAW HSB inside the 2025 CAS Data Management and Information Technologies at the University of Zurich.
 
 ## Version History
 

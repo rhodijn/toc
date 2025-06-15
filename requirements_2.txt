@@ -1,0 +1,17 @@
+bcrypt @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_66phductoz/croot/bcrypt_1747402781009/work
+certifi==2025.4.26
+cffi @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_e4xd9yd9i2/croot/cffi_1736182819442/work
+charset-normalizer==3.4.2
+cryptography @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_b8vpyoam4q/croot/cryptography_1748977431507/work
+dotenv==0.9.9
+idna==3.10
+lxml==5.4.0
+paramiko @ file:///Users/builder/cbouss/buildout/croot/paramiko_1735857134409/work
+pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
+PyNaCl @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_269tpp_t1c/croot/pynacl_1736544549684/work
+python-dotenv==1.1.0
+requests==2.32.4
+setuptools==78.1.1
+six @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_03myqm7p6o/croot/six_1744271511946/work
+urllib3==2.4.0
+wheel==0.45.1

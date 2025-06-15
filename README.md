@@ -9,7 +9,7 @@
 ##                 ##
   ###################
 ```
-When a table of content should be added to enrich a bibliographic record, this script automates the process. It uploads the file to a public server and adds a 856 field to the bibliographic record in Alma, generating a link in the discovery system.
+When a table of content should be added to enrich a bibliographic record, this script automates the process. It uploads the pdf-file to a public server and adds a 856 field to the bibliographic record in Alma, generating a link in the discovery system.
 
 ## Description
 
@@ -19,7 +19,7 @@ As soon as the scanned pdf-file (named `barcode.pdf`, where `barcode` is the act
 
 ### Dependencies
 
-The following python modules are required for the script to run (there is a `requirements.txt` included):
+The following python modules are required for the script to run (a `requirements.txt` is included):
 * argparse
 * datetime
 * dotenv

@@ -32,10 +32,12 @@ def send_email(barcode: str, processing: dict):
     processing: dict = logging info of the currently processed record
     """
     config = load_json('config.json', 'd')
-    log_msgs = ''
+    text_msgs = ''
+    html_msgs = ''
 
     for el in processing['messages']:
-        log_msgs.append(f"<li>{el}</li>")
+        text_msgs += f"- {el}\n"
+        html_msgs += f"<li>{el}</li>"
 
     from_email = config['email']['from']
     to_email = config['email']['to']
@@ -56,7 +58,11 @@ MMS-ID NZ: {processing['mms_id']['nz']}
 Go to this address to see the table of contents:
 {processing['url']}
 
-Thank you for using this service!"""
+Messages:
+{text_msgs}
+
+Thank you for using this service!
+See the project on GitHub: https://github.com/rhodijn/toc"""
 
         html = f"""<html>
   <body>
@@ -64,13 +70,13 @@ Thank you for using this service!"""
       Item barcode: {barcode}<br />
       MMS-ID IZ: {processing['mms_id']['iz']}<br />
       MMS-ID NZ: {processing['mms_id']['nz']}<br /><br />
-      Click <a href="{processing['url']}" target="_blank">here</a> to see the table of contents<br /><br /><br />
-      Messages<br />
+      Click <a href="{processing['url']}" target="_blank">here</a> to see the table of contents<br /><br />
+      Messages:<br />
       <ul>
-        {log_msgs}
+        {html_msgs}
       </ul>
       Thank you for using this service!<br />
-      See the project on <a href="https://github.com/rhodijn/toc" target="_blank">GitHub.</a>
+      See the project on <a href="https://github.com/rhodijn/toc" target="_blank">GitHub</a>.
     </p>
   </body>
 </html>"""
@@ -78,17 +84,20 @@ Thank you for using this service!"""
         text = f"""Enrichment Report:
 
 Item Barcode: {barcode}
-Message: {processing['messages'][-1]}
 
-Thank you for using this service!"""
+Messages:
+{text_msgs}
+
+Thank you for using this service!
+See the project on GitHub: https://github.com/rhodijn/toc"""
 
         html = f"""<html>
   <body>
     <p><h2>Enrichment Report</h2>
-      Item barcode: {barcode}<br /><br />
-      Messages<br />
+      Item barcode: {barcode}<br />
+      Messages:<br />
       <ul>
-        {log_msgs}
+        {html_msgs}
       </ul>
       Thank you for using this service!<br />
       See the project on <a href="https://github.com/rhodijn/toc" target="_blank">GitHub.</a>

@@ -32,6 +32,10 @@ def send_email(barcode: str, processing: dict):
     processing: dict = logging info of the currently processed record
     """
     config = load_json('config.json', 'd')
+    log_msgs = ''
+
+    for el in processing['messages']:
+        log_msgs.append(f"<li>{el}</li>")
 
     from_email = config['email']['from']
     to_email = config['email']['to']
@@ -57,11 +61,16 @@ Thank you for using this service!"""
         html = f"""<html>
   <body>
     <p><h2>Enrichment Report</h2>
-       Item barcode: {barcode}<br />
-       MMS-ID IZ: {processing['mms_id']['iz']}<br />
-       MMS-ID NZ: {processing['mms_id']['nz']}<br /><br />
-       Click <a href="{processing['url']}" target="_blank">here</a> to see the table of contents<br /><br />
-       Thank you for using this service!
+      Item barcode: {barcode}<br />
+      MMS-ID IZ: {processing['mms_id']['iz']}<br />
+      MMS-ID NZ: {processing['mms_id']['nz']}<br /><br />
+      Click <a href="{processing['url']}" target="_blank">here</a> to see the table of contents<br /><br /><br />
+      Messages<br />
+      <ul>
+        {log_msgs}
+      </ul>
+      Thank you for using this service!<br />
+      See the project on <a href="https://github.com/rhodijn/toc" target="_blank">GitHub.</a>
     </p>
   </body>
 </html>"""
@@ -76,9 +85,13 @@ Thank you for using this service!"""
         html = f"""<html>
   <body>
     <p><h2>Enrichment Report</h2>
-       Item barcode: {barcode}<br />
-       Message: {processing['messages'][-1]}<br /><br />
-       Thank you for using this service!
+      Item barcode: {barcode}<br /><br />
+      Messages<br />
+      <ul>
+        {log_msgs}
+      </ul>
+      Thank you for using this service!<br />
+      See the project on <a href="https://github.com/rhodijn/toc" target="_blank">GitHub.</a>
     </p>
   </body>
 </html>"""

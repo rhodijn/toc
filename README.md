@@ -79,7 +79,7 @@ This script was created by Rhodijn (zolo) for ZHAW HSB inside the 2025 CAS Data 
 ## Version History
 
 * 1.0
-    * Initial Release (2025-06-10)
+    * Initial Release (2025-06-17)
 
 ## License
 

@@ -35,7 +35,7 @@ The following python modules are required for the script to run (a `requirements
 ### Installing
 
 * Download all files.
-* Rename the file .env.example to .env and submit your personal values inside the quotes:
+* Rename the file `.env.example` to `.env` and submit your personal values inside the quotes:
 ```
 API_URL=""
 API_KEY=""

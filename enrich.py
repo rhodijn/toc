@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 #
-#   ###################     this is the main routine
-#   ##                 ##   version 1.0 (2025-06-17)
-#   ##               ##
-#     ######       ##       python enrich.py -f toc/local/BM2064158.pdf -l win
+#   ###################     this script can enrich the alma catalog
+#   ##                 ##
+#   ##               ##.    usage example:
+#     ######       ##     $ python enrich.py -f toc/local/BM2064158.pdf -l win
 #       ##       ######
-#     ##               ##   created by rhodijn (zolo) for zhaw hsb
-#   ##                 ##   without the help of ai
+#     ##               ##.  version 1.0 (2025-06-17)
+#   ##                 ##   created by rhodijn (zolo) for zhaw hsb
 #     ###################   licensed under the apache license, version 2.0
 #
 #===============================================================================

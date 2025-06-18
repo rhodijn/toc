@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 #
 #   ###################     this module handles xml data
-#   ##                 ##   version 1.0 (2025-06-17)
+#   ##                 ##
 #   ##               ##
 #     ######       ##
 #       ##       ######
-#     ##               ##   created by rhodijn (zolo) for zhaw hsb
-#   ##                 ##   without the help of ai
+#     ##               ##.  version 1.0 (2025-06-17)
+#   ##                 ##   created by rhodijn (zolo) for zhaw hsb
 #     ###################   licensed under the apache license, version 2.0
 #
 #===============================================================================

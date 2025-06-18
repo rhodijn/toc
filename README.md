@@ -35,6 +35,7 @@ The following python modules are required for the script to run (a `requirements
 ### Installing
 
 * Download all files.
+* Create empty folders named `log`, `temp` and `xml` in the root directory.
 * Rename the file `.env.example` to `.env` and submit your personal values inside the quotes:
 ```
 API_URL=""

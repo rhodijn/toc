@@ -2,10 +2,10 @@
 #
 #   ###################     this script can enrich the alma catalog
 #   ##                 ##
-#   ##               ##.    usage example:
+#   ##               ##     usage example:
 #     ######       ##     $ python enrich.py -f toc/local/BM2064158.pdf -l win
 #       ##       ######
-#     ##               ##.  version 1.0 (2025-06-17)
+#     ##               ##   version 1.0 (2025-06-17)
 #   ##                 ##   created by rhodijn (zolo) for zhaw hsb
 #     ###################   licensed under the apache license, version 2.0
 #

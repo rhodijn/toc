@@ -115,9 +115,10 @@ if __name__ == '__main__':
             else:
                 processing['messages'].append('nz mms-id not found')
 
+    # update the log-data
     log.update({barcode: processing})
 
-    # write the log-data to the log file
+    # write the updated log-data to the log file
     success = write_json(log, f"log_{datetime.datetime.now().strftime('%Y')}.json", 'l')
 
     # send the enrichment report e-mail

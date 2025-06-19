@@ -81,6 +81,7 @@ if __name__ == '__main__':
             except Exception as e:
                 processing['messages'].append(f"error: {e}")
 
+            # if there is a MMS-ID on NZ level, update log-data accordingly
             if data['linked_record_id']['type'].upper() == 'NZ':
                 processing['mms_id'].update({'nz': mmsid_nz})
                 processing['messages'].append('nz mms-id retrieved')
@@ -92,6 +93,7 @@ if __name__ == '__main__':
                 # remove the local file
                 processing = rm_file(processing, args.file)
 
+                # if the link has been successfully tested, start updating the record by retrieving the entire record
                 if processing['link_tested']:
                     req, get_iz_record = api_request('get', processing['mms_id']['iz'], 'x', 'bibs/', config['api']['get'])
                     data_xml = get_iz_record.content.decode(encoding='utf-8')
@@ -107,6 +109,7 @@ if __name__ == '__main__':
                         req, record_updated = api_request('put', processing['mms_id']['iz'], 'x', 'bibs/', config["api"]["put"])
                         processing['requests'].append(req)
 
+                        # if the put request has been executed successfully, update log-date accordingly
                         if record_updated:
                             processing.update({'put_request': True})
                             processing['messages'].append('alma record updated')

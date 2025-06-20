@@ -52,7 +52,8 @@ def api_request(method: str, value: str, frmt: str, par_1: str, par_2='') -> tup
 
         if filename:
             response = requests.put(req, headers=config['api']['header'], data=etree.tostring(etree.parse(f"xml/{filename[0]}")))
-            os.remove(f"xml/{filename[0]}")
+            # delete the enriched marc-xml file from the local drive
+            # os.remove(f"xml/{filename[0]}")
 
     return req, response
 

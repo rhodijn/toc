@@ -47,11 +47,11 @@ FTP_URL=""
 FTP_USER=""
 FTP_PASS=""
 ```
-* You need to adjust some values in `data/config.json`:
-  * update `{"email": {"from": ""}}` with the address wchich will send the enrichment report
-  * update `{"email": {"to": ""}}` with the address which will receive the enrichment report
-  * update `{"path": {"r": ""}}` witch the remote path on your ftp server
-  * update `{"library": {}}` with keys which are the parameters you will use als -l parameter and values which are the corresponding subfolders on the remote server
+* Update some values in `data/config.json`:
+  * Change `{"email": {"from": ""}}` to the address wchich will send the enrichment report
+  * Change `{"email": {"to": ""}}` to the address which will receive the enrichment report
+  * Change `{"path": {"r": ""}}` to the remote path on your ftp server
+  * Change `{"library": {}}` to keys which are the parameters you will use als -l parameter and values which are the corresponding subfolders on the remote server
 
 ### Execute the script
 

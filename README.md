@@ -48,10 +48,10 @@ FTP_USER=""
 FTP_PASS=""
 ```
 * Update some values in `data/config.json`:
-  * Change `{"email": {"from": ""}}` to the address which will send the enrichment report
-  * Change `{"email": {"to": ""}}` to the address which will receive the enrichment report
-  * Change `{"path": {"r": ""}}` to the remote path on your ftp server
-  * Change `{"library": {}}` to keys holding the parameters you will use with the command line tool (`-l` or `--lib`) and values holding the corresponding subfolders on the remote server
+  * Update `{"email": {"from": ""}}` to the address which will send the enrichment report
+  * Update `{"email": {"to": ""}}` to the address which will receive the enrichment report
+  * Update `{"path": {"r": ""}}` to the remote path on your ftp server
+  * Update `{"library": {}}` to keys holding the parameters you will use with the command line tool (`-l` or `--lib`) and values holding the corresponding subfolders on the remote server
 
 ### Execute the script
 

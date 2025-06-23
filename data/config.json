@@ -1,7 +1,7 @@
 {
     "api": {
         "get": "?view=full&expand=p_avail",
-        "put": "?validate=true&override_warning=true&override_lock=false&stale_version_check=false&cataloger_level=20&check_match=false",
+        "put": "?validate=true&override_warning=true&override_lock=false&stale_version_check=false&cataloger_level=50&check_match=false",
         "j": "json",
         "x": "xml",
         "header": {

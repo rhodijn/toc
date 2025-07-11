@@ -26,6 +26,7 @@
     },
     "library": {
         "wae": "waedenswil/",
-        "win": "winterthur/"
+        "win": "winterthur/",
+        "zue": "zuerich/"
     }
 }

@@ -62,16 +62,19 @@ if __name__ == '__main__':
         if valid_lib:
             processing['valid'].update({'lib': True})
 
-            # get the mms-id (iz) based on the barcode
+            # get the mms id (iz) based on the barcode
             req, get_iz_mmsid = api_request('get', barcode, 'j', 'items?item_barcode=')
             processing['requests'].append(req)
             data = json.loads(get_iz_mmsid.content.decode(encoding='utf-8'))
 
-            mmsid_iz = data['bib_data']['mms_id']
-            processing['mms_id'].update({'iz': mmsid_iz})
-            processing['messages'].append('iz mms-id retrieved')
+            try:
+                mmsid_iz = data['bib_data']['mms_id']
+                processing['mms_id'].update({'iz': mmsid_iz})
+                processing['messages'].append('iz mms id retrieved')
+            except:
+                processing['messages'].append('iz mms id not found')
 
-            # get the mms-id (nz) based on the mms-id (iz)
+            # get the mms id (nz) based on the mms id (iz)
             req, get_nz_mmsid = api_request('get', mmsid_iz, 'j', 'bibs/', config["api"]["get"])
             processing['requests'].append(req)
             data = json.loads(get_nz_mmsid.content.decode(encoding='utf-8'))
@@ -84,7 +87,7 @@ if __name__ == '__main__':
             # if there is a MMS-ID on NZ level, update log-data accordingly
             if data['linked_record_id']['type'].upper() == 'NZ':
                 processing['mms_id'].update({'nz': mmsid_nz})
-                processing['messages'].append('nz mms-id retrieved')
+                processing['messages'].append('nz mms id retrieved')
 
                 # upload the pdf-file to the server
                 processing = upload_pdf(processing, args.file, args.lib.lower())
@@ -116,7 +119,7 @@ if __name__ == '__main__':
                         else:
                             processing['messages'].append('put request failed')
             else:
-                processing['messages'].append('nz mms-id not found')
+                processing['messages'].append('nz mms id not found')
 
     # update the log-data
     log.update({barcode: processing})

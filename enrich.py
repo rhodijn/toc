@@ -71,55 +71,55 @@ if __name__ == '__main__':
                 mmsid_iz = data['bib_data']['mms_id']
                 processing['mms_id'].update({'iz': mmsid_iz})
                 processing['messages'].append('iz mms id retrieved')
+
+                # get the mms id (nz) based on the mms id (iz)
+                req, get_nz_mmsid = api_request('get', mmsid_iz, 'j', 'bibs/', config["api"]["get"])
+                processing['requests'].append(req)
+                data = json.loads(get_nz_mmsid.content.decode(encoding='utf-8'))
+
+                try:
+                    mmsid_nz = data['linked_record_id']['value']
+                except Exception as e:
+                    processing['messages'].append(f"error: {e}")
+
+                # if there is a MMS-ID on NZ level, update log-data accordingly
+                if data['linked_record_id']['type'].upper() == 'NZ':
+                    processing['mms_id'].update({'nz': mmsid_nz})
+                    processing['messages'].append('nz mms id retrieved')
+
+                    # upload the pdf-file to the server
+                    processing = upload_pdf(processing, args.file, args.lib.lower())
+                    # test the generated url
+                    processing = check_url(processing)
+                    # remove the local file
+                    processing = rm_file(processing, args.file)
+
+                    # if the link has been successfully tested, start updating the record by retrieving the entire record
+                    if processing['link_tested']:
+                        req, get_iz_record = api_request('get', processing['mms_id']['iz'], 'x', 'bibs/', config['api']['get'])
+                        data_xml = get_iz_record.content.decode(encoding='utf-8')
+
+                        # save the bibliographic record retrieved from alma
+                        save_to_xml(processing, data_xml)
+
+                        if processing['xml_saved']:
+                            # add the field 856
+                            processing = add_856_field(processing)
+
+                            # update the bibliographic record in alma (including the added field)
+                            req, record_updated = api_request('put', processing['mms_id']['iz'], 'x', 'bibs/', config["api"]["put"])
+                            processing['requests'].append(req)
+
+                            # if the put request has been executed successfully, update log-date accordingly
+                            if record_updated:
+                                processing.update({'put_request': True})
+                                processing['messages'].append('alma record updated')
+                            else:
+                                processing['messages'].append('put request failed')
+                else:
+                    processing['messages'].append('nz mms id not found')
             except:
                 processing['messages'].append('iz mms id not found')
-
-            # get the mms id (nz) based on the mms id (iz)
-            req, get_nz_mmsid = api_request('get', mmsid_iz, 'j', 'bibs/', config["api"]["get"])
-            processing['requests'].append(req)
-            data = json.loads(get_nz_mmsid.content.decode(encoding='utf-8'))
-
-            try:
-                mmsid_nz = data['linked_record_id']['value']
-            except Exception as e:
-                processing['messages'].append(f"error: {e}")
-
-            # if there is a MMS-ID on NZ level, update log-data accordingly
-            if data['linked_record_id']['type'].upper() == 'NZ':
-                processing['mms_id'].update({'nz': mmsid_nz})
-                processing['messages'].append('nz mms id retrieved')
-
-                # upload the pdf-file to the server
-                processing = upload_pdf(processing, args.file, args.lib.lower())
-                # test the generated url
-                processing = check_url(processing)
-                # remove the local file
-                processing = rm_file(processing, args.file)
-
-                # if the link has been successfully tested, start updating the record by retrieving the entire record
-                if processing['link_tested']:
-                    req, get_iz_record = api_request('get', processing['mms_id']['iz'], 'x', 'bibs/', config['api']['get'])
-                    data_xml = get_iz_record.content.decode(encoding='utf-8')
-
-                    # save the bibliographic record retrieved from alma
-                    save_to_xml(processing, data_xml)
-
-                    if processing['xml_saved']:
-                        # add the field 856
-                        processing = add_856_field(processing)
-
-                        # update the bibliographic record in alma (including the added field)
-                        req, record_updated = api_request('put', processing['mms_id']['iz'], 'x', 'bibs/', config["api"]["put"])
-                        processing['requests'].append(req)
-
-                        # if the put request has been executed successfully, update log-date accordingly
-                        if record_updated:
-                            processing.update({'put_request': True})
-                            processing['messages'].append('alma record updated')
-                        else:
-                            processing['messages'].append('put request failed')
-            else:
-                processing['messages'].append('nz mms id not found')
 
     # update the log-data
     log.update({barcode: processing})

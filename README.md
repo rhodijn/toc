@@ -28,6 +28,7 @@ The following python modules are required for the script to run (a `requirements
 * paramiko
 * os
 * re
+* requests
 * smtplib
 * ssl
 * sys
